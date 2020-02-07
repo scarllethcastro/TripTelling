@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <form action="index.php?page=register&todo=..." method=post
+            <form class="needs-validation" novalidate action="index.php?page=register&todo=..." method=post
                   oninput="up2.setCustomValidity(up2.value != up.value ? 'Les mots de passe diffèrent.' : '')">              
 <!--                <p>
                     <label for="login">Login:</label>
@@ -11,6 +11,9 @@
                     <label for="username" class="col-sm-4 offset-md-1 col-form-label">Nom d'utilisateur</label>
                     <div class="col-sm-6">
                         <input type="text" class="form-control" id="username" required name="username">
+                        <div class="invalid-feedback">
+                            Ce nom d'utilisateur n'est pas valide ou n'est pas disponible.
+                        </div>
                         <small id="usernameHelpBlock" class="form-text text-muted">
                             Le nom d'utilisateur sert à vous identifier dans notre communauté, et sera affiché sur votre page de profil. Il ne doit pas contenir d'espace.
                         </small>
@@ -25,6 +28,9 @@
                     <label for="nom" class="col-sm-4 offset-md-1 col-form-label">Nom</label>
                     <div class="col-sm-6">
                         <input type="text" class="form-control" id="nom" required name="nom">
+                        <div class="invalid-feedback">
+                            Ce champ est obligatoire!
+                        </div>
                     </div>
                 </div>
 
@@ -37,7 +43,7 @@
                     <div class="col-sm-6">
                         <input type="text" class="form-control" id="prenom" required name="prenom">
                         <div class="invalid-feedback">
-                            Please provide a valid city.
+                            Ce champ est obligatoire!
                         </div>
                     </div>
                 </div>
@@ -50,6 +56,9 @@
                     <label for="naissance" class="col-sm-4 offset-md-1 col-form-label">Date de naissance</label>
                     <div class="col-sm-6">
                         <input type="date" class="form-control" id="naissance" required name="naissance">
+                        <div class="invalid-feedback">
+                            Ce champ est obligatoire!
+                        </div>
                     </div>
                 </div>
 
@@ -61,6 +70,9 @@
                     <label for="email" class="col-sm-4 offset-md-1 col-form-label">Email</label>
                     <div class="col-sm-6">
                         <input type="email" class="form-control" id="email" required name="email">
+                        <div class="invalid-feedback">
+                            Ce champ est obligatoire!
+                        </div>
                         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                     </div>
                 </div>
@@ -79,6 +91,9 @@
                         <small id="passwordHelpBlock" class="form-text text-muted">
                             Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
                         </small>
+                        <div class="invalid-feedback">
+                            Ce champ est obligatoire!
+                        </div>
                     </div>
                 </div>
 
@@ -92,8 +107,12 @@
                         <input type="password" class="form-control" id="password2" name="up2">
                     </div>
                 </div>
-
-                <input type=submit value="Create account">
+                
+                <br>
+                <div class="row">
+                    <input type=submit class="col-md-4 offset-md-4 btn btn-primary" value="Créer compte">
+                </div>
+                
             </form>
 
 
@@ -101,3 +120,24 @@
         </div>
     </div>
 </div>
+
+<script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>

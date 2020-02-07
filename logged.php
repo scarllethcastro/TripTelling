@@ -1,3 +1,4 @@
+<!--Página inútil por enquanto-->
 <?php
 echo '<h3>Vous êtes connecté(e)!</h3>';
 ?>
