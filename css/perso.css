@@ -1,0 +1,47 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 
+    Author     : 
+*/
+
+[class*="col-"].gris {
+    background-color: grey;
+    border:solid 1px white;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.equipe {
+    background-color: #ffe8a1;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.temoignage p{
+    font-family: 'Shadows Into Light', cursive;
+    font-size: x-large;
+}
+.temoignage{
+    border-left-width: 10px;
+    border-left-color: grey;
+}
+
+table{
+    border:1px solid  black;
+}
+td{
+    border:1px solid  black;
+}
+
+.mc{
+    font-family: 'Shadows Into Light', cursive;
+    font-weight: bold;
+}
+
+.tc{
+    background-color: grey;
+}
