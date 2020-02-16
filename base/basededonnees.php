@@ -3,7 +3,7 @@
 class Database {
 
     public static function connect() {
-        $dsn = 'mysql:dbname=basemsgc;host=127.0.0.1';
+        $dsn = 'mysql:dbname=triptelling;host=127.0.0.1';
         $user = 'root';
         $password = '';
         $dbh = null;

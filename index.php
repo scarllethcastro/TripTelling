@@ -7,7 +7,6 @@ if (!isset($_SESSION['initiated'])) {  // Si la personne vient d'arriver sur le 
 }
 // Décommenter la ligne suivante pour afficher le tableau $_SESSION pour le debuggage
 //var_dump($_SESSION);
-
 // Les "requires" nécessaires
 require('utils/utils.php');
 require('utils/printForms.php');
@@ -21,13 +20,11 @@ $dbh = Database::connect();
 $authorized = true;
 $askedPage = 'welcome';
 if (array_key_exists('page', $_GET)) {
-    $authorized = checkPage($_GET['page']);
+    $authorized = checkPage($_GET['page']); //ajuster checkpage
     if ($authorized) {
         $askedPage = $_GET['page'];
     } else {
-        generateHTMLHeader("Erreur", "css/perso.css");
-        echo '<h2> Cette page n\'existe pas. </h2>';
-        generateHTMLFooter();
+        require('pages/error.php');
     }
 }
 
@@ -39,26 +36,26 @@ if ($authorized) {
 
     <div class="container">
 
-<!--         Menu 
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="?page=welcome">Accueil <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="?page=info">Informations pratiques</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="?page=contacts">Contact</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>-->
+        <!--         Menu 
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+        
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="?page=welcome">Accueil <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="?page=info">Informations pratiques</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="?page=contacts">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>-->
 
 
         <!-- Partie du haut de la page -->
@@ -73,43 +70,26 @@ if ($authorized) {
         if (isset($_GET['todo'])) {
             if ($_GET['todo'] == 'login') {
                 logIn($dbh);
-            } elseif($_GET['todo'] == 'logout'){
+            } elseif ($_GET['todo'] == 'logout') {
                 logOut();
-            } elseif($_GET['todo'] == 'register'){
-                require('pages/register.php');
             } else {
-                generateHTMLHeader("Erreur", "css/perso.css");
-                echo '<h2> Cette page n\'existe pas. </h2>';
-                generateHTMLFooter();
+                $askedPage = 'error';
             }
-        } 
-        
-        // Vérifier si la personne est connectée
-        if (!isset($_SESSION['loggedIn'])){
-            if(!isset($_GET['todo'])){
-                require('pages/welcome.php');
-            }
-            if(isset($_GET['todo']) && $_GET['todo']=='logout'){
-                require('pages/welcome.php');
-            }
-        } else{
-            require('pages/home.php');
         }
-        
-//        switch ($askedPage) {
-//            case 'welcome':
-//                require('contents/content_welcome.php');
-//                break;
-//            case 'info':
-//                require('contents/content_info.php');
-//                break;
-//            case 'contacts':
-//                require('contents/content_contacts.php');
-//                break;
-//            case 'register':
-//                require('contents/content_register.php');
-//                break;
+
+//        // Vérifier si la personne est connectée
+//        if (!isset($_SESSION['loggedIn'])){
+//            if(!isset($_GET['todo'] )){
+//                require('pages/welcome.php');
+//            }
+//            if(isset($_GET['todo']) && $_GET['todo']=='logout'){
+//                require('pages/welcome.php');
+//            }
+//        } else{
+//            require('pages/home.php');
 //        }
+
+        require ('pages/' . $askedPage . '.php'); // À la place d'un switch
         ?>
 
         <!-- footer -->

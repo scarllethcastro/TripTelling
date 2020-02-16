@@ -35,16 +35,12 @@ function generateHTMLFooter() {
 $page_list = array(
     array(
         "name" => "welcome",
-        "title" => "Accueil de notre site",
+        "title" => "TripTelling",
         "menutitle" => "Accueil"),
     array(
-        "name" => "contacts",
-        "title" => "Qui sommes-nous ?",
+        "name" => "home",
+        "title" => "TripTelling",
         "menutitle" => "Nous contacter"),
-    array(
-        "name" => "info",
-        "title" => "Informations pratiques",
-        "menutitle" => "Informations pratiques"),
     array(
         "name" => "register",
         "title" => "Creer une compte",

@@ -21,7 +21,7 @@ CHAINE_DE_FIN;
 
 function printAskRegisterForm($nom_de_la_page){
 echo <<<CHAINE_DE_FIN
-    <form action="index.php?todo=register" method="post">
+    <form action="index.php?page=register" method="post">
         <input type = "submit" value = "Créer un compte" />
     </form>
 CHAINE_DE_FIN;
