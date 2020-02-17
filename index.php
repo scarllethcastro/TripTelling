@@ -8,10 +8,10 @@ if (!isset($_SESSION['initiated'])) {  // Si la personne vient d'arriver sur le 
 // Décommenter la ligne suivante pour afficher le tableau $_SESSION pour le debuggage
 //var_dump($_SESSION);
 // Les "requires" nécessaires
-require('utils/utils.php');
-require('utils/printForms.php');
+require('utilities/utils.php');
+require('utilities/printForms.php');
 require('base/basededonnees.php');
-require('utils/logInOut.php');
+require('utilities/logInOut.php');
 
 // Connexion à la base de données
 $dbh = Database::connect();
@@ -34,75 +34,75 @@ if ($authorized) {
     generateHTMLHeader($pageTitle, "css/perso.css");
     ?>
     <nav class="navbar navbar-expand-lg navbar-light" style = "background-color: #c0f2ec;"> 
-            <a class="navbar-brand" href="index.php" style = "font-family: Segoe Print; font-size: 45 pt" >TripTelling</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        <a class="navbar-brand" href="index.php" style = "font-family: Segoe Print; font-size: 45 pt" >TripTelling</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="index.php?page='home'">Navigate<span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php?page='register'">Regiter</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                    </li>
-                </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <?php
-                    printLoginForm($askedPage);
-                    ?>
-                </form>
-            </div>
-        
-</nav> 
-        <!--         Menu 
-                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-        
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" href="?page=welcome">Accueil <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="?page=info">Informations pratiques</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="?page=contacts">Contact</a>
-                            </li>
-                        </ul>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.php?page=home">Navigate<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php?page=register">Register</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
                     </div>
-                </nav>-->
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <?php
+                printLoginForm($askedPage);
+                ?>
+            </form>
+        </div>
 
-        <!-- Contenu principal -->
-        <?php
-        // Traitement des contenus de formulaires
-        if (isset($_GET['todo'])) {
-            if ($_GET['todo'] == 'login') {
-                logIn($dbh);
-            } elseif ($_GET['todo'] == 'logout') {
-                logOut();
-            } else {
-                $askedPage = 'error';
-            }
+    </nav> 
+    <!--         Menu 
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="?page=welcome">Accueil <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="?page=info">Informations pratiques</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="?page=contacts">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>-->
+
+    <!-- Contenu principal -->
+    <?php
+    // Traitement des contenus de formulaires
+    if (isset($_GET['todo'])) {
+        if ($_GET['todo'] == 'login') {
+            logIn($dbh);
+        } elseif ($_GET['todo'] == 'logout') {
+            logOut();
+        } else {
+            $askedPage = 'error';
         }
+    }
 
 //        // Vérifier si la personne est connectée
 //        if (!isset($_SESSION['loggedIn'])){
@@ -116,15 +116,18 @@ if ($authorized) {
 //            require('pages/home.php');
 //        }
 
-        require ('pages/' . $askedPage . '.php'); // À la place d'un switch
-        ?>
+    require ('pages/' . $askedPage . '.php'); // À la place d'un switch
+    ?>
 
-        <!-- footer -->
-        <div id="footer">
-            <p>Site réalisé en Modal par SC</p>
-        </div>
+    <!-- footer -->
+    <br>
+    <div class="row">
+        <div id="footer" class="col-md-4 offset-md-4">
+            <p style = "font-family: Segoe Print; font-size: 35 pt; text-align: center">Site réalisé en Modal par SC</p>
         </div>
     </div>
+
+
     <?php
 // Déconnexion de la base de données MySQL
     $dbh = null;
