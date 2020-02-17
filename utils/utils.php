@@ -18,9 +18,7 @@ function generateHTMLHeader($titre, $feuilledestyle) {
          <!-- Mon CSS Perso -->
          <link rel="stylesheet" type="text/css" href=$feuilledestyle />
          <script type="text/javascript" src="js/jquery.min.js"></script>
-
          </head>
-
          <body>
 CHAINE_DE_FIN;
     echo PHP_EOL;

@@ -7,7 +7,6 @@ and open the template in the editor.
     Created on : 
     Author     : 
 */
-
 [class*="col-"].gris {
     background-color: grey;
     border:solid 1px white;
@@ -44,4 +43,8 @@ td{
 
 .tc{
     background-color: grey;
+}
+
+welcomecol1 {
+    height:  900 px;
 }
