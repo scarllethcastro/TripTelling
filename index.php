@@ -33,9 +33,43 @@ if ($authorized) {
     $pageTitle = getPageTitle($askedPage);
     generateHTMLHeader($pageTitle, "css/perso.css");
     ?>
+    <nav class="navbar navbar-expand-lg navbar-light" style = "background-color: #c0f2ec;"> 
+            <a class="navbar-brand" href="index.php" style = "font-family: Segoe Print; font-size: 45 pt" >TripTelling</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-    <div class="container">
-
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="index.php?page='home'">Navigate<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.php?page='register'">Regiter</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <?php
+                    printLoginForm($askedPage);
+                    ?>
+                </form>
+            </div>
+        
+</nav> 
         <!--         Menu 
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,13 +90,6 @@ if ($authorized) {
                         </ul>
                     </div>
                 </nav>-->
-
-
-        <!-- Partie du haut de la page -->
-        <div class="jumbotron">
-            <h1>TripTelling</h1>
-            <p class="lead">Racontez votre voyage!</p>
-        </div>
 
         <!-- Contenu principal -->
         <?php
@@ -96,9 +123,8 @@ if ($authorized) {
         <div id="footer">
             <p>Site réalisé en Modal par SC</p>
         </div>
-
+        </div>
     </div>
-
     <?php
 // Déconnexion de la base de données MySQL
     $dbh = null;
