@@ -1,8 +1,8 @@
 <?php
 
 function  logIn($dbh){
-    $user = Utilisateur::getUtilisateur($dbh, $_POST['login']);
-    if($user != null && Utilisateur::testerMdp($dbh, $user, $_POST['mdp'])){
+    $user = Utilisateur::getUtilisateur($dbh, $_POST['username']);
+    if($user != null && Utilisateur::testerMdp($dbh, $user, $_POST['password'])){
         $_SESSION['loggedIn'] = true;
     }
 }

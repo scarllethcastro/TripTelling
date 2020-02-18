@@ -69,25 +69,23 @@ function getPageTitle($askedPage) {
 /** RECUPERER LES ENREGISTREMENTS CONTENUS DANS LA REPONSE COMME DES OBJETS * */
 class Utilisateur {
 
-    public $login;
-    public $mdp;
-    public $nom;
-    public $prenom;
-    public $promotion;
-    public $naissance;
+    public $username;
+    public $password;
+    public $lastname;
+    public $firstame;
+    public $birth;
     public $email;
-    public $feuille;
 
     public function __toString() {
-        $date = explode('-', "$this->naissance");
-        return '[' . $this->login . '] ' . $this->prenom . ' ' . "<span style='font-weight:bold'>$this->nom</span>, né le jour " . $date[2] . '/' . $date[1] . '/' . $date[0] . ', X' . $this->promotion . ", <span style='font-weight:bold'>$this->email</span> <br>";
+        $date = explode('-', "$this->birth");
+        return '[' . $this->username . '] ' . $this->firstame . ' ' . "<span style='font-weight:bold'>$this->lastname</span>, né le jour " . $date[2] . '/' . $date[1] . '/' . $date[0] . " <span style='font-weight:bold'>$this->email</span> <br>";
     }
 
-    public static function getUtilisateur($dbh, $login) {
-        $query = "SELECT * FROM `utilisateurs` WHERE login = ?";
+    public static function getUtilisateur($dbh, $username) {
+        $query = "SELECT * FROM `utilisateurs` WHERE username = ?";
         $sth = $dbh->prepare($query);
         $sth->setFetchMode(PDO::FETCH_CLASS, 'Utilisateur');
-        $sth->execute(array($login));
+        $sth->execute(array($username));
         $user = $sth->fetch();
         if ($user == false)
             return null;
@@ -95,17 +93,37 @@ class Utilisateur {
             return $user;
     }
 
-    public static function insererUtilisateur($dbh, $login, $mdp, $nom, $prenom, $promotion, $naissance, $email, $feuille) {
-        if (Utilisateur::getUtilisateur($dbh, $login) == null) {
-            $sth = $dbh->prepare("INSERT INTO `utilisateurs` (`login`, `mdp`, `nom`, `prenom`, `promotion`, `naissance`, `email`, `feuille`) VALUES(?,SHA1(?),?,?,?,?,?,?)");
-            $sth->execute(array($login, $mdp, $nom, $prenom, $promotion, $naissance, $email, $feuille));
-        } else
-            echo 'Login déjà existant! <br>';
+    public static function getUtilisateurMail($dbh, $email) {
+        $query = "SELECT * FROM `utilisateurs` WHERE email = ?";
+        $sth = $dbh->prepare($query);
+        $sth->setFetchMode(PDO::FETCH_CLASS, 'Utilisateur');
+        $sth->execute(array($email));
+        $user = $sth->fetch();
+        if ($user == false)
+            return null;
+        else
+            return $user;
+    }
+
+    public static function insererUtilisateur($dbh, $username, $password, $lastname, $firstname, $birth, $email) {
+        if (Utilisateur::getUtilisateur($dbh, $username) == null) {
+            if (Utilisateur::getUtilisateurMail($dbh, $email) == null) {
+                $sth = $dbh->prepare("INSERT INTO `utilisateurs` (`username`, `password`, `lastname`, `firstname`, `birth`, `email`) VALUES(?,SHA1(?),?,?,?,?)");
+                $sth->execute(array($username, $password, $lastname, $firstname, $birth, $email));
+            } else {
+                echo 'Email déjà existant! <br>';
+                return false;
+            }
+        } else {
+            echo 'Username déjà existant! <br>';
+            return false;
+        }
+        return true;
     }
 
     public static function testerMdp($dbh, $user, $mdp) {
         $motdepasse = sha1($mdp);
-        return $user->mdp == $motdepasse;
+        return $user->password == $motdepasse;
     }
 
 }
