@@ -13,11 +13,12 @@ function generateHTMLHeader($titre, $feuilledestyle) {
          <meta name="keywords" content="Mots clefs relatifs à cette page"/>
          <meta name="description" content="Descriptif court"/>
          <title>$titre</title>
+         <script type="text/javascript" src="js/jquery.min.js"></script>
          <!-- Bootstrap CSS -->
          <link href="css/bootstrap.min.css" rel="stylesheet">
          <!-- Mon CSS Perso -->
          <link rel="stylesheet" type="text/css" href=$feuilledestyle />
-         <script type="text/javascript" src="js/jquery.min.js"></script>
+         
          </head>
          <body>
 CHAINE_DE_FIN;

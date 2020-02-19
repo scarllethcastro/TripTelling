@@ -32,14 +32,13 @@ if (array_key_exists('page', $_GET)) {
 if ($authorized) {
     $pageTitle = getPageTitle($askedPage);
     generateHTMLHeader($pageTitle, "css/perso.css");
-       // Traitement des contenus de formulaires
+    // Traitement des contenus de formulaires
     if (isset($_GET['todo'])) {
         if ($_GET['todo'] == 'register') {
             $reponse = Utilisateur::insererUtilisateur($dbh, $_POST['username'], $_POST['password'], $_POST['lastname'], $_POST['firstname'], $_POST['birth'], $_POST['email']);
             if ($reponse)
                 logIn($dbh);
-        }
-        elseif ($_GET['todo'] == 'login') {
+        } elseif ($_GET['todo'] == 'login') {
             logIn($dbh);
         } elseif ($_GET['todo'] == 'logout') {
             logOut();
@@ -62,69 +61,41 @@ if ($authorized) {
                 <li class="nav-item">
                     <a class="nav-link" href="index.php?page=register">Register</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                 </li>
             </ul>
             <?php
-                if (isset($_SESSION['loggedIn'])) {
-                    if ($_SESSION['loggedIn'] == true) {
-                        echo 'Conected';
-                }} else { ?>
-            <form class="form-inline my-2 my-lg-0">
-                <?php printLoginForm($askedPage); ?>
-            </form>
-                    <?php } ?>
+            if (isset($_SESSION['loggedIn'])) {
+                if ($_SESSION['loggedIn'] == true) {
+                    ?>
+                    <ul class ="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target = "dropdown_target" >
+                                Dropdown
+                                <span class ="caret"></span>
+                            </a>
+                            <div class ="dropdown-menu" aria-labelledby = "dropdown_target">
+                                <a class="dropdown-item">Settings</a>
+                                <a class="dropdown-item">Desconect</a> 
+                            </div>
+     
+                       </li>         
+                       </ul>
+
+
+                    <?php
+                }
+            } else {
+
+                printLoginForm($askedPage);
+            }
+            ?>
+            <br>
         </div>
 
     </nav> 
-    <!--         Menu 
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="?page=welcome">Accueil <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="?page=info">Informations pratiques</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="?page=contacts">Contact</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>-->
-
-    <!-- Contenu principal -->
     <?php
-
-//        // Vérifier si la personne est connectée
-//        if (!isset($_SESSION['loggedIn'])){
-//            if(!isset($_GET['todo'] )){
-//                require('pages/welcome.php');
-//            }
-//            if(isset($_GET['todo']) && $_GET['todo']=='logout'){
-//                require('pages/welcome.php');
-//            }
-//        } else{
-//            require('pages/home.php');
-//        }
-
     require ('pages/' . $askedPage . '.php'); // À la place d'un switch
     ?>
 
