@@ -6,7 +6,7 @@ if (!isset($_SESSION['initiated'])) {  // Si la personne vient d'arriver sur le 
     $_SESSION['initiated'] = true;     // Et on commence sa session
 }
 // Décommenter la ligne suivante pour afficher le tableau $_SESSION pour le debuggage
-var_dump($_SESSION);
+// var_dump($_SESSION);
 // Les "requires" nécessaires
 require('utilities/utils.php');
 require('utilities/printForms.php');
@@ -32,6 +32,7 @@ if (array_key_exists('page', $_GET)) {
 if ($authorized) {
     $pageTitle = getPageTitle($askedPage);
     generateHTMLHeader($pageTitle, "css/perso.css");
+
     // Traitement des contenus de formulaires
     if (isset($_GET['todo'])) {
         if ($_GET['todo'] == 'register') {
@@ -79,9 +80,23 @@ if ($authorized) {
                                 <a class="dropdown-item">Settings</a>
                                 <a class="dropdown-item">Desconect</a> 
                             </div>
-     
-                       </li>         
-                       </ul>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <form class = "form-inline my-2 my-lg-0">
+                                <button class="btn btn-outline-success" type="button">Profil</button>
+                            </form>
+                        </li>
+                    </ul>
+                    <!--                    <ul class="navbar-nav">
+                                            <li class="nav-item" -->
+                    <?php
+                    printLogoutForm($askedPage);
+                    ?>
+                    <!--                        </li>
+                                        </ul>-->
 
 
                     <?php
@@ -95,6 +110,10 @@ if ($authorized) {
         </div>
 
     </nav> 
+    <?php
+    if ($askedPage == 'welcome') {
+        ?>
+        <div class ="image"></div>; <?php } ?>
     <?php
     require ('pages/' . $askedPage . '.php'); // À la place d'un switch
     ?>

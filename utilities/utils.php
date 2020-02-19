@@ -17,7 +17,7 @@ function generateHTMLHeader($titre, $feuilledestyle) {
          <!-- Bootstrap CSS -->
          <link href="css/bootstrap.min.css" rel="stylesheet">
          <!-- Mon CSS Perso -->
-         <link rel="stylesheet" type="text/css" href=$feuilledestyle />
+         <link rel="stylesheet" type="text/css" href="css/perso.css">
          
          </head>
          <body>
