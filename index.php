@@ -28,6 +28,7 @@ if (array_key_exists('page', $_GET)) {
     }
 }
 
+
 // Si la page demandée est valide
 if ($authorized) {
     $pageTitle = getPageTitle($askedPage);
@@ -39,7 +40,7 @@ if ($authorized) {
             $reponse = Utilisateur::insererUtilisateur($dbh, $_POST['username'], $_POST['password'], $_POST['lastname'], $_POST['firstname'], $_POST['birth'], $_POST['email']);
             if ($reponse)
                 logIn($dbh);
-        } elseif ($_GET['todo'] == 'login') {
+        } elseif ($_GET['todo'] == 'login' && !Utilisateur::islogged()) {
             logIn($dbh);
         } elseif ($_GET['todo'] == 'logout') {
             logOut();
@@ -67,8 +68,7 @@ if ($authorized) {
                 </li>
             </ul>
             <?php
-            if (isset($_SESSION['loggedIn'])) {
-                if ($_SESSION['loggedIn'] == true) {
+            if (Utilisateur::islogged()){
                     ?>
                     <ul class ="navbar-nav">
                         <li class="nav-item dropdown">
@@ -100,9 +100,10 @@ if ($authorized) {
 
 
                     <?php
-                }
             } else {
-
+                if ($askedPage == 'profile') {
+                    $askedPage = 'welcome';
+                }
                 printLoginForm($askedPage);
             }
             ?>

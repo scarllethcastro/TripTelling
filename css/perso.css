@@ -56,3 +56,35 @@ td{
     filter: blur(5px);
     -webkit-filter: blur(5px);
 }
+
+.column_profile {
+    width: 399px;
+    height: 100%;
+    border: 1px solid black;
+    
+    
+}
+.column_profile .up {
+    width: 100%;
+    height: 35%;
+    background-color:  #17a2b8;
+}
+
+.column_profile .down{
+    top: 35%;
+    width: 100%;
+    height: 65%;
+    background-color: #fdfdfe;
+}
+.column_profile .profile_image {
+    width: 201px;
+    height: 201px;
+    position: relative;
+    border: 1px solid black;
+    left: 190px;
+    top: -100px;
+}
+.column_profile .profile_image img {
+     width: 200px;
+    height: 200px;
+}

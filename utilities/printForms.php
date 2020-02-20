@@ -2,6 +2,9 @@
 
 // Formulaire de connexion
 function printLoginForm($nom_de_la_page) {
+    if ($nom_de_la_page == 'welcome') {
+        $nom_de_la_page = 'home';
+    }
     echo <<<CHAINE_DE_FIN
     <form class = "form-inline my-2 my-lg-0" action= "index.php?todo=login&page=$nom_de_la_page" method='post'>
         <input class="form-control mr-sm-2" type="text" name= "email" placeholder="email" aria-label="email">

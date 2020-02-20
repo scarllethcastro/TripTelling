@@ -43,8 +43,16 @@ $page_list = array(
     array(
         "name" => "register",
         "title" => "Creer une compte",
-        "menutitle" => "Enregistrement")
+        "menutitle" => "Enregistrement"),
+    
+    array(
+        "name" => "profile",
+        "title" => "Votre profil",
+        "menutitle" => "Votre profil")
+    
 );
+if(isset($_SESSION['username']))
+    $page_list[3]["title"] = $_SESSION['username'];
 
 // Pour vérifier la page demandée par l'utilisateur
 function checkPage($askedPage) {
@@ -125,6 +133,13 @@ class Utilisateur {
     public static function testerMdp($dbh, $user, $mdp) {
         $motdepasse = sha1($mdp);
         return $user->password == $motdepasse;
+    }
+    
+    public static function islogged(){
+        
+        if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'])
+            return true;
+        else return false;
     }
 
 }
