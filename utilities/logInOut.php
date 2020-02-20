@@ -1,9 +1,10 @@
 <?php
 
 function  logIn($dbh){
-    $user = Utilisateur::getUtilisateur($dbh, $_POST['username']);
+    $user = Utilisateur::getUtilisateurMail($dbh, $_POST['email']);
     if($user != null && Utilisateur::testerMdp($dbh, $user, $_POST['password'])){
-        $_SESSION['loggedIn'] = true;
+     $_SESSION['loggedIn'] = true;
+     $_SESSION['username'] = $user->username;
     }
 }
 
