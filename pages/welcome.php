@@ -1,37 +1,42 @@
-        <div class="view" style="background-image: url('https://gd-disneyeorlando.sfo2.cdn.digitaloceanspaces.com/2015/06/aviao-orlando-1170x680.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
-        <!-- Mask & flexbox options-->
-            <div class="mask rgba-gradient align-items-center">
-            <!-- Content -->
-              <div class="container">
-                <!--Grid row-->
-                <div class="row">
-                  <!--Grid column-->
-                  <div class="col-md-6">
-                    <h1 class="h1-responsive font-weight-bold wow fadeInLeft">Welcome to TripTelling </h1>
-                    <hr class="hr-light wow fadeInLeft" data-wow-delay="0.3s">
-                    <h6 class="mb-3 wow fadeInLeft" data-wow-delay="0.3s">TripTelling is a site where you can share your trips and find schedules for tips you want to do.</h6>
-                  </div>
-                  <!--Grid column-->
-                  <!--Grid column-->
-                  <div class="col-md-6 col-xl-5 mb-4">
-                    <!--Form-->
-                    <div class="card wow fadeInRight" data-wow-delay="0.3s">
-                      <div class="card-body">
-                        <!--Header-->
-                        <div class="text-center">
-                          <h3 class="white-text">
-                            <i class="fas fa-user white-text"></i> Start now</h3>
-                          <hr class="hr-light">
-                        </div>
-                        <a class="btn btn-outline-white wow fadeInLeft" data-wow-delay="0.3s">Sign up</a>
-                        </div>
+<div class="view" style="background-image: url('https://www.cvc.com.br/dicas-de-viagem/wp-content/uploads/2019/08/destinos-europa-443859715.jpg');background-repeat: no-repeat; background-size: cover; background-position: center center;">
+    <!-- Content -->
+    <div class="container-fluid" style = "height: 1000px">
+        <!--Grid row-->
+        <div class="row justify-content-around align-items-center" style = "height: 100%">
+            <!--Grid column-->
+            <div class="col-md-5">
+                <h1 style = 'font-family: Coronetscript; color: white; font-size: 100pt ;font-style: italic; text-shadow: 4px 0 0 #181c1c '> Welcome to TripTelling! </h1>
+                <a style = 'font-family: Comic Sans MS; color: white ;text-shadow: 4px 0 0 #181c1c '>TripTelling is a site where you can share your trips and find schedules for tips you want to do.</a>
+            </div>
+            <!--Grid column-->
+            <!--Grid column-->
+            <div class="col-md-3">
+                <!--Card-->
+                <div class="card text-center" style=" width: 20rem; height: 20rem; background-color: rgb(240,248,255)" >
+                    <div class="card-body">
+                        <h3 class="card-title">Start now!</h3>
+                        <div class="container">
+                            <div class="row justify-content-around align-items-center" style = "height: 7rem">
+                                <div col-md-8>
+                                    <a href="index.php?page=register" class="btn btn-primary">Sign up</a>
+                                </div>
+                            </div>
+
+                                <div class="row justify-content-around align-items-center" style = "height: 7rem">
+                                    <div col-md-8>
+                                        <a href="index.php?page=welcome" class="btn btn-primary">Navigate</a>
+                                    </div>
+                                </div>
+                            </div>
                     </div>
-                  <!--Grid column-->
                 </div>
-                <!--Grid row-->
-              </div>
-              <!-- Content -->
-              </div>
-               <!-- Mask & flexbox options-->
-          </div>
+                        </div>
+                        <!--Grid column-->
+                    </div>
+                    <!--Grid row-->
+                </div>
+                <!-- Content -->
+            </div>
+        </div>
+
 

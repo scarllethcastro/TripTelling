@@ -1,8 +1,8 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <form class="needs-validation" novalidate action="index.php?page=register&todo=..." method=post
-                  oninput="up2.setCustomValidity(up2.value != up.value ? 'Les mots de passe diffèrent.' : '')">              
+            <form class="needs-validation" novalidate action="index.php?page=home&todo=register" method=post
+                  oninput="up2.setCustomValidity(up2.value != password.value ? 'Les mots de passe diffèrent.' : '')">              
 <!--                <p>
                     <label for="login">Login:</label>
                     <input id="login" type=text required name=login>
@@ -27,7 +27,7 @@
                 <div class="form-group row">
                     <label for="nom" class="col-sm-4 offset-md-1 col-form-label">Nom</label>
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" id="nom" required name="nom">
+                        <input type="text" class="form-control" id="nom" required name="lastname">
                         <div class="invalid-feedback">
                             Ce champ est obligatoire!
                         </div>
@@ -41,7 +41,7 @@
                 <div class="form-group row">
                     <label for="prenom" class="col-sm-4 offset-md-1 col-form-label">Prenom</label>
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" id="prenom" required name="prenom">
+                        <input type="text" class="form-control" id="prenom" required name="firstname">
                         <div class="invalid-feedback">
                             Ce champ est obligatoire!
                         </div>
@@ -55,7 +55,7 @@
                 <div class="form-group row">
                     <label for="naissance" class="col-sm-4 offset-md-1 col-form-label">Date de naissance</label>
                     <div class="col-sm-6">
-                        <input type="date" class="form-control" id="naissance" required name="naissance">
+                        <input type="date" class="form-control" id="naissance" required name="birth">
                         <div class="invalid-feedback">
                             Ce champ est obligatoire!
                         </div>
@@ -87,7 +87,7 @@
                 <div class="form-group row">
                     <label for="password1" class="col-sm-4 offset-md-1 col-form-label">Mot de passe</label>
                     <div class="col-sm-6">
-                        <input type="password" class="form-control" id="password1" required name="up">
+                        <input type="password" class="form-control" id="password1" required name="password">
                         <small id="passwordHelpBlock" class="form-text text-muted">
                             Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
                         </small>

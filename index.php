@@ -6,7 +6,7 @@ if (!isset($_SESSION['initiated'])) {  // Si la personne vient d'arriver sur le 
     $_SESSION['initiated'] = true;     // Et on commence sa session
 }
 // Décommenter la ligne suivante pour afficher le tableau $_SESSION pour le debuggage
-//var_dump($_SESSION);
+var_dump($_SESSION);
 // Les "requires" nécessaires
 require('utilities/utils.php');
 require('utilities/printForms.php');
@@ -32,6 +32,21 @@ if (array_key_exists('page', $_GET)) {
 if ($authorized) {
     $pageTitle = getPageTitle($askedPage);
     generateHTMLHeader($pageTitle, "css/perso.css");
+    // Traitement des contenus de formulaires
+    if (isset($_GET['todo'])) {
+        if ($_GET['todo'] == 'register') {
+            $reponse = Utilisateur::insererUtilisateur($dbh, $_POST['username'], $_POST['password'], $_POST['lastname'], $_POST['firstname'], $_POST['birth'], $_POST['email']);
+            if ($reponse)
+                logIn($dbh);
+        }
+        elseif ($_GET['todo'] == 'login') {
+            logIn($dbh);
+        } elseif ($_GET['todo'] == 'logout') {
+            logOut();
+        } else {
+            $askedPage = 'error';
+        }
+    }
     ?>
     <nav class="navbar navbar-expand-lg navbar-light" style = "background-color: #c0f2ec;"> 
         <a class="navbar-brand" href="index.php" style = "font-family: Segoe Print; font-size: 45 pt" >TripTelling</a>
@@ -62,11 +77,15 @@ if ($authorized) {
                     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                 </li>
             </ul>
+            <?php
+                if (isset($_SESSION['loggedIn'])) {
+                    if ($_SESSION['loggedIn'] == true) {
+                        echo 'Conected';
+                }} else { ?>
             <form class="form-inline my-2 my-lg-0">
-                <?php
-                printLoginForm($askedPage);
-                ?>
+                <?php printLoginForm($askedPage); ?>
             </form>
+                    <?php } ?>
         </div>
 
     </nav> 
@@ -93,16 +112,6 @@ if ($authorized) {
 
     <!-- Contenu principal -->
     <?php
-    // Traitement des contenus de formulaires
-    if (isset($_GET['todo'])) {
-        if ($_GET['todo'] == 'login') {
-            logIn($dbh);
-        } elseif ($_GET['todo'] == 'logout') {
-            logOut();
-        } else {
-            $askedPage = 'error';
-        }
-    }
 
 //        // Vérifier si la personne est connectée
 //        if (!isset($_SESSION['loggedIn'])){
