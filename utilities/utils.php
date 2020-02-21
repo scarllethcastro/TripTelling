@@ -192,11 +192,62 @@ class Post {
     public $place;
     public $duration;
     public $description;
+    public $money;
 
+    public static function getposts($dbh, $username, $start, $number) {
+
+        $sql_code = "SELECT * FROM `posts` WHERE loginuser = ? LIMIT $start OFFSET $number ";
+
+        $sth = $dbh->prepare($sql_code);
+        $sth->setFetchMode(PDO::FETCH_CLASS, 'Post');
+        $sth->execute(array($username));
+        $post = $sth->fetch();
+        return $post;
+        }
+
+        public static function numposts($dbh, $username){
+
+        $sql_code = "SELECT * FROM `posts` WHERE loginuser = ?";
+        $sth = $dbh->prepare($sql_code);
+        $sth->setFetchMode(PDO::FETCH_CLASS, 'Post');
+        $sth->execute(array($username));
+        $post = $sth->fetch();
+        return $sth->rowCount();
+        
+        
+        }
+        
+        public static function generatemoneysimbol ($money){
+            
+            switch ($money) {
+                case '1': return '$';
+                case '1.5': return '$-$$';
+                case '2' : return '$$';
+                case '2.5': return '$$-$$$';
+                case '3': return '$$$';
+                case '3.5': return '$$$-$$$$';
+                case '4': return '$$$$';
+            }
+            
+        }
+        
+          public static function generatemoneynumber($simbol){
+            
+            switch ($simbol) {
+                case '$': return '1';
+                case '$-$$': return '1.5';
+                case '$$' : return '2';
+                case '$$-$$$': return '2.5';
+                case '$$$': return '3';
+                case '$$$-$$$$': return '3.5';
+                case '$$$$': return '4';
+            }
+            
+        }
 }
 
 // Traitement de la photo de profil
-function valide_photo($username,$photo) {
+function valide_photo($username, $photo) {
     // ex pour une image jpg
     if (!empty($photo['tmp_name']) && is_uploaded_file($photo['tmp_name'])) {
         // Le fichier a bien été téléchargé
@@ -205,7 +256,7 @@ function valide_photo($username,$photo) {
         echo $larg . " " . $haut . " " . $type . " " . $attr;
         // JPEG => type=2
         if ($type == 2) {
-            if (move_uploaded_file($photo['tmp_name'], 'avatars/'.$username.'.jpg')) {
+            if (move_uploaded_file($photo['tmp_name'], 'avatars/' . $username . '.jpg')) {
                 echo "Copie réussie";
                 return true;
             } else {
