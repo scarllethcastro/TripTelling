@@ -57,12 +57,15 @@ td{
     -webkit-filter: blur(5px);
 }
 
+/*Profile column in "profile" */
+
 .column_profile {
-    width: 399px;
+    width: 22%;
     height: 100%;
     border: 1px solid black;
-    
-    
+    float: left;
+
+
 }
 .column_profile .up {
     width: 100%;
@@ -71,10 +74,12 @@ td{
 }
 
 .column_profile .down{
-    top: 35%;
+   position: relative;
+   top :-90px;
     width: 100%;
     height: 65%;
     background-color: #fdfdfe;
+    border: 5px red;
 }
 .column_profile .profile_image {
     width: 201px;
@@ -85,6 +90,46 @@ td{
     top: -100px;
 }
 .column_profile .profile_image img {
-     width: 200px;
+    width: 200px;
     height: 200px;
 }
+.column_profile .up .h5 {
+    font-family: Times New Roman;
+    top : 130px;
+    left: 30px;
+    font-size: 12pt;
+}
+.column_profile .up .username{
+    margin: 120px 10px 250px 5px;
+    padding: 120px 10px 250px 5px;
+    display: inline-block;
+
+}
+
+.column_profile .down .container {
+    height: 100%;
+    width: 100%;
+    margin: 10px 10px 10px 10px;
+    padding: 10 px 10px 10px 10px;
+    display: inline-block;    
+}
+
+
+.posts {
+    width: 78%;
+    height: 100%;
+    float: left;
+    background-color: lavenderblush;
+}
+
+.posts .container-fluid .postcard {
+    margin: 15px 10px 10px 10px;
+    display: inline-block;   
+    height: 150px;
+    background-color: #ebebeb;
+    border: 1.5px solid gray;
+    border-radius: 5mm;
+    
+    
+}
+

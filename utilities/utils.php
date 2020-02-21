@@ -143,3 +143,16 @@ class Utilisateur {
     }
 
 }
+
+class Post{
+    
+    public $idpost;
+    public $loginuser;
+    public $title;
+    public $place;
+    public $duration;
+    public $description;
+    
+    
+    
+}
