@@ -196,28 +196,34 @@ class Post {
 }
 
 // Traitement de la photo de profil
-function valide_photo($username,$photo) {
+function valide_photo($username, $photo) {
     // ex pour une image jpg
     if (!empty($photo['tmp_name']) && is_uploaded_file($photo['tmp_name'])) {
         // Le fichier a bien été téléchargé
         // Par sécurité on utilise getimagesize plutot que les variables $_FILES
         list($larg, $haut, $type, $attr) = getimagesize($photo['tmp_name']);
-        echo $larg . " " . $haut . " " . $type . " " . $attr;
-        // JPEG => type=2
+        //echo $larg . " " . $haut . " " . $type . " " . $attr;
+        // Vérification du type: JPEG => type=2
         if ($type == 2) {
-            if (move_uploaded_file($photo['tmp_name'], 'avatars/'.$username.'.jpg')) {
-                echo "Copie réussie";
-                return true;
+            // Vérification de la taille
+            $taille_maxi = 100000;
+            $taille = filesize($photo['tmp_name']);
+            if ($taille > $taille_maxi) {
+                //echo "fichier trop volumineux!";
+                return 2;
+            } elseif (move_uploaded_file($photo['tmp_name'], 'images/avatars/' . $username . '.jpg')) {
+                //echo "Copie réussie";
+                return 0;
             } else {
-                echo "echec de la copie";
-                return false;
+                //echo "echec de la copie";
+                return 3;
             }
         } else {
-            echo "mauvais type de fichier";
-            return false;
+            //echo "mauvais type de fichier";
+            return 1;
         }
     } else {
-        echo 'echec du téléchargement';
-        return false;
+        //echo 'echec du téléchargement';
+        return 3;
     }
 }
