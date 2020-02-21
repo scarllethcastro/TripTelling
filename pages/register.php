@@ -1,143 +1,240 @@
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <form class="needs-validation" novalidate action="index.php?page=home&todo=register" method=post
-                  oninput="up2.setCustomValidity(up2.value != password.value ? 'Les mots de passe diffèrent.' : '')">              
-<!--                <p>
-                    <label for="login">Login:</label>
-                    <input id="login" type=text required name=login>
-                </p>-->
-                <div class="form-group row">
-                    <label for="username" class="col-sm-4 offset-md-1 col-form-label">Nom d'utilisateur</label>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control" id="username" required name="username">
-                        <div class="invalid-feedback">
-                            Ce nom d'utilisateur n'est pas valide ou n'est pas disponible.
+<?php
+$form_values_valid = false;
+$username_fail = false;
+$email_fail = false;
+$password_fail = false;
+$password_verification_fail = false;
+
+if (isset($_POST['username']) && $_POST['username'] != "" && //Vérification des champ requis
+        isset($_POST['lastname']) && $_POST['lastname'] != "" &&
+        isset($_POST['firstname']) && $_POST['firstname'] != "" &&
+        isset($_POST['birth']) && $_POST['birth'] != "" &&
+        isset($_POST['email']) && $_POST['email'] != "" &&
+        isset($_POST['password']) && $_POST['password'] != "" &&
+        isset($_POST['up2']) && $_POST['up2'] != "") {
+
+    //Traitement des données
+    //Username
+    if (!valide_username($dbh, $_POST['username'])) {
+        $username_fail = true;
+    } elseif (!valide_email($dbh, $_POST['email'])) { // Email
+        $email_fail = true;
+    } elseif (!valide_password($_POST['password'])) { // Password
+        $password_fail = true;
+    } elseif (!valide_password_verification($_POST['password'], $_POST['up2'])) {
+        $password_verification_fail = true;
+    } else {
+        $form_values_valid = true;
+        Utilisateur::insererUtilisateur($dbh, $_POST['username'], $_POST['password'], $_POST['lastname'], $_POST['firstname'], $_POST['birth'], $_POST['email']);
+        ?>
+        <div class ="row">
+            <div class="col-md-4 offset-md-4 card text-center" style="width: 30rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Vous avez bien été enrégistré(e)!</h5>
+                    <p class="card-text">Cliquez ci-dessous pour revenir à la page initiale</p>
+                    <a href="index.php?page=welcome" class="btn btn-primary">Page initiale</a>
+                </div>
+            </div>
+        </div>
+
+        <?php
+    }
+}
+
+if (!$form_values_valid) {
+    // Pour les champs déjà remplis
+    // Username
+    if (isset($_POST['username'])) {
+        $username = $_POST['username'];
+    } else {
+        $username = "";
+    }
+    // Lastname
+    if (isset($_POST['lastname'])) {
+        $lastname = $_POST['lastname'];
+    } else {
+        $lastname = "";
+    }
+    // Firstname
+    if (isset($_POST['firstname'])) {
+        $firstname = $_POST['firstname'];
+    } else {
+        $firstname = "";
+    }
+    // Email
+    if (isset($_POST['email'])) {
+        $email = $_POST['email'];
+    } else {
+        $email = "";
+    }
+    ?>
+
+<div class="container" style="margin-top: 10px">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <form class="needs-validation" novalidate action="index.php?page=register" method=post
+                      oninput="up2.setCustomValidity(up2.value != password.value ? 'Les mots de passe diffèrent.' : '')">              
+                    <!--Nom d'utilisateur-->
+                    <div class="form-group row">
+                        <label for="username" class="col-sm-4 offset-md-1 col-form-label">Nom d'utilisateur</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="username" required name="username" value="<?php echo $username ?>">
+                            <div class="invalid-feedback">
+                                Ce champ est obligatoire!
+                            </div>
+                            <small id="usernameHelpBlock" class="form-text text-muted">
+                                Le nom d'utilisateur sert à vous identifier dans notre communauté, et sera affiché sur votre page de profil. Il ne doit pas contenir d'espace ni des caractères spéciaux.
+                            </small>
+                            <?php
+                            if ($username_fail) {
+                                ?>
+                                <div class="alert alert-danger" role="alert">
+                                    <small>
+                                        Ce nom d'utilisateur n'est pas valide ou n'est pas disponible.
+                                    </small>
+                                </div>
+                                <?php
+                            }
+                            ?>
                         </div>
-                        <small id="usernameHelpBlock" class="form-text text-muted">
-                            Le nom d'utilisateur sert à vous identifier dans notre communauté, et sera affiché sur votre page de profil. Il ne doit pas contenir d'espace.
-                        </small>
                     </div>
-                </div>
 
-<!--                <p>
-                    <label for="nom">Nom</label>
-                    <input id="nom" type=text required name=nom>
-                </p>-->
-                <div class="form-group row">
-                    <label for="nom" class="col-sm-4 offset-md-1 col-form-label">Nom</label>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control" id="nom" required name="lastname">
-                        <div class="invalid-feedback">
-                            Ce champ est obligatoire!
+                    <!--Nom-->
+                    <div class="form-group row">
+                        <label for="nom" class="col-sm-4 offset-md-1 col-form-label">Nom</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="nom" required name="lastname" value="<?php echo $lastname ?>">
+                            <div class="invalid-feedback">
+                                Ce champ est obligatoire!
+                            </div>
                         </div>
                     </div>
-                </div>
 
-<!--                <p>
-                    <label for="prenom">Prenom</label>
-                    <input id="prenom" type=text required name=prenom>
-                </p>-->
-                <div class="form-group row">
-                    <label for="prenom" class="col-sm-4 offset-md-1 col-form-label">Prenom</label>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control" id="prenom" required name="firstname">
-                        <div class="invalid-feedback">
-                            Ce champ est obligatoire!
+                    <!--Prenom-->
+                    <div class="form-group row">
+                        <label for="prenom" class="col-sm-4 offset-md-1 col-form-label">Prenom</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="prenom" required name="firstname" value="<?php echo $firstname ?>">
+                            <div class="invalid-feedback">
+                                Ce champ est obligatoire!
+                            </div>
                         </div>
                     </div>
-                </div>
 
-<!--                <p>
-                    <label for="naissance">Date de naissance:</label>
-                    <input id="naissance" type=date required name=naissance>
-                </p>-->
-                <div class="form-group row">
-                    <label for="naissance" class="col-sm-4 offset-md-1 col-form-label">Date de naissance</label>
-                    <div class="col-sm-6">
-                        <input type="date" class="form-control" id="naissance" required name="birth">
-                        <div class="invalid-feedback">
-                            Ce champ est obligatoire!
+                    <!--Naissance-->
+                    <div class="form-group row">
+                        <label for="naissance" class="col-sm-4 offset-md-1 col-form-label">Date de naissance</label>
+                        <div class="col-sm-6">
+                            <input type="date" class="form-control" id="naissance" required name="birth">
+                            <div class="invalid-feedback">
+                                Ce champ est obligatoire!
+                            </div>
                         </div>
                     </div>
-                </div>
 
-<!--                <p>
-                    <label for="email">Email:</label>
-                    <input id="email" type=email required name=email>
-                </p>-->
-                <div class="form-group row">
-                    <label for="email" class="col-sm-4 offset-md-1 col-form-label">Email</label>
-                    <div class="col-sm-6">
-                        <input type="email" class="form-control" id="email" required name="email">
-                        <div class="invalid-feedback">
-                            Ce champ est obligatoire!
-                        </div>
-                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                    </div>
-                </div>
-
-<!--                <p>
-                    <label for="password1">Password:</label>
-                    <input id="password1" type=password required name=up>
-                    <small id="passwordHelpBlock" class="form-text text-muted">
-                        Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
-                    </small>
-                </p>-->
-                <div class="form-group row">
-                    <label for="password1" class="col-sm-4 offset-md-1 col-form-label">Mot de passe</label>
-                    <div class="col-sm-6">
-                        <input type="password" class="form-control" id="password1" required name="password">
-                        <small id="passwordHelpBlock" class="form-text text-muted">
-                            Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
-                        </small>
-                        <div class="invalid-feedback">
-                            Ce champ est obligatoire!
+                    <!--Email-->
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-4 offset-md-1 col-form-label">Email</label>
+                        <div class="col-sm-6">
+                            <input type="email" class="form-control" id="email" required name="email" value="<?php echo $email ?>">
+                            <div class="invalid-feedback">
+                                Ce champ est obligatoire!
+                            </div>
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                            <?php
+                            if ($email_fail) {
+                                ?>
+                                <div class="alert alert-danger" role="alert">
+                                    <small>
+                                        Email non valide ou déjà enregistré.
+                                    </small>
+                                </div>
+                                <?php
+                            }
+                            ?>
                         </div>
                     </div>
-                </div>
 
-<!--                <p>
-                    <label for="password2">Confirm password:</label>
-                    <input id="password2" type=password name=up2>
-                </p>-->
-                <div class="form-group row">
-                    <label for="password2" class="col-sm-4 offset-md-1 col-form-label">Confirmez votre mot de passe</label>
-                    <div class="col-sm-6">
-                        <input type="password" class="form-control" id="password2" name="up2">
+                    <!--Mot de passe-->
+                    <div class="form-group row">
+                        <label for="password1" class="col-sm-4 offset-md-1 col-form-label">Mot de passe</label>
+                        <div class="col-sm-6">
+                            <input type="password" class="form-control" id="password1" required name="password">
+                            <small id="passwordHelpBlock" class="form-text text-muted">
+                                Your password must be at least 6 characters long and contain only letters and numbers. It should not contain spaces, special characters, or emoji.
+                            </small>
+                            <div class="invalid-feedback">
+                                Ce champ est obligatoire!
+                            </div>
+                            <?php
+                            if ($password_fail) {
+                                ?>
+                                <div class="alert alert-danger" role="alert">
+                                    <small>
+                                        Mot de passe non valide. Vérifier l'existence des caractères spéciaux ou si votre mot de passe a au moins 6 caractères.
+                                    </small>
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </div>
                     </div>
-                </div>
-                
-                <br>
-                <div class="row">
-                    <input type=submit class="col-md-4 offset-md-4 btn btn-primary" value="Créer compte">
-                </div>
-                
-            </form>
+
+                    <!--Confirmation du mot de passe-->
+                    <div class="form-group row">
+                        <label for="password2" class="col-sm-4 offset-md-1 col-form-label">Confirmez votre mot de passe</label>
+                        <div class="col-sm-6">
+                            <input type="password" class="form-control" id="password2" name="up2">
+                            <div class="invalid-feedback">
+                                Les mots de passe diffèrent!
+                            </div>
+                            <?php
+                            if ($password_verification_fail) {
+                                ?>
+                                <div class="alert alert-danger" role="alert">
+                                    <small>
+                                        Les mots de passe diffèrent.
+                                    </small>
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="row">
+                        <input type=submit class="col-md-4 offset-md-4 btn btn-primary" value="Créer compte">
+                    </div>
+
+                </form>
 
 
 
+            </div>
         </div>
     </div>
-</div>
+
+<?php }
+?>
 
 <script>
 // Example starter JavaScript for disabling form submissions if there are invalid fields
-(function() {
-  'use strict';
-  window.addEventListener('load', function() {
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.getElementsByClassName('needs-validation');
-    // Loop over them and prevent submission
-    var validation = Array.prototype.filter.call(forms, function(form) {
-      form.addEventListener('submit', function(event) {
-        if (form.checkValidity() === false) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        form.classList.add('was-validated');
-      }, false);
-    });
-  }, false);
-})();
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
 </script>
