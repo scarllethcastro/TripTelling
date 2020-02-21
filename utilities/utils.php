@@ -116,22 +116,32 @@ class Utilisateur {
     public static function insererUtilisateur($dbh, $username, $password, $last, $first, $birth, $email) {
         $lastname = ucfirst(strtolower($last));
         $firstname = ucfirst(strtolower($first));
-        $sth = $dbh->prepare("INSERT INTO `utilisateurs` (`username`, `password`, `lastname`, `firstname`, `birth`, `email`) VALUES(?,SHA1(?),?,?,?,?)");
-        $sth->execute(array($username, $password, $lastname, $firstname, $birth, $email));
+        $password_encrypted = password_hash($password, PASSWORD_DEFAULT);
+        $sth = $dbh->prepare("INSERT INTO `utilisateurs` (`username`, `password`, `lastname`, `firstname`, `birth`, `email`) VALUES(?,?,?,?,?,?)");
+        $sth->execute(array($username, $password_encrypted, $lastname, $firstname, $birth, $email));
     }
 
     public static function testerMdp($dbh, $user, $mdp) {
-        $motdepasse = sha1($mdp);
-        return $user->password == $motdepasse;
+        return password_verify($mdp, $user->password);
     }
 
     public static function islogged() {
-
         if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'])
             return true;
         else
             return false;
     }
+
+}
+
+class Post {
+
+    public $idpost;
+    public $loginuser;
+    public $title;
+    public $place;
+    public $duration;
+    public $description;
 
 }
 
@@ -182,17 +192,6 @@ function valide_password_verification($motdepasse, $up2) {
     } else {
         return true;
     }
-}
-
-class Post {
-
-    public $idpost;
-    public $loginuser;
-    public $title;
-    public $place;
-    public $duration;
-    public $description;
-
 }
 
 // Traitement de la photo de profil
