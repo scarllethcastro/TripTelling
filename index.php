@@ -35,19 +35,19 @@ if ($authorized) {
     generateHTMLHeader($pageTitle, "css/perso.css");
 
     // Traitement des contenus de formulaires
-    if (isset($_GET['todo'])) {
-        if ($_GET['todo'] == 'register') {
-            $reponse = Utilisateur::insererUtilisateur($dbh, $_POST['username'], $_POST['password'], $_POST['lastname'], $_POST['firstname'], $_POST['birth'], $_POST['email']);
-            if ($reponse)
-                logIn($dbh);
-        } elseif ($_GET['todo'] == 'login' && !Utilisateur::islogged()) {
+    if (isset($_GET['todo'])) { 
+        if ($_GET['todo'] == 'login' && !Utilisateur::islogged()) {
             logIn($dbh);
         } elseif ($_GET['todo'] == 'logout') {
             logOut();
-        } else {
-            $askedPage = 'error';
         }
     }
+    
+    // Cas où l'utilisateur loggé demande la page register
+    if(Utilisateur::islogged() && $askedPage == 'register'){
+        $askedPage = 'error';
+    }
+    
     ?>
     <nav class="navbar navbar-expand-lg navbar-light" style = "background-color: #c0f2ec;"> 
         <a class="navbar-brand" href="index.php" style = "font-family: Segoe Print; font-size: 45 pt" >TripTelling</a>
@@ -60,29 +60,10 @@ if ($authorized) {
                 <li class="nav-item active">
                     <a class="nav-link" href="index.php?page=home">Navigate<span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="index.php?page=register">Register</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
             </ul>
             <?php
             if (Utilisateur::islogged()){
                     ?>
-                    <ul class ="navbar-nav">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target = "dropdown_target" >
-                                Dropdown
-                                <span class ="caret"></span>
-                            </a>
-                            <div class ="dropdown-menu" aria-labelledby = "dropdown_target">
-                                <a class="dropdown-item">Settings</a>
-                                <a class="dropdown-item">Desconect</a> 
-                            </div>
-                        </li>
-                    </ul>
-
                     <ul class="navbar-nav">
                         <li class="nav-item">
                            <?php echo '<form class = "form-inline my-2 my-lg-0" action="index.php?page=profile&user=' . $_SESSION['username'] . '" method="post" >' ?>
@@ -93,6 +74,9 @@ if ($authorized) {
                     <!--                    <ul class="navbar-nav">
                                             <li class="nav-item" -->
                     <?php
+                    if ($askedPage == 'welcome') {
+                    $askedPage = 'home';
+                    }
                     printLogoutForm($askedPage);
                     ?>
                     <!--                        </li>
@@ -104,7 +88,10 @@ if ($authorized) {
                 if ($askedPage == 'profile') {
                     $askedPage = 'welcome';
                 }
-                printLoginForm($askedPage);
+                printLoginForm();
+                if($askedPage != 'welcome' && $askedPage != 'register'){
+                    printAskRegisterForm();
+                }
             }
             ?>
             <br>

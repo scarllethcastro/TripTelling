@@ -14,10 +14,11 @@ function generateHTMLHeader($titre, $feuilledestyle) {
          <meta name="description" content="Descriptif court"/>
          <title>$titre</title>
          <script type="text/javascript" src="js/jquery.min.js"></script>
+         <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>  
          <!-- Bootstrap CSS -->
          <link href="css/bootstrap.min.css" rel="stylesheet">
          <!-- Mon CSS Perso -->
-         <link rel="stylesheet" type="text/css" href="css/perso.css">
+         <link rel="stylesheet" type="text/css" href=$feuilledestyle>
          
          </head>
          <body>
@@ -44,14 +45,12 @@ $page_list = array(
         "name" => "register",
         "title" => "Creer une compte",
         "menutitle" => "Enregistrement"),
-    
     array(
         "name" => "profile",
         "title" => "Votre profil",
         "menutitle" => "Votre profil")
-    
 );
-if(isset($_SESSION['username']))
+if (isset($_SESSION['username']))
     $page_list[3]["title"] = $_SESSION['username'];
 
 // Pour vérifier la page demandée par l'utilisateur
@@ -114,45 +113,111 @@ class Utilisateur {
             return $user;
     }
 
-    public static function insererUtilisateur($dbh, $username, $password, $lastname, $firstname, $birth, $email) {
-        if (Utilisateur::getUtilisateur($dbh, $username) == null) {
-            if (Utilisateur::getUtilisateurMail($dbh, $email) == null) {
-                $sth = $dbh->prepare("INSERT INTO `utilisateurs` (`username`, `password`, `lastname`, `firstname`, `birth`, `email`) VALUES(?,SHA1(?),?,?,?,?)");
-                $sth->execute(array($username, $password, $lastname, $firstname, $birth, $email));
-            } else {
-                echo 'Email déjà existant! <br>';
-                return false;
-            }
-        } else {
-            echo 'Username déjà existant! <br>';
-            return false;
-        }
-        return true;
+    public static function insererUtilisateur($dbh, $username, $password, $last, $first, $birth, $email) {
+        $lastname = ucfirst(strtolower($last));
+        $firstname = ucfirst(strtolower($first));
+        $sth = $dbh->prepare("INSERT INTO `utilisateurs` (`username`, `password`, `lastname`, `firstname`, `birth`, `email`) VALUES(?,SHA1(?),?,?,?,?)");
+        $sth->execute(array($username, $password, $lastname, $firstname, $birth, $email));
     }
 
     public static function testerMdp($dbh, $user, $mdp) {
         $motdepasse = sha1($mdp);
         return $user->password == $motdepasse;
     }
-    
-    public static function islogged(){
-        
-        if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'])
+
+    public static function islogged() {
+
+        if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'])
             return true;
-        else return false;
+        else
+            return false;
     }
 
 }
 
-class Post{
-    
+//Vérifier l'utilisation des caractères spéciaux dans le mot de passe
+function valide_password($motdepasse) {
+    if (strlen($motdepasse) < 6) {
+        return false;
+    } elseif (!preg_match("/^([a-zA-Z0-9]+)$/", $motdepasse)) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+//Vérifier l'utilisation des caractères spéciaux dans le nom d'utilisateur
+//et si le nom existe déjà dans la base de données
+function valide_username($dbh, $usrname) {
+    if (!preg_match("/^([a-zA-Z0-9]+)$/", $usrname)) {
+        return false;
+    } else {
+        $usr = Utilisateur::getUtilisateur($dbh, $usrname);
+        if ($usr != null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
+
+//Vérifier si le email est valide et si il est déjà utilisé dans la base de données
+function valide_email($dbh, $mail) {
+    if (filter_var($mail, FILTER_VALIDATE_EMAIL) == false) {
+        return false;
+    } else {
+        $usr = Utilisateur::getUtilisateurMail($dbh, $mail);
+        if ($usr != null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
+
+// Vérifier si les mots de passes sont égaux
+function valide_password_verification($motdepasse, $up2) {
+    if (strcmp($motdepasse, $up2) != 0) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+class Post {
+
     public $idpost;
     public $loginuser;
     public $title;
     public $place;
     public $duration;
     public $description;
-    
-    
-    
+
+}
+
+// Traitement de la photo de profil
+function valide_photo($username,$photo) {
+    // ex pour une image jpg
+    if (!empty($photo['tmp_name']) && is_uploaded_file($photo['tmp_name'])) {
+        // Le fichier a bien été téléchargé
+        // Par sécurité on utilise getimagesize plutot que les variables $_FILES
+        list($larg, $haut, $type, $attr) = getimagesize($photo['tmp_name']);
+        echo $larg . " " . $haut . " " . $type . " " . $attr;
+        // JPEG => type=2
+        if ($type == 2) {
+            if (move_uploaded_file($photo['tmp_name'], 'avatars/'.$username.'.jpg')) {
+                echo "Copie réussie";
+                return true;
+            } else {
+                echo "echec de la copie";
+                return false;
+            }
+        } else {
+            echo "mauvais type de fichier";
+            return false;
+        }
+    } else {
+        echo 'echec du téléchargement';
+        return false;
+    }
 }
