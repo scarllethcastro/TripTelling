@@ -116,17 +116,16 @@ class Utilisateur {
     public static function insererUtilisateur($dbh, $username, $password, $last, $first, $birth, $email) {
         $lastname = ucfirst(strtolower($last));
         $firstname = ucfirst(strtolower($first));
-        $sth = $dbh->prepare("INSERT INTO `utilisateurs` (`username`, `password`, `lastname`, `firstname`, `birth`, `email`) VALUES(?,SHA1(?),?,?,?,?)");
-        $sth->execute(array($username, $password, $lastname, $firstname, $birth, $email));
+        $password_encrypted = password_hash($password, PASSWORD_DEFAULT);
+        $sth = $dbh->prepare("INSERT INTO `utilisateurs` (`username`, `password`, `lastname`, `firstname`, `birth`, `email`) VALUES(?,?,?,?,?,?)");
+        $sth->execute(array($username, $password_encrypted, $lastname, $firstname, $birth, $email));
     }
 
     public static function testerMdp($dbh, $user, $mdp) {
-        $motdepasse = sha1($mdp);
-        return $user->password == $motdepasse;
+        return password_verify($mdp, $user->password);
     }
 
     public static function islogged() {
-
         if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'])
             return true;
         else
@@ -253,22 +252,32 @@ function valide_photo($username, $photo) {
         // Le fichier a bien été téléchargé
         // Par sécurité on utilise getimagesize plutot que les variables $_FILES
         list($larg, $haut, $type, $attr) = getimagesize($photo['tmp_name']);
-        echo $larg . " " . $haut . " " . $type . " " . $attr;
-        // JPEG => type=2
+        //echo $larg . " " . $haut . " " . $type . " " . $attr;
+        // Vérification du type: JPEG => type=2
         if ($type == 2) {
             if (move_uploaded_file($photo['tmp_name'], 'avatars/' . $username . '.jpg')) {
                 echo "Copie réussie";
                 return true;
+            // Vérification de la taille
+            $taille_maxi = 100000;
+            $taille = filesize($photo['tmp_name']);
+            if ($taille > $taille_maxi) {
+                //echo "fichier trop volumineux!";
+                return 2;
+            } elseif (move_uploaded_file($photo['tmp_name'], 'images/avatars/' . $username . '.jpg')) {
+                //echo "Copie réussie";
+                return 0;
             } else {
-                echo "echec de la copie";
-                return false;
+                //echo "echec de la copie";
+                return 3;
             }
         } else {
-            echo "mauvais type de fichier";
-            return false;
+            //echo "mauvais type de fichier";
+            return 1;
         }
     } else {
-        echo 'echec du téléchargement';
-        return false;
+        //echo 'echec du téléchargement';
+        return 3;
     }
+}
 }

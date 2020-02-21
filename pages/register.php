@@ -26,8 +26,20 @@ if (isset($_POST['username']) && $_POST['username'] != "" && //Vérification des
         $password_fail = true;
     } elseif (!valide_password_verification($_POST['password'], $_POST['up2'])) {
         $password_verification_fail = true;
-    } elseif(!empty($_FILES['photo']['tmp_name']) && !valide_photo($_POST['username'], $_FILES['photo'])) {
+    } elseif (!empty($_FILES['photo']['tmp_name']) && valide_photo($_POST['username'], $_FILES['photo']) != 0) {
         $photo_fail = true;
+        // Vérification du type d'erreur de la photo de profil
+        switch (valide_photo($_POST['username'], $_FILES['photo'])) {
+            case 1:
+                $photo_error_message = "Mauvais type de fichier. Veuillez sélectioner un fichier du type JPG.";
+                break;
+            case 2:
+                $photo_error_message = "Fichier trop volumineux. Veuillez choisir un fichier plus petit.";
+                break;
+            case 3:
+                $photo_error_message = "Échec du téléchargement. Veuillez essayer à nouveau.";
+                break;
+        }
     } else {
         $form_values_valid = true;
         Utilisateur::insererUtilisateur($dbh, $_POST['username'], $_POST['password'], $_POST['lastname'], $_POST['firstname'], $_POST['birth'], $_POST['email']);
@@ -205,51 +217,80 @@ if (!$form_values_valid) {
                             ?>
                         </div>
                     </div>
-                    
+
                     <!--Photo de profil-->
                     <div class="form-group row">
-                        <label for="photo" class="col-sm-4 offset-md-1 col-form-label">Photo de profil</label>
+                        <label for="customFile" class="col-sm-4 offset-md-1 col-form-label">Photo de profil</label>
                         <div class="col-sm-4 offset-md-1 custom-file">
-                            <input type="file" class="custom-file-input" id="photo" name="photo">
-                            <label class="custom-file-label" for="photo">Choisissez le fichier</label>
-                            <small id="photoHelpBlock" class="form-text text-muted">
-                                La photo de profil n'est pas obligatoire.
-                            </small>
+                            <input type="file" class="custom-file-input" id="customFile" name="photo">
+                            <label class="custom-file-label" for="customFile">Choisissez le fichier</label>
+                        </div>
+                        <div class="container row">
+                            <div class="col-7 offset-5">
+                                <small id="photoHelpBlock" class="form-text text-muted">
+                                    Le fichier doit être du type JPG. La photo de profil n'est pas obligatoire.
+                                </small>
+                                <?php
+                                if ($photo_fail) {
+                                    ?>
+                                    <div class="alert alert-danger" role="alert">
+                                        <small>
+                                            <?php echo $photo_error_message; ?>
+                                        </small>
+                                    </div>         
+                                    <?php
+                                }
+                                ?>
+                            </div>
                         </div>
                     </div>                  
 
-                    <div class="row" style="margin-top: 60px">
+                    <!--Bouton de submission-->
+                    <div class="form-group row" style="margin-top: 1.5rem">
                         <input type=submit class="col-md-4 offset-md-4 btn btn-primary" value="Créer compte">
                     </div>
-                    
+
                 </form>
-
-
-
             </div>
         </div>
-    </div>
 
-<?php }
-?>
+    <?php }
+    ?>
 
-<script>
-// Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function () {
-        'use strict';
-        window.addEventListener('load', function () {
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.getElementsByClassName('needs-validation');
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        }, false);
-    })();
-</script>
+    <!-- Pour la vérification côté client-->
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+
+    <!-- Pour l'animation de l'input de la photo de profil-->
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+    <script>
+        $(document).ready(function () {
+            bsCustomFileInput.init()
+        })
+
+        bsCustomFileInput.init()
+
+        var btn = document.getElementById('btnResetForm')
+        var form = document.querySelector('form')
+        btn.addEventListener('click', function () {
+            form.reset()
+        })
+    </script>

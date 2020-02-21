@@ -29,9 +29,10 @@ $totalpages = ceil($totalposts / $itemsperpage);
         </div>
         <div class ='profile_image'>
             <?php
-            if (file_exists('avatars/' . $user->username . '.jpg')) {
-                echo "<img src = 'avatars/" . $user->username . ".jpg' alt = ''>";
-            } else {
+            if(file_exists('images/avatars/'.$user->username.'.jpg')){
+                echo "<img src = 'images/avatars/" .$user->username. ".jpg' alt = ''>";
+            } else{
+
                 echo "<img src = 'https://www.casadasciencias.org/themes/casa-das-ciencias/assets/images/icons/icon-login-default.png' alt = ''>";
             }
             ?>
