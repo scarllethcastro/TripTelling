@@ -60,29 +60,10 @@ if ($authorized) {
                 <li class="nav-item active">
                     <a class="nav-link" href="index.php?page=home">Navigate<span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="index.php?page=register">Register</a>
-                </li>
-<!--                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>-->
             </ul>
             <?php
             if (Utilisateur::islogged()){
                     ?>
-                    <ul class ="navbar-nav">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target = "dropdown_target" >
-                                Dropdown
-                                <span class ="caret"></span>
-                            </a>
-                            <div class ="dropdown-menu" aria-labelledby = "dropdown_target">
-                                <a class="dropdown-item">Settings</a>
-                                <a class="dropdown-item">Desconect</a> 
-                            </div>
-                        </li>
-                    </ul>
-
                     <ul class="navbar-nav">
                         <li class="nav-item">
                            <?php echo '<form class = "form-inline my-2 my-lg-0" action="index.php?page=profile&user=' . $_SESSION['username'] . '" method="post" >' ?>

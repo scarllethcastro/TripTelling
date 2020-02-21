@@ -4,6 +4,9 @@ $username_fail = false;
 $email_fail = false;
 $password_fail = false;
 $password_verification_fail = false;
+$photo_fail = false;
+
+//var_dump($_FILES);
 
 if (isset($_POST['username']) && $_POST['username'] != "" && //Vérification des champ requis
         isset($_POST['lastname']) && $_POST['lastname'] != "" &&
@@ -23,11 +26,13 @@ if (isset($_POST['username']) && $_POST['username'] != "" && //Vérification des
         $password_fail = true;
     } elseif (!valide_password_verification($_POST['password'], $_POST['up2'])) {
         $password_verification_fail = true;
+    } elseif(!empty($_FILES['photo']['tmp_name']) && !valide_photo($_POST['username'], $_FILES['photo'])) {
+        $photo_fail = true;
     } else {
         $form_values_valid = true;
         Utilisateur::insererUtilisateur($dbh, $_POST['username'], $_POST['password'], $_POST['lastname'], $_POST['firstname'], $_POST['birth'], $_POST['email']);
         ?>
-        <div class ="row">
+        <div class ="row" style="margin-top: 20px">
             <div class="col-md-4 offset-md-4 card text-center" style="width: 30rem;">
                 <div class="card-body">
                     <h5 class="card-title">Vous avez bien été enrégistré(e)!</h5>
@@ -36,7 +41,6 @@ if (isset($_POST['username']) && $_POST['username'] != "" && //Vérification des
                 </div>
             </div>
         </div>
-
         <?php
     }
 }
@@ -69,10 +73,10 @@ if (!$form_values_valid) {
     }
     ?>
 
-<div class="container" style="margin-top: 10px">
+    <div class="container" style="margin-top: 35px">
         <div class="row">
             <div class="col-md-8 offset-md-2">
-                <form class="needs-validation" novalidate action="index.php?page=register" method=post
+                <form class="needs-validation" novalidate action="index.php?page=register" method=post enctype="multipart/form-data"
                       oninput="up2.setCustomValidity(up2.value != password.value ? 'Les mots de passe diffèrent.' : '')">              
                     <!--Nom d'utilisateur-->
                     <div class="form-group row">
@@ -201,12 +205,23 @@ if (!$form_values_valid) {
                             ?>
                         </div>
                     </div>
+                    
+                    <!--Photo de profil-->
+                    <div class="form-group row">
+                        <label for="photo" class="col-sm-4 offset-md-1 col-form-label">Photo de profil</label>
+                        <div class="col-sm-4 offset-md-1 custom-file">
+                            <input type="file" class="custom-file-input" id="photo" name="photo">
+                            <label class="custom-file-label" for="photo">Choisissez le fichier</label>
+                            <small id="photoHelpBlock" class="form-text text-muted">
+                                La photo de profil n'est pas obligatoire.
+                            </small>
+                        </div>
+                    </div>                  
 
-                    <br>
-                    <div class="row">
+                    <div class="row" style="margin-top: 60px">
                         <input type=submit class="col-md-4 offset-md-4 btn btn-primary" value="Créer compte">
                     </div>
-
+                    
                 </form>
 
 
