@@ -183,4 +183,15 @@ function valide_password_verification($motdepasse, $up2){
     } else{
         return true;
     }      
+
+}
+
+class Post{
+    
+    public $idpost;
+    public $loginuser;
+    public $title;
+    public $place;
+    public $duration;
+    public $description;
 }

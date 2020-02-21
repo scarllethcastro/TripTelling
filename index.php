@@ -85,8 +85,8 @@ if ($authorized) {
 
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <form class = "form-inline my-2 my-lg-0">
-                                <button class="btn btn-outline-success" type="button">Profil</button>
+                           <?php echo '<form class = "form-inline my-2 my-lg-0" action="index.php?page=profile&user=' . $_SESSION['username'] . '" method="post" >' ?>
+                                <button class="btn btn-outline-success" type ="submit" >Profil</button>
                             </form>
                         </li>
                     </ul>
