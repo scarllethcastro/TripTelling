@@ -6,7 +6,7 @@ if (!isset($_SESSION['initiated'])) {  // Si la personne vient d'arriver sur le 
     $_SESSION['initiated'] = true;     // Et on commence sa session
 }
 // Décommenter la ligne suivante pour afficher le tableau $_SESSION pour le debuggage
- var_dump($_SESSION);
+// var_dump($_SESSION);
 // Les "requires" nécessaires
 require('utilities/utils.php');
 require('utilities/printForms.php');

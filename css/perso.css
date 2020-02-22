@@ -57,9 +57,15 @@ td{
     -webkit-filter: blur(5px);
 }
 
+.list-group .active {
+    background-color: #00e6e6;
+    color: white;
+    border: 0.5px solid white;
+}
+
 /*Profile column in "profile" */
 
-.column_profile {
+/*.column_profile {
     width: 22%;
     height: 100%;
     border: 1px solid black;
@@ -89,10 +95,6 @@ td{
     left: 190px;
     top: -100px;
 }
-.column_profile .profile_image img {
-    width: 200px;
-    height: 200px;
-}
 .column_profile .up .h5 {
     font-family: Times New Roman;
     top : 130px;
@@ -112,22 +114,182 @@ td{
     margin: 10px 10px 10px 10px;
     padding: 10 px 10px 10px 10px;
     display: inline-block;    
-}
+}*/
 
 
-.posts {
+/*.posts {
     width: 78%;
     height: 100%;
     float: left;
     background-color: lavenderblush;
+}*/
+/***
+User Profile Sidebar by @keenthemes
+A component of Metronic Theme - #1 Selling Bootstrap 3 Admin Theme in Themeforest: http://j.mp/metronictheme
+Licensed under MIT
+***/
+
+body {
+    background: #F1F3FA;
 }
 
-.posts .container-fluid .postcard {
-    margin: 15px 10px 10px 10px;
-    display: inline-block;   
-    height: 150px;
-    background-color: #ebebeb;
-    border: 1.5px solid gray;
-    border-radius: 5mm;
-   
+/* Profile container */
+.profile {
+    margin: 10px 0;
 }
+
+/* Profile sidebar */
+.profile-sidebar {
+    padding: 20px 0 10px 0;
+    background: #fff;
+}
+/*
+.profile-userpic img {
+  float: none;
+  width: 50%;
+  height: 50%;
+ -webkit-border-radius : 50%;
+  -moz-border-radius: 50%; 
+  border-radius: 50% ;
+}*/
+
+.profile-usertitle {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.profile-usertitle-name {
+    color: #5a7391;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+
+.profile-usertitle-job {
+    text-transform: uppercase;
+    color: #5b9bd1;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.profile-userbuttons {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.profile-userbuttons .btn {
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px 15px;
+    margin-right: 5px;
+}
+
+.profile-userbuttons .btn:last-child {
+    margin-right: 0px;
+}
+
+.profile-usermenu {
+    margin-top: 30px;
+}
+
+.profile-usermenu ul li {
+    border-bottom: 1px solid #f0f4f7;
+}
+
+.profile-usermenu ul li:last-child {
+    border-bottom: none;
+}
+
+.profile-usermenu ul li a {
+    color: #93a3b5;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.profile-usermenu ul li a i {
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+.profile-usermenu ul li a:hover {
+    background-color: #fafcfd;
+    color: #5b9bd1;
+}
+
+.profile-usermenu ul li.active {
+    border-bottom: none;
+}
+
+.profile-usermenu ul li.active a {
+    color: #5b9bd1;
+    background-color: #f6f9fb;
+    border-left: 2px solid #5b9bd1;
+    margin-left: -2px;
+}
+
+/* Profile Content */
+.profile-content {
+    padding: 20px;
+    background: #fff;
+    min-height: 460px;
+}
+
+.img-responsive{
+    margin: 5%;
+    height: auto;
+    max-width: 90%;
+    border: 1px solid grey;
+    border-radius: 50% !important;
+    -webkit-border-radius : 50% !important;
+    -moz-border-radius: 50% !important;
+}
+
+.postitle {
+    font-family: Georgia;
+    font-size: 20pt;
+}
+.postsubtitle {
+    
+    font-family: Georgie;
+    font-size: 14pt;
+    color: #c6c8ca;
+}
+
+.posttext{
+    font-family: Georgia;
+    font-size: 12pt;
+}
+
+.prof {
+    margin-left: auto; 
+    margin-right: auto;
+}
+
+
+
+@media (min-width: 576px){
+    .prof {
+        max-width: 620px;
+    }
+}
+
+@media (min-width: 768px){
+    .prof{
+        max-width: 850px;
+    }
+}
+
+@media (min-width: 992px){
+    .prof {
+        max-width: 1200px;
+    }
+}
+@media (min-width: 1200px){
+    .prof {
+        max-width: 1450px;
+    }
+}
+
+

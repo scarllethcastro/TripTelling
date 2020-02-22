@@ -1,3 +1,5 @@
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <?php
 $user = Utilisateur::getUtilisateur($dbh, $_GET['user']);
 // Pagination et requetes des posts
@@ -20,133 +22,139 @@ $numrows = $sth->rowCount();
 $totalposts = Post::numposts($dbh, $user->username);
 $totalpages = ceil($totalposts / $itemsperpage);
 ?>
-<div class ="container-fluid" style="  height: 800px">
-    <div class =" column_profile">
-        <div class ='up'>
-            <div class ="username" >
-                <?php echo "<h5>" . $user->username . " </h5>" ?>
-            </div>            
-        </div>
-        <div class ='profile_image'>
-            <?php
-            if(file_exists('images/avatars/'.$user->username.'.jpg')){
-                echo "<img src = 'images/avatars/" .$user->username. ".jpg' alt = ''>";
-            } else{
-
-                echo "<img src = 'https://www.casadasciencias.org/themes/casa-das-ciencias/assets/images/icons/icon-login-default.png' alt = ''>";
-            }
-            ?>
-
-        </div>
-        <div class ='down'> 
-            <div class ="container">
-                <div class ="row justify-content-end">
-                    <div class ="col-md-8">
-                        <?php echo "<h2>" . $user->firstname . " " . $user->lastname . " </h2>"; ?>
-                    </div>
-
+<div class="prof" >
+    <div class="row profile">
+        <div class="col-md-3">
+            <div class="profile-sidebar">
+                <!-- SIDEBAR USERPIC -->
+                <div class="">
+                    <?php if (file_exists('images/avatars/' . $user->username . '.jpg')) { ?>
+                        <img src="images/avatars/<?php echo $user->username ?>.jpg" class="img-responsive" alt=""> <?php } else {
+                        ?>
+                        <img src ="https://www.casadasciencias.org/themes/casa-das-ciencias/assets/images/icons/icon-login-default.png" class="img-responsive" alt = ''> 
+                    <?php } ?>
                 </div>
-                <div class ="row justify-content-end">
-                    <div class ="col-md-8">
-
+                <!-- END SIDEBAR USERPIC -->
+                <!-- SIDEBAR USER TITLE -->
+                <div class="profile-usertitle">
+                    <div class="profile-usertitle-name">
+                        <?php echo $user->firstname;
+                              echo " ". $user->lastname;?>
+                    </div>
+                    <div class="profile-usertitle-job">
+                        <?php echo $user->username ;?>
                     </div>
                 </div>
-                <div class ="row justify-content-end">
+                <!-- END SIDEBAR USER TITLE -->
+                <!-- SIDEBAR BUTTONS -->
+                <div class="profile-userbuttons">
+                    <button type="button" class="btn btn-success btn-sm">Follow</button>
+                    <button type="button" class="btn btn-danger btn-sm">Message</button>
+                </div>
+                <!-- END SIDEBAR BUTTONS -->
+                <!-- SIDEBAR MENU -->
+                <div class="container" style ="margin-top: 5%; margin-bottom:5%;">
+                    <div class="row">
+                        <div class="col">
+                            <div class="list-group" id="list-tab" role="tablist">
+                                <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Home</a>
+                                <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Profile</a>
+                                <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Messages</a>
+                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Settings</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END MENU -->
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="profile-content">
+                <div class ="justify-content-around">
+                    <?php
+                    if ($totalposts > 0) {
+                        do {
+                            ?>
+                            <div class="row justify-content-between" style="margin: 1%">
+                                <div class ="col-md-4 col-lg-4">
+                                    <img class="rounded" style = "display: block; margin-left: auto; margin-right: auto; width: 100%; height: auto;" alt=""<?php echo "src='avatars/" . $post->idpost . ".jpg'" ?>  >
 
+                                </div> 
+                                <div class ="col-md-8 col-lg-8">
+                                    <div class ="row" style= "max-height:40%; text-align: left;margin: 1%;">
+                                        <h1 class="postitle"><?php echo $post->title ?></h1>
+                                    </div>
+                                    <div class='row' style='text-align: left;margin: 1%;'>
+                                        <h3 class="postsubtitle"> <?php echo $post->place ?> </h3>
+                                    </div>
+                                    <div class='row' style ='max-height: 10%;margin: 1%;'>
+                                        <span class="badge badge-pill badge-success">
+                                             <?php
+                            if ($post->money != null) {
+                                echo '' . Post::generatemoneysimbol($post->money);
+                            }
+                            ?>
+                                        </span>
+                                        <span class="badge badge-pill badge-secondary"> <?php echo $post->duration ?></span>
+                                    </div>
+                                    <div class='row ' style='max-height: 40%; text-align: left; margin: 5% 1% 1% 1%;'>
+                                        <a class="posttext"> <?php echo $post->description ?> </a>
+                                    </div>
+                                    <div class='row justify-content-between' style ='max-height: 10%; margin: 1%;'>
+                                        <div class='col-3'>
+                                            <a style="color: #c8cbcf;"><?php echo $post->loginuser ?></a>
+                                        </div>
+                                        <div class="col-3">
+                                            <a href="#" class="btn" style = "border-radius: 4mm;">Voir post</a>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                    <?php } while ($post = $sth->fetch())  ?>
+
+                        <?php
+                        if ($pagenum == $totalpages) {
+                            $next = $totalpages;
+                        } else {
+                            $next = $pagenum + 1;
+                        }
+                        if ($pagenum == 0) {
+                            $back = 0;
+                        } else {
+                            $back = $pagenum - 1;
+                        }
+                        ?>
+                        <nav  aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item"><a class="page-link" href="index.php?page=profile&user=<?php echo $user->username ?>&pagenum=<?php echo $back ?>" >Previous</a></li>
+                                <?php
+                                $style = '';
+                                for ($i = 0; $i < $totalpages; $i++) {
+                                    if ($pagenum == $i) {
+                                        $style = 'active';
+                                    } else {
+                                        $style = '';
+                                    }
+                                    echo '<li class="page-item ' . $style . ' " ><a class="page-link" href="index.php?page=profile&user=' . $user->username . '&pagenum=' . $i . '">' . $i . '</a></li>';
+                                }
+                                ?>
+                                <li class="page-item"><a class="page-link" href="index.php?page=profile&user=<?php echo $user->username ?>&pagenum=<?php echo $next ?>" >Next</a></li>
+                            </ul>
+                        </nav>
+                    <?php } ?>
 
                 </div>
 
             </div>
 
-        </div>
-    </div>
-
-    <div class ="posts justify-content-around">
-        <div class ="container-fluid">
-            <nav class="navbar navbar-expand-lg navbar-light" style = "background-color: #17a2b8 ; border: 1.5px solid #0056b3"> 
-
-                <h2 style=" font-family: Comic Sans MS; font-style: italic"> Vos postages</h2>      
-            </nav>
-
-            <?php
-            if ($totalposts > 0) {
-                do {
-                    ?>
-                    <div class="row justify-content-around" style = "margin-top: 10px">
-                        <div class="col-md-8 col-lg-8 col-sm-10">
-                            <div class="card text-center" style = " border: 1px solid grey; border-radius: 9mm">
-                                <div class="card-header">
-        <?php echo $post->loginuser; ?>
-                                </div>
-                                <div class="card-body">
-                                    <img style="width: 15%; height: 80%; float: left; border: 1px solid black; margin-top:1%; " <?php echo "src='avatars/" . $post->idpost . ".jpg'" ?> >
-                                    <h5 class="card-title"> <?php echo $post->title ?> </h5>
-                                    <p class="card-text"><?php echo $post->description ?></p>
-
-                                </div>
-                                <div class="card-footer text-muted">
-                                    <div class ="row justify-content-between">
-                                        <div class="col-3" >
-                                            Posted on 22/03/2019
-                                        </div>
-                                        <div class="col-4 justify-content-end">
-                                            <span class="badge badge-pill badge-success">
-                                                <?php
-                                                if ($post->money != null) {
-                                                    echo '' . Post::generatemoneysimbol($post->money);
-                                                }
-                                                ?>
-                                            </span>
-                                            <span class="badge badge-pill badge-secondary"><?php echo $post->duration ?> </span>
-                                            <a href="#" class="btn btn-primary" style = "border-radius: 4mm;">Voir post</a>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                <?php } while ($post = $sth->fetch()) ?>
-
-                <?php
-                if ($pagenum == $totalpages) {
-                    $next = $totalpages;
-                } else {
-                    $next = $pagenum + 1;
-                }
-                if ($pagenum == 0) {
-                    $back = 0;
-                } else {
-                    $back = $pagenum - 1;
-                }
-                ?>
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="index.php?page=profile&user=<?php echo $user->username ?>&pagenum=<?php echo $back ?>" >Previous</a></li>
-                        <?php
-                        $style = '';
-                        for ($i = 0; $i < $totalpages; $i++) {
-                            if ($pagenum == $i) {
-                                $style = 'active';
-                            } else {
-                                $style = '';
-                            }
-                            echo '<li class="page-item ' . $style . ' " ><a class="page-link" href="index.php?page=profile&user=' . $user->username . '&pagenum=' . $i . '">' . $i . '</a></li>';
-                        }
-                        ?>
-                        <li class="page-item"><a class="page-link" href="index.php?page=profile&user=<?php echo $user->username ?>&pagenum=<?php echo $next ?>" >Next</a></li>
-                    </ul>
-                </nav>
-<?php } ?>
-
 
         </div>
-
-
     </div>
 </div>
+
+
 
 
