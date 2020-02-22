@@ -6,7 +6,7 @@ if (!isset($_SESSION['initiated'])) {  // Si la personne vient d'arriver sur le 
     $_SESSION['initiated'] = true;     // Et on commence sa session
 }
 // Décommenter la ligne suivante pour afficher le tableau $_SESSION pour le debuggage
-// var_dump($_SESSION);
+ var_dump($_SESSION);
 // Les "requires" nécessaires
 require('utilities/utils.php');
 require('utilities/printForms.php');
@@ -33,7 +33,7 @@ if (array_key_exists('page', $_GET)) {
 if ($authorized) {
     $pageTitle = getPageTitle($askedPage);
     generateHTMLHeader($pageTitle, "css/perso.css");
-
+    
     // Traitement des contenus de formulaires
     if (isset($_GET['todo'])) { 
         if ($_GET['todo'] == 'login' && !Utilisateur::islogged()) {

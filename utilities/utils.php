@@ -19,8 +19,7 @@ function generateHTMLHeader($titre, $feuilledestyle) {
          <link href="css/bootstrap.min.css" rel="stylesheet">
          <!-- Mon CSS Perso -->
          <link rel="stylesheet" type="text/css" href=$feuilledestyle>
-         
-         </head>
+        </head>
          <body>
 CHAINE_DE_FIN;
     echo PHP_EOL;
@@ -48,7 +47,12 @@ $page_list = array(
     array(
         "name" => "profile",
         "title" => "Votre profil",
+        "menutitle" => "Votre profil"),
+    array(
+        "name" => "newprofile",
+        "title" => "Votre profil",
         "menutitle" => "Votre profil")
+    
 );
 if (isset($_SESSION['username']))
     $page_list[3]["title"] = $_SESSION['username'];
@@ -116,13 +120,20 @@ class Utilisateur {
     public static function insererUtilisateur($dbh, $username, $password, $last, $first, $birth, $email) {
         $lastname = ucfirst(strtolower($last));
         $firstname = ucfirst(strtolower($first));
+        var_dump($password);
+        echo $password;
         $password_encrypted = password_hash($password, PASSWORD_DEFAULT);
+        var_dump($password_encrypted);
         $sth = $dbh->prepare("INSERT INTO `utilisateurs` (`username`, `password`, `lastname`, `firstname`, `birth`, `email`) VALUES(?,?,?,?,?,?)");
         $sth->execute(array($username, $password_encrypted, $lastname, $firstname, $birth, $email));
     }
 
     public static function testerMdp($dbh, $user, $mdp) {
+        var_dump($mdp);
+        var_dump(password_hash($mdp, PASSWORD_DEFAULT));
+        var_dump(password_verify($mdp, $user->password));
         return password_verify($mdp, $user->password);
+        
     }
 
     public static function islogged() {
@@ -255,11 +266,8 @@ function valide_photo($username, $photo) {
         //echo $larg . " " . $haut . " " . $type . " " . $attr;
         // Vérification du type: JPEG => type=2
         if ($type == 2) {
-            if (move_uploaded_file($photo['tmp_name'], 'avatars/' . $username . '.jpg')) {
-                echo "Copie réussie";
-                return true;
             // Vérification de la taille
-            $taille_maxi = 100000;
+            $taille_maxi = 1800000;
             $taille = filesize($photo['tmp_name']);
             if ($taille > $taille_maxi) {
                 //echo "fichier trop volumineux!";
@@ -280,4 +288,4 @@ function valide_photo($username, $photo) {
         return 3;
     }
 }
-}
+

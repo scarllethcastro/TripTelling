@@ -147,3 +147,6 @@ $totalpages = ceil($totalposts / $itemsperpage);
 
 
     </div>
+</div>
+
+
