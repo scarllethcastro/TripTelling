@@ -84,7 +84,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
                                     <div class ="row" style= "max-height:40%; text-align: left;margin: 1%;">
                                         <h1 class="postitle"><?php echo $post->title ?></h1>
                                     </div>
-                                    <div class='row' style='text-align: left;margin: 1%;'>
+                                    <div class='row' style='text-align: left; margin:1%'>
                                         <h3 class="postsubtitle"> <?php echo $post->place ?> </h3>
                                     </div>
                                     <div class='row' style ='max-height: 10%;margin: 1%;'>
@@ -95,9 +95,9 @@ $totalpages = ceil($totalposts / $itemsperpage);
                             }
                             ?>
                                         </span>
-                                        <span class="badge badge-pill badge-secondary"> <?php echo $post->duration ?></span>
+                                        <span class="badge badge-pill badge-secondary"> <?php echo $post->duration ?> jours</span>
                                     </div>
-                                    <div class='row ' style='max-height: 40%; text-align: left; margin: 5% 1% 1% 1%;'>
+                                    <div class='row ' style='max-height: 40%; text-align: left; margin: 2% 1% 1% 1%;'>
                                         <a class="posttext"> <?php echo $post->description ?> </a>
                                     </div>
                                     <div class='row justify-content-between' style ='max-height: 10%; margin: 1%;'>
@@ -116,8 +116,8 @@ $totalpages = ceil($totalposts / $itemsperpage);
                     <?php } while ($post = $sth->fetch())  ?>
 
                         <?php
-                        if ($pagenum == $totalpages) {
-                            $next = $totalpages;
+                        if ($pagenum == $totalpages-1) {
+                            $next = $totalpages-1;
                         } else {
                             $next = $pagenum + 1;
                         }
