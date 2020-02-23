@@ -138,6 +138,7 @@ class Utilisateur {
         else
             return false;
     }
+
 }
 
 //Vérifier l'utilisation des caractères spéciaux dans le mot de passe
@@ -220,6 +221,14 @@ class Post {
         return $sth->rowCount();
     }
 
+    public static function numpostsconstraint($dbh, $sql_code, $array) {
+        $sth = $dbh->prepare($sql_code);
+        $sth->setFetchMode(PDO::FETCH_CLASS, 'Post');
+        $sth->execute($array);
+        $post = $sth->fetch();
+        return $sth->rowCount();
+    }
+
     public static function getpost($dbh, $idpost) {
         $sql_code = "SELECT * FROM `posts` WHERE idpost = ?";
         $sth = $dbh->prepare($sql_code);
@@ -257,7 +266,8 @@ class Post {
 
 }
 
-class Stop{
+class Stop {
+
     public $idstop;
     public $idpost;
     public $description;
@@ -265,11 +275,7 @@ class Stop{
     public $adress;
     public $time;
     public $title;
-    
-    
-    
-            
-    
+
 }
 
 // Traitement de la photo de profil

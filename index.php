@@ -28,7 +28,6 @@ if (array_key_exists('page', $_GET)) {
     }
 }
 
-
 // Si la page demandée est valide
 if ($authorized) {
     $pageTitle = getPageTitle($askedPage);
@@ -70,19 +69,16 @@ if ($authorized) {
                                 <button class="btn btn-outline-success" type ="submit" >Profil</button>
                         </li>
                     </ul>
-                    <!--                    <ul class="navbar-nav">
-                                            <li class="nav-item" -->
+                                     
                     <?php
                     if ($askedPage == 'welcome') {
                     $askedPage = 'home';
-                    }
-                    printLogoutForm($askedPage);
-                    ?>
-                    <!--                        </li>
-                                        </ul>-->
-
-
-                    <?php
+                    }?>
+            
+                    <form></form> <!-- Form pour que le prochain formm marche (??) -->
+                    <?php printLogoutForm($askedPage);
+                    
+                            
             } else {
                 if ($askedPage == 'profile') {
                     $askedPage = 'welcome';
