@@ -1,5 +1,1 @@
 <?php
-
-
-
-printLogoutForm($askedPage);

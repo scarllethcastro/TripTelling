@@ -51,8 +51,11 @@ $page_list = array(
     array(
         "name" => "newprofile",
         "title" => "Votre profil",
+        "menutitle" => "Votre profil"),
+    array(
+        "name" => "post",
+        "title" => "Votre profil",
         "menutitle" => "Votre profil")
-    
 );
 if (isset($_SESSION['username']))
     $page_list[3]["title"] = $_SESSION['username'];
@@ -205,9 +208,9 @@ class Post {
         $sth->execute(array($username));
         $post = $sth->fetch();
         return $post;
-        }
+    }
 
-        public static function numposts($dbh, $username){
+    public static function numposts($dbh, $username) {
 
         $sql_code = "SELECT * FROM `posts` WHERE loginuser = ?";
         $sth = $dbh->prepare($sql_code);
@@ -215,37 +218,58 @@ class Post {
         $sth->execute(array($username));
         $post = $sth->fetch();
         return $sth->rowCount();
-        
-        
+    }
+
+    public static function getpost($dbh, $idpost) {
+        $sql_code = "SELECT * FROM `posts` WHERE idpost = ?";
+        $sth = $dbh->prepare($sql_code);
+        $sth->setFetchMode(PDO::FETCH_CLASS, 'Post');
+        $sth->execute(array($idpost));
+        $post = $sth->fetch();
+        return $post;
+    }
+
+    public static function generatemoneysimbol($money) {
+
+        switch ($money) {
+            case '1': return '$';
+            case '1.5': return '$-$$';
+            case '2' : return '$$';
+            case '2.5': return '$$-$$$';
+            case '3': return '$$$';
+            case '3.5': return '$$$-$$$$';
+            case '4': return '$$$$';
         }
-        
-        public static function generatemoneysimbol ($money){
-            
-            switch ($money) {
-                case '1': return '$';
-                case '1.5': return '$-$$';
-                case '2' : return '$$';
-                case '2.5': return '$$-$$$';
-                case '3': return '$$$';
-                case '3.5': return '$$$-$$$$';
-                case '4': return '$$$$';
-            }
-            
+    }
+
+    public static function generatemoneynumber($simbol) {
+
+        switch ($simbol) {
+            case '$': return '1';
+            case '$-$$': return '1.5';
+            case '$$' : return '2';
+            case '$$-$$$': return '2.5';
+            case '$$$': return '3';
+            case '$$$-$$$$': return '3.5';
+            case '$$$$': return '4';
         }
-        
-          public static function generatemoneynumber($simbol){
+    }
+
+}
+
+class Stop{
+    public $idstop;
+    public $idpost;
+    public $description;
+    public $money;
+    public $adress;
+    public $time;
+    public $title;
+    
+    
+    
             
-            switch ($simbol) {
-                case '$': return '1';
-                case '$-$$': return '1.5';
-                case '$$' : return '2';
-                case '$$-$$$': return '2.5';
-                case '$$$': return '3';
-                case '$$$-$$$$': return '3.5';
-                case '$$$$': return '4';
-            }
-            
-        }
+    
 }
 
 // Traitement de la photo de profil
@@ -280,4 +304,3 @@ function valide_photo($username, $photo) {
         return 3;
     }
 }
-
