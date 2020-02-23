@@ -27,7 +27,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
         <div class="col-md-3">
             <div class="profile-sidebar">
                 <!-- SIDEBAR USERPIC -->
-                <div class="">
+                <div class="" style="text-align: center">
                     <?php if (file_exists('images/avatars/' . $user->username . '.jpg')) { ?>
                         <img src="images/avatars/<?php echo $user->username ?>.jpg" class="img-responsive" alt=""> <?php } else {
                         ?>
@@ -39,28 +39,28 @@ $totalpages = ceil($totalposts / $itemsperpage);
                 <div class="profile-usertitle">
                     <div class="profile-usertitle-name">
                         <?php echo $user->firstname;
-                              echo " ". $user->lastname;?>
+                        echo " " . $user->lastname;
+                        ?>
                     </div>
                     <div class="profile-usertitle-job">
-                        <?php echo $user->username ;?>
+<?php echo $user->username; ?>
                     </div>
                 </div>
                 <!-- END SIDEBAR USER TITLE -->
                 <!-- SIDEBAR BUTTONS -->
-                <div class="profile-userbuttons">
+<!--                <div class="profile-userbuttons">
                     <button type="button" class="btn btn-success btn-sm">Follow</button>
                     <button type="button" class="btn btn-danger btn-sm">Message</button>
-                </div>
+                </div>-->
                 <!-- END SIDEBAR BUTTONS -->
                 <!-- SIDEBAR MENU -->
                 <div class="container" style ="margin-top: 5%; margin-bottom:5%;">
                     <div class="row">
                         <div class="col">
                             <div class="list-group" id="list-tab" role="tablist">
-                                <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Home</a>
-                                <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Profile</a>
-                                <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Messages</a>
-                                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Settings</a>
+                                <a class="list-group-item list-group-item-action button-page active" id="posts" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Posts</a>
+                                <a class="list-group-item list-group-item-action button-page" id="new-post" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Nouveau post</a>
+                                <a class="list-group-item list-group-item-action button-page" id="settings" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Gérer compte</a>
                             </div>
                         </div>
                     </div>
@@ -70,7 +70,13 @@ $totalpages = ceil($totalposts / $itemsperpage);
         </div>
         <div class="col-md-9">
             <div class="profile-content">
-                <div class ="justify-content-around">
+                <!--Content posts-->
+                <div class ="justify-content-around active" id="content-posts">       
+                    <div class="shadow-none p-3 mb-5 bg-light rounded">
+                        <h5 class="text-muted" style="text-align: center">
+                            POSTS
+                        </h5>
+                    </div>
                     <?php
                     if ($totalposts > 0) {
                         do {
@@ -89,11 +95,11 @@ $totalpages = ceil($totalposts / $itemsperpage);
                                     </div>
                                     <div class='row' style ='max-height: 10%;margin: 1%;'>
                                         <span class="badge badge-pill badge-success">
-                                             <?php
-                            if ($post->money != null) {
-                                echo '' . Post::generatemoneysimbol($post->money);
-                            }
-                            ?>
+                                            <?php
+                                            if ($post->money != null) {
+                                                echo '' . Post::generatemoneysimbol($post->money);
+                                            }
+                                            ?>
                                         </span>
                                         <span class="badge badge-pill badge-secondary"> <?php echo $post->duration ?> jours</span>
                                     </div>
@@ -113,11 +119,11 @@ $totalpages = ceil($totalposts / $itemsperpage);
                                 </div>
 
                             </div>
-                    <?php } while ($post = $sth->fetch())  ?>
+                        <?php } while ($post = $sth->fetch()) ?>
 
                         <?php
-                        if ($pagenum == $totalpages-1) {
-                            $next = $totalpages-1;
+                        if ($pagenum == $totalpages - 1) {
+                            $next = $totalpages - 1;
                         } else {
                             $next = $pagenum + 1;
                         }
@@ -144,8 +150,34 @@ $totalpages = ceil($totalposts / $itemsperpage);
                                 <li class="page-item"><a class="page-link" href="index.php?page=profile&user=<?php echo $user->username ?>&pagenum=<?php echo $next ?>" >Next</a></li>
                             </ul>
                         </nav>
-                    <?php } ?>
+                    <?php } else {
+                        ?>
+<!--                        <div class="shadow-sm p-3 mb-5 bg-white rounded">-->
+                            <h6 class="text-muted" style="font-style: italic; text-align: center">
+                                Aucun post
+                            </h6>
+<!--                        </div>-->
+                        <?php }
+                    ?>
 
+                </div>
+                
+                <!--Content new post-->
+                <div class ="justify-content-around" id="content-new-post">
+                    <div class="shadow-none p-3 mb-5 bg-light rounded">
+                        <h5 class="text-muted" style="text-align: center">
+                            Nouveau post
+                        </h5>
+                    </div>
+                </div>
+                
+                <!--Content settings-->
+                <div class ="justify-content-around" id="content-settings">
+                    <div class="shadow-none p-3 mb-5 bg-light rounded">
+                        <h5 class="text-muted" style="text-align: center">
+                            Gérer compte
+                        </h5>
+                    </div>
                 </div>
 
             </div>
@@ -154,6 +186,32 @@ $totalpages = ceil($totalposts / $itemsperpage);
         </div>
     </div>
 </div>
+
+<script>
+    $(function(){
+        
+        $('#content-new-post').hide();
+        $('#content-settings').hide();
+         
+        $('.button-page').on('click',function(){
+            //Discover which button was clicked
+            var $buttonId = $(this).attr('id');
+            //Discover which is the current content
+            var $activeId = $(this).closest('.list-group').find('.active').attr('id');
+            //Fade out current content
+            $('#content-'+$activeId).hide(function(){
+                //Make current content inactive
+                $(this).removeClass('active');
+                //Show the corresponding content
+                $('#content-'+$buttonId).show(function(){
+                    //Make corresponding content active
+                    $(this).addClass('active');
+                });
+            });
+            
+        });
+    });
+</script>
 
 
 

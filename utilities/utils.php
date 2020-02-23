@@ -120,20 +120,13 @@ class Utilisateur {
     public static function insererUtilisateur($dbh, $username, $password, $last, $first, $birth, $email) {
         $lastname = ucfirst(strtolower($last));
         $firstname = ucfirst(strtolower($first));
-        var_dump($password);
-        echo $password;
         $password_encrypted = password_hash($password, PASSWORD_DEFAULT);
-        var_dump($password_encrypted);
         $sth = $dbh->prepare("INSERT INTO `utilisateurs` (`username`, `password`, `lastname`, `firstname`, `birth`, `email`) VALUES(?,?,?,?,?,?)");
         $sth->execute(array($username, $password_encrypted, $lastname, $firstname, $birth, $email));
     }
 
     public static function testerMdp($dbh, $user, $mdp) {
-        var_dump($mdp);
-        var_dump(password_hash($mdp, PASSWORD_DEFAULT));
-        var_dump(password_verify($mdp, $user->password));
         return password_verify($mdp, $user->password);
-        
     }
 
     public static function islogged() {
@@ -142,7 +135,6 @@ class Utilisateur {
         else
             return false;
     }
-
 }
 
 //Vérifier l'utilisation des caractères spéciaux dans le mot de passe
