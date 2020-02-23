@@ -55,8 +55,13 @@ $page_list = array(
     array(
         "name" => "post",
         "title" => "Votre profil",
-        "menutitle" => "Votre profil")
+        "menutitle" => "Votre profil"),
+    array(
+        "name" => "editprofile",
+        "title" => "Éditer profil",
+        "menutitle" => "Éditer profil")
 );
+
 if (isset($_SESSION['username']))
     $page_list[3]["title"] = $_SESSION['username'];
 
@@ -121,8 +126,8 @@ class Utilisateur {
     }
 
     public static function insererUtilisateur($dbh, $username, $password, $last, $first, $birth, $email) {
-        $lastname = ucfirst(strtolower($last));
-        $firstname = ucfirst(strtolower($first));
+        $lastname = ucfirst($last);
+        $firstname = ucfirst($first);
         $password_encrypted = password_hash($password, PASSWORD_DEFAULT);
         $sth = $dbh->prepare("INSERT INTO `utilisateurs` (`username`, `password`, `lastname`, `firstname`, `birth`, `email`) VALUES(?,?,?,?,?,?)");
         $sth->execute(array($username, $password_encrypted, $lastname, $firstname, $birth, $email));
@@ -138,8 +143,16 @@ class Utilisateur {
         else
             return false;
     }
+    
+    public static function editProfile($dbh, $username, $last, $first, $birth) {
+        $lastname = ucfirst($last);
+        $firstname = ucfirst($first);
+        $sth = $dbh->prepare("UPDATE `utilisateurs` SET `lastname` = ?, `firstname` = ?, `birth` = ? WHERE `username` = ?");
+        $sth->execute(array($lastname, $firstname, $birth, $username));
+    }
 
 }
+
 
 //Vérifier l'utilisation des caractères spéciaux dans le mot de passe
 function valide_password($motdepasse) {

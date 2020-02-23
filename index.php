@@ -77,12 +77,10 @@ if ($authorized) {
             
                     <form></form> <!-- Form pour que le prochain formm marche (??) -->
                     <?php printLogoutForm($askedPage);
-                    
-                            
             } else {
-                if ($askedPage == 'profile') {
-                    $askedPage = 'welcome';
-                }
+//                if ($askedPage == 'profile') {
+//                    $askedPage = 'welcome';
+//                }
                 printLoginForm();
                 if($askedPage != 'welcome' && $askedPage != 'register'){
                     printAskRegisterForm();
