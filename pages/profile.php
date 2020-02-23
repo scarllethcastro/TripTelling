@@ -77,7 +77,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
                             ?>
                             <div class="row justify-content-between" style="margin: 1%">
                                 <div class ="col-md-4 col-lg-4">
-                                    <img class="rounded" style = "display: block; margin-left: auto; margin-right: auto; width: 100%; height: auto;" alt=""<?php echo "src='avatars/" . $post->idpost . ".jpg'" ?>  >
+                                    <img class="rounded" style = "display: block; margin-left: auto; margin-right: auto; width: 100%; height: auto;" alt=""<?php echo "src='images/posts/" . $post->idpost . ".jpg'" ?>  >
 
                                 </div> 
                                 <div class ="col-md-8 col-lg-8">
@@ -105,7 +105,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
                                             <a style="color: #c8cbcf;"><?php echo $post->loginuser ?></a>
                                         </div>
                                         <div class="col-3">
-                                            <a href="#" class="btn" style = "border-radius: 4mm;">Voir post</a>
+                                            <a href="index.php?page=post&idpost=<?php echo $post->idpost ?>" class="btn" style = "border-radius: 4mm;">Voir post</a>
                                         </div>
                                     </div>
 
