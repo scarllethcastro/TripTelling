@@ -1,7 +1,18 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <?php
-$user = Utilisateur::getUtilisateur($dbh, $_GET['user']);
+if (isset($_GET['user'])) {
+    $user = Utilisateur::getUtilisateur($dbh, $_GET['user']);
+    if ($user == null) {
+        echo "<h4 style='text-align: center; margin-top: 1rem'> Cet utilisateur n'existe pas </h4>";
+        return;
+    }
+} elseif (Utilisateur::islogged()) {
+    $user = Utilisateur::getUtilisateur($dbh, $_SESSION['username']);
+} else {
+    echo "<h4 style='text-align: center; margin-top: 1rem'> Page non autorisée </h4>";
+    return;
+}
 // Pagination et requetes des posts
 if (isset($_GET['pagenum'])) {
     $pagenum = intval($_GET['pagenum']);
@@ -28,7 +39,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
             <div class="profile-sidebar">
                 <!-- SIDEBAR USERPIC -->
                 <div class="" style="text-align: center">
-                    <?php if (file_exists('images/avatars/' . $user->username . '.jpg')) { ?>
+                    <?php if (file_exists('images/avatars/'.$user->username.'.jpg')) { ?>
                         <img src="images/avatars/<?php echo $user->username ?>.jpg" class="img-responsive" alt=""> <?php } else {
                         ?>
                         <img src ="https://www.casadasciencias.org/themes/casa-das-ciencias/assets/images/icons/icon-login-default.png" class="img-responsive" alt = ''> 
@@ -38,20 +49,21 @@ $totalpages = ceil($totalposts / $itemsperpage);
                 <!-- SIDEBAR USER TITLE -->
                 <div class="profile-usertitle">
                     <div class="profile-usertitle-name">
-                        <?php echo $user->firstname;
+                        <?php
+                        echo $user->firstname;
                         echo " " . $user->lastname;
                         ?>
                     </div>
                     <div class="profile-usertitle-job">
-<?php echo $user->username; ?>
+                        <?php echo $user->username; ?>
                     </div>
                 </div>
                 <!-- END SIDEBAR USER TITLE -->
                 <!-- SIDEBAR BUTTONS -->
-<!--                <div class="profile-userbuttons">
-                    <button type="button" class="btn btn-success btn-sm">Follow</button>
-                    <button type="button" class="btn btn-danger btn-sm">Message</button>
-                </div>-->
+                <!--                <div class="profile-userbuttons">
+                                    <button type="button" class="btn btn-success btn-sm">Follow</button>
+                                    <button type="button" class="btn btn-danger btn-sm">Message</button>
+                                </div>-->
                 <!-- END SIDEBAR BUTTONS -->
                 <!-- SIDEBAR MENU -->
                 <div class="container" style ="margin-top: 5%; margin-bottom:5%;">
@@ -152,63 +164,74 @@ $totalpages = ceil($totalposts / $itemsperpage);
                         </nav>
                     <?php } else {
                         ?>
-<!--                        <div class="shadow-sm p-3 mb-5 bg-white rounded">-->
-                            <h6 class="text-muted" style="font-style: italic; text-align: center">
-                                Aucun post
-                            </h6>
-<!--                        </div>-->
-                        <?php }
+                        <!--                        <div class="shadow-sm p-3 mb-5 bg-white rounded">-->
+                        <h6 class="text-muted" style="font-style: italic; text-align: center">
+                            Aucun post
+                        </h6>
+                        <!--                        </div>-->
+                    <?php }
                     ?>
 
                 </div>
-                
+
                 <!--Content new post-->
                 <div class ="justify-content-around" id="content-new-post">
                     <div class="shadow-none p-3 mb-5 bg-light rounded">
                         <h5 class="text-muted" style="text-align: center">
-                            Nouveau post
+                            NOUVEAU POST
                         </h5>
                     </div>
                 </div>
-                
+
                 <!--Content settings-->
                 <div class ="justify-content-around" id="content-settings">
                     <div class="shadow-none p-3 mb-5 bg-light rounded">
                         <h5 class="text-muted" style="text-align: center">
-                            Gérer compte
-                        </h5>
+                            GÉRER COMPTE
+                        </h5>   
                     </div>
+                    <div style="margin-top: 5rem">
+                        <div style="text-align: center; margin: 2rem;">
+                            <form action="index.php?page=editprofile" method="post">
+                                <input type="submit" class="btn btn-outline-secondary" style="width: 20rem" value="Éditer votre profil">
+                            </form>                   
+                        </div>
+                        <div style="text-align: center; margin: 2rem">
+                            <button type="button" class="btn btn-outline-secondary" style="width: 20rem">Changer mot de passe</button>
+                        </div>
+                        <div style="text-align: center; margin: 2rem">
+                            <button type="button" class="btn btn-outline-danger" style="width: 20rem">Supprimer votre compte</button>
+                        </div>
+                    </div>
+
                 </div>
-
             </div>
-
-
         </div>
     </div>
 </div>
 
 <script>
-    $(function(){
-        
+    $(function () {
+
         $('#content-new-post').hide();
         $('#content-settings').hide();
-         
-        $('.button-page').on('click',function(){
+
+        $('.button-page').on('click', function () {
             //Discover which button was clicked
             var $buttonId = $(this).attr('id');
             //Discover which is the current content
             var $activeId = $(this).closest('.list-group').find('.active').attr('id');
             //Fade out current content
-            $('#content-'+$activeId).hide(function(){
+            $('#content-' + $activeId).hide(function () {
                 //Make current content inactive
                 $(this).removeClass('active');
                 //Show the corresponding content
-                $('#content-'+$buttonId).show(function(){
+                $('#content-' + $buttonId).show(function () {
                     //Make corresponding content active
                     $(this).addClass('active');
                 });
             });
-            
+
         });
     });
 </script>

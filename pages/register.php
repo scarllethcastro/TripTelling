@@ -44,7 +44,7 @@ if (isset($_POST['username']) && $_POST['username'] != "" && //Vérification des
         $form_values_valid = true;
         Utilisateur::insererUtilisateur($dbh, $_POST['username'], $_POST['password'], $_POST['lastname'], $_POST['firstname'], $_POST['birth'], $_POST['email']);
         ?>
-        <div class ="row" style="margin-top: 20px">
+        <div class ="row" style="margin-top: 7rem">
             <div class="col-md-4 offset-md-4 card text-center" style="width: 30rem;">
                 <div class="card-body">
                     <h5 class="card-title">Vous avez bien été enrégistré(e)!</h5>
@@ -85,7 +85,7 @@ if (!$form_values_valid) {
     }
     ?>
 
-    <div class="container" style="margin-top: 35px">
+    <div class="container" style="padding: 35px; background-color: white">
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <form class="needs-validation" novalidate action="index.php?page=register" method=post enctype="multipart/form-data"
@@ -253,6 +253,7 @@ if (!$form_values_valid) {
                 </form>
             </div>
         </div>
+    </div>
 
     <?php }
     ?>
@@ -283,14 +284,14 @@ if (!$form_values_valid) {
     <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
     <script>
         $(document).ready(function () {
-            bsCustomFileInput.init()
-        })
+            bsCustomFileInput.init();
+        });
 
-        bsCustomFileInput.init()
+        bsCustomFileInput.init();
 
-        var btn = document.getElementById('btnResetForm')
-        var form = document.querySelector('form')
+        var btn = document.getElementById('btnResetForm');
+        var form = document.querySelector('form');
         btn.addEventListener('click', function () {
-            form.reset()
-        })
+            form.reset();
+        });
     </script>

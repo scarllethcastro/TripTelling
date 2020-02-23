@@ -75,18 +75,16 @@ if ($authorized) {
                     <?php
                     if ($askedPage == 'welcome') {
                     $askedPage = 'home';
-                    }
+                    } ?>
+                    <form></form>
+                    <?php
                     printLogoutForm($askedPage);
                     ?>
-                    <!--                        </li>
-                                        </ul>-->
-
-
                     <?php
             } else {
-                if ($askedPage == 'profile') {
-                    $askedPage = 'welcome';
-                }
+//                if ($askedPage == 'profile') {
+//                    $askedPage = 'welcome';
+//                }
                 printLoginForm();
                 if($askedPage != 'welcome' && $askedPage != 'register'){
                     printAskRegisterForm();
