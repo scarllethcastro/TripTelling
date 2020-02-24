@@ -109,7 +109,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
                                         <span class="badge badge-pill badge-success">
                                             <?php
                                             if ($post->money != null) {
-                                                echo '' . Post::generatemoneysimbol($post->money);
+                                                echo $post->money;
                                             }
                                             ?>
                                         </span>

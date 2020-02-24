@@ -268,32 +268,6 @@ class Post {
         return $post;
     }
 
-    public static function generatemoneysimbol($money) {
-
-        switch ($money) {
-            case '1': return '$';
-            case '1.5': return '$-$$';
-            case '2' : return '$$';
-            case '2.5': return '$$-$$$';
-            case '3': return '$$$';
-            case '3.5': return '$$$-$$$$';
-            case '4': return '$$$$';
-        }
-    }
-
-    public static function generatemoneynumber($simbol) {
-
-        switch ($simbol) {
-            case '$': return '1';
-            case '$-$$': return '1.5';
-            case '$$' : return '2';
-            case '$$-$$$': return '2.5';
-            case '$$$': return '3';
-            case '$$$-$$$$': return '3.5';
-            case '$$$$': return '4';
-        }
-    }
-
 }
 
 class Stop {
@@ -305,7 +279,7 @@ class Stop {
     public $adress;
     public $time;
     public $title;
-
+    public $day;
 }
 
 // Traitement de la photo de profil

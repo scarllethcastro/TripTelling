@@ -46,7 +46,9 @@ if (!isset($_GET['idpost'])) {
                         <p class="card-text"><?php echo $stop->description ?></p>
                         <br>
                         <span class="badge badge-pill badge-secondary"> <?php echo $stop->time ?></span>
+                        <?php if ($stop->money != null) {?>
                         <span class="badge badge-pill badge-success"><?php echo $stop->money ?></span>
+                        <?php } ?>
                     </div>
                 </div>
                 <!-- Carousel start -->
@@ -54,7 +56,7 @@ if (!isset($_GET['idpost'])) {
                     <div id="CarouselTest" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
                             <li data-target="#CarouselTest" data-slide-to="0" class="active"></li>
-                            <?php for($i=1; file_exists("images/stops/$stop->idstop.$i.jpg"); $i++) { ?>
+                            <?php for($i=1; file_exists("images/stops/$stop->idpost.$stop->idstop.$i.jpg"); $i++) { ?>
                             <li data-target="#CarouselTest" data-slide-to=<?php echo $i?>></li>
                             <?php } ?>
 
@@ -63,11 +65,11 @@ if (!isset($_GET['idpost'])) {
                         <div class="carousel-inner">
                             
                             <div class="carousel-item active">
-                              <?php echo ' <img class="d-block" src="images/stops/' .$stop->idstop . '.0.jpg"  alt="">'; ?>
+                              <?php echo ' <img class="d-block" src="images/stops/' .$stop->idpost . '.' . $stop->idstop .'.0.jpg"  alt="">'; ?>
                             </div>
-                            <?php for ($j=1; file_exists("images/stops/$stop->idstop.$j.jpg"); $j++) { 
+                            <?php for ($j=1; file_exists("images/stops/$stop->idpost.$stop->idstop.$j.jpg"); $j++) { 
                             echo '<div class="carousel-item">';
-                               echo '<img class="d-block" src="images/stops/' .$stop->idstop . '.' . $j . '.jpg"  alt="">';
+                               echo '<img class="d-block" src="images/stops/'. $stop->idpost. '.' .$stop->idstop . '.' . $j . '.jpg"  alt="">';
                             echo '</div>';
                              } ?>
                             <a class="carousel-control-prev" href="#CarouselTest" role="button" data-slide="prev">
