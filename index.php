@@ -39,6 +39,23 @@ if ($authorized) {
             logIn($dbh);
         } elseif ($_GET['todo'] == 'logout') {
             logOut();
+        } elseif($_GET['todo'] == 'deleteaccount' && isset ($_POST['password']) && Utilisateur::islogged()){
+            $user = Utilisateur::getUtilisateur($dbh, $_SESSION['username']);
+            if($_POST['password'] != "" && Utilisateur::testerMdp($dbh, $user, $_POST['password'])){
+                //CHAMAR FUNÇÃO QUE TRATA A EXCLUSÃO DO USUÁRIO, INCLUINDO TODA A MÍDIA RELACIONADA A ELE
+                if(Utilisateur::tryDeleteUser($dbh, $user)){
+                    //SE A FUNÇÃO RETORNA TRUE,  FAZER LOGOUT E EXIBIR MENSAGEM DE SUCESSO
+                    logOut();
+                    // Mensagem de sucesso
+                    echo 'Conta excluída';
+                } else{ //SINON, AFICHER MESSAGE D'ERREUR EXIBIR "NÃO FOI POSSÍVEL REALIZAR A EXCLUSÃO"
+                    // Mensagem de erro
+                    echo 'Não foi possível realizar a exclusão';
+                }    
+            } else{ // Si le champ password n'est pas rempli ou le mot de passe ne correspond pas à celui contenu dans la base de données
+                // RETOURNER À LA PAGE DELETEACCOUNT
+                $askedPage = 'deleteaccount';
+            }
         }
     }
     

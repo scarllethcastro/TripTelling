@@ -57,7 +57,7 @@ if (!isset($_GET['idpost'])) {
                         <ol class="carousel-indicators">
                             <li data-target="#CarouselTest" data-slide-to="0" class="active"></li>
                             <?php for($i=1; file_exists("images/stops/$stop->idpost.$stop->idstop.$i.jpg"); $i++) { ?>
-                            <li data-target="#CarouselTest" data-slide-to=<?php echo $i?>></li>
+                            <li data-target="#CarouselTest" data-slide-to="<?php echo $i?>"></li>
                             <?php } ?>
 
                         </ol> 

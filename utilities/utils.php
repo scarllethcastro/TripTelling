@@ -163,11 +163,46 @@ class Utilisateur {
         $password_encrypted = password_hash($password, PASSWORD_DEFAULT);
         $sth = $dbh->prepare("UPDATE `utilisateurs` SET `password` = ? WHERE `username` = ?");
         $sth->execute(array($password_encrypted, $username));
+        var_dump($sth);
     }
     
     public static function deleteUser($dbh, $username) {
         $sth = $dbh->prepare("DELETE FROM `utilisateurs` WHERE `username` = ?");
-        $sth->execute(array($username));
+        $request_succeeded = $sth->execute(array($username));
+        return $request_succeeded;
+    }
+    
+    public static function tryDeleteUser($dbh, $user){
+        //On garde les noms des photos à supprimer en cas de succès de la suppression de l'utilisateur
+        $username = $user->username;
+        $namePhotoPosts; // Nom des fichiers de photo de chaque post
+        $namePhotoStops; // Nom des fichiers de photo de chaque stop
+        
+        if(Utilisateur::deleteUser($dbh, $username)){ 
+            // Si on a réussi à supprimer l'utilisateur de la base de données, alors on supprime aussi le média correspondant
+            // et on retourne true
+            
+            // Photo de profil
+            if(file_exists('images/avatars/'.$username.'.jpg')){
+                unlink('images/avatars/'.$username.'.jpg');
+            }
+            // Photos de post
+            foreach ($namePhotoPosts as $namePhoto) {
+                if(file_exists('images/posts/'.$namePhoto.'.jpg')){
+                    unlink('images/posts/'.$namePhoto.'.jpg');
+                }
+            }
+            // Photos de stops
+            foreach ($namePhotoStops as $namePhoto) {
+                if(file_exists('images/stops/'.$namePhoto.'.jpg')){
+                    unlink('images/stops/'.$namePhoto.'.jpg');
+                }
+            }
+            return true;
+            
+        } else{
+            return false;
+        }
     }
 }
 
@@ -230,17 +265,18 @@ class Post {
     public $description;
     public $money;
 
-    public static function getposts($dbh, $username, $start, $number) {
+//    public static function getposts($dbh, $username, $start, $number) {
+//        
+//        $sql_code = "SELECT * FROM `posts` WHERE loginuser = ? LIMIT $start OFFSET $number ";
+//
+//        $sth = $dbh->prepare($sql_code);
+//        $sth->setFetchMode(PDO::FETCH_CLASS, 'Post');
+//        $sth->execute(array($username));
+//        $post = $sth->fetch();
+//        return $post;
+//    }
 
-        $sql_code = "SELECT * FROM `posts` WHERE loginuser = ? LIMIT $start OFFSET $number ";
-
-        $sth = $dbh->prepare($sql_code);
-        $sth->setFetchMode(PDO::FETCH_CLASS, 'Post');
-        $sth->execute(array($username));
-        $post = $sth->fetch();
-        return $post;
-    }
-
+    // Retourne le numero de posts d'un utilisateur
     public static function numposts($dbh, $username) {
 
         $sql_code = "SELECT * FROM `posts` WHERE loginuser = ?";
@@ -251,6 +287,7 @@ class Post {
         return $sth->rowCount();
     }
 
+    // Retourne le numero d'enregistrements retournés par une requête à la base de données
     public static function numpostsconstraint($dbh, $sql_code, $array) {
         $sth = $dbh->prepare($sql_code);
         $sth->setFetchMode(PDO::FETCH_CLASS, 'Post');
@@ -259,6 +296,7 @@ class Post {
         return $sth->rowCount();
     }
 
+    // Prend le post d'id idpost
     public static function getpost($dbh, $idpost) {
         $sql_code = "SELECT * FROM `posts` WHERE idpost = ?";
         $sth = $dbh->prepare($sql_code);

@@ -6,36 +6,14 @@ if (!Utilisateur::islogged()) {
     $user = Utilisateur::getUtilisateur($dbh, $_SESSION['username']);
     
     // Variables de test
-    $form_values_valid = false;
     $password_fail = false;
     
-    // Vérifier s'il y a des données à traiter
-    // Vérification des champ requis
-    if (isset($_POST['password']) && $_POST['password'] != ""){
-        
-        //Traitement des données
-        if (!Utilisateur::testerMdp($dbh, $user, $_POST['password'])) { // Vérifier le mot de passe
-            $password_fail = true;
-        } else{
-            $form_values_valid = true;
-            // Fazer logout em algum momento
-            Utilisateur::deleteUser($dbh, $user->username);
-                        ?>
-            <div class ="row" style="margin-top: 7rem">
-                <div class="col-md-4 offset-md-4 card text-center" style="width: 30rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">Votre mot de passe a bien été mis à jour!</h5>
-                        <p class="card-text">Cliquez ci-dessous pour revenir à la page de profil</p>
-                        <a href="index.php?page=profile" class="btn btn-primary">Profil</a>
-                    </div>
-                </div>
-            </div>
-            <?php
-        }
+    // Si l'utilisateur retourne à cette page avec un password défini, c'est parce que il y a eu un problème de vérification dans la page index
+    if(isset($_POST['password'])){
+        $password_fail = true;
     }
-    
-    if (!$form_values_valid){
-        ?>
+    ?>
+        <!--Affichage du formulaire-->
         <div class="container" style="padding: 20px; background-color: white">
             <!--Titre du formulaire-->
             <div class="shadow-none p-3 mb-5 bg-light rounded">
@@ -46,7 +24,7 @@ if (!Utilisateur::islogged()) {
             <!--Formulaire-->
             <div class="row">
                 <div class="col-md-8 offset-md-2">
-                    <form class="needs-validation" novalidate action="index.php?page=deleteaccount" method=post>              
+                    <form class="needs-validation" novalidate action="index.php?todo=deleteaccount" method=post>              
 
                         <!--Mot de passe-->
                         <div class="form-group row">
@@ -80,8 +58,7 @@ if (!Utilisateur::islogged()) {
             </div>
         </div>
 
-        <?php
-    }    
+        <?php  
 }
 ?>
 
