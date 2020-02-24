@@ -59,7 +59,15 @@ $page_list = array(
     array(
         "name" => "editprofile",
         "title" => "Éditer profil",
-        "menutitle" => "Éditer profil")
+        "menutitle" => "Éditer profil"),
+    array(
+        "name" => "changepassword",
+        "title" => "Changer le mot de passe",
+        "menutitle" => "Changer le mot de passe"),
+    array(
+        "name" => "deleteaccount",
+        "title" => "Suppression du compte",
+        "menutitle" => "Suppression du compte")
 );
 
 if (isset($_SESSION['username']))
@@ -149,6 +157,17 @@ class Utilisateur {
         $firstname = ucfirst($first);
         $sth = $dbh->prepare("UPDATE `utilisateurs` SET `lastname` = ?, `firstname` = ?, `birth` = ? WHERE `username` = ?");
         $sth->execute(array($lastname, $firstname, $birth, $username));
+    }
+    
+    public static function changePassword($dbh, $username, $password) {
+        $password_encrypted = password_hash($password, PASSWORD_DEFAULT);
+        $sth = $dbh->prepare("UPDATE `utilisateurs` SET `password` = ? WHERE `username` = ?");
+        $sth->execute(array($password_encrypted, $username));
+    }
+    
+    public static function deleteUser($dbh, $username) {
+        $sth = $dbh->prepare("DELETE FROM `utilisateurs` WHERE `username` = ?");
+        $sth->execute(array($username));
     }
 }
 

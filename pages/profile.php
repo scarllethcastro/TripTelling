@@ -192,15 +192,13 @@ $totalpages = ceil($totalposts / $itemsperpage);
                     </div>
                     <div style="margin-top: 5rem">
                         <div style="text-align: center; margin: 2rem;">
-                            <form action="index.php?page=editprofile" method="post">
-                                <input type="submit" class="btn btn-outline-secondary" style="width: 20rem" value="Éditer votre profil">
-                            </form>                   
+                            <a href="index.php?page=editprofile" class="btn btn-outline-secondary" style="width: 20rem">Éditer votre profil</a>
                         </div>
                         <div style="text-align: center; margin: 2rem">
-                            <button type="button" class="btn btn-outline-secondary" style="width: 20rem">Changer mot de passe</button>
+                            <a href="index.php?page=changepassword" class="btn btn-outline-secondary" style="width: 20rem">Changer mot de passe</a>
                         </div>
                         <div style="text-align: center; margin: 2rem">
-                            <button type="button" class="btn btn-outline-danger" style="width: 20rem">Supprimer votre compte</button>
+                            <a href="index.php?page=deleteaccount" class="btn btn-outline-danger" style="width: 20rem">Supprimer votre compte</a>
                         </div>
                     </div>
 

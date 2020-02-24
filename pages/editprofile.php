@@ -101,7 +101,14 @@ if (!Utilisateur::islogged()) {
         }
         ?>
 
-        <div class="container" style="padding: 35px; background-color: white">
+        <div class="container" style="padding: 20px; background-color: white">
+            <!--Titre du formulaire-->
+            <div class="shadow-none p-3 mb-5 bg-light rounded">
+                <h5 class="text-muted" style="text-align: center">
+                    ÉDITION DE PROFIL
+                </h5>
+            </div>
+            <!--Formulaire-->
             <div class="row">
                 <div class="col-md-8 offset-md-2">
                     <form class="needs-validation" novalidate action="index.php?page=editprofile" method=post enctype="multipart/form-data">              

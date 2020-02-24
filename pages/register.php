@@ -1,4 +1,5 @@
 <?php
+// Variables de test
 $form_values_valid = false;
 $username_fail = false;
 $email_fail = false;
@@ -85,7 +86,14 @@ if (!$form_values_valid) {
     }
     ?>
 
-    <div class="container" style="padding: 35px; background-color: white">
+    <div class="container" style="padding: 20px; background-color: white">
+        <!--Titre du formulaire-->
+        <div class="shadow-none p-3 mb-5 bg-light rounded">
+            <h5 class="text-muted" style="text-align: center">
+                ENREGISTREMENT
+            </h5>
+        </div>
+        <!--Formulaire-->
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <form class="needs-validation" novalidate action="index.php?page=register" method=post enctype="multipart/form-data"
@@ -255,43 +263,43 @@ if (!$form_values_valid) {
         </div>
     </div>
 
-    <?php }
-    ?>
+<?php }
+?>
 
-    <!-- Pour la vérification côté client-->
-    <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (function () {
-            'use strict';
-            window.addEventListener('load', function () {
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                var forms = document.getElementsByClassName('needs-validation');
-                // Loop over them and prevent submission
-                var validation = Array.prototype.filter.call(forms, function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-            }, false);
-        })();
-    </script>
+<!-- Pour la vérification côté client-->
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
 
-    <!-- Pour l'animation de l'input de la photo de profil-->
-    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
-    <script>
-        $(document).ready(function () {
-            bsCustomFileInput.init();
-        });
-
+<!-- Pour l'animation de l'input de la photo de profil-->
+<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+<script>
+    $(document).ready(function () {
         bsCustomFileInput.init();
+    });
 
-        var btn = document.getElementById('btnResetForm');
-        var form = document.querySelector('form');
-        btn.addEventListener('click', function () {
-            form.reset();
-        });
-    </script>
+    bsCustomFileInput.init();
+
+    var btn = document.getElementById('btnResetForm');
+    var form = document.querySelector('form');
+    btn.addEventListener('click', function () {
+        form.reset();
+    });
+</script>
