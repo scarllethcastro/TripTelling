@@ -160,3 +160,11 @@ $totalpages = ceil($totalposts / $itemsperpage);
         
     </div>
 </div>
+
+<?php
+//$username = 'marcelosancor';
+//$namePhotoPosts = Post::idallposts ($dbh, $username);
+//$namePhotoStops = Stop::imagenames($dbh, $namePhotoPosts);
+//
+//var_dump($namePhotoPosts);
+//var_dump($namePhotoStops);
