@@ -39,7 +39,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
             <div class="profile-sidebar">
                 <!-- SIDEBAR USERPIC -->
                 <div class="" style="text-align: center">
-                    <?php if (file_exists('images/avatars/'.$user->username.'.jpg')) { ?>
+                    <?php if (file_exists('images/avatars/' . $user->username . '.jpg')) { ?>
                         <img src="images/avatars/<?php echo $user->username ?>.jpg" class="img-responsive" alt=""> <?php } else {
                         ?>
                         <img src ="https://www.casadasciencias.org/themes/casa-das-ciencias/assets/images/icons/icon-login-default.png" class="img-responsive" alt = ''> 
@@ -65,18 +65,23 @@ $totalpages = ceil($totalposts / $itemsperpage);
                                     <button type="button" class="btn btn-danger btn-sm">Message</button>
                                 </div>-->
                 <!-- END SIDEBAR BUTTONS -->
-                <!-- SIDEBAR MENU -->
-                <div class="container" style ="margin-top: 5%; margin-bottom:5%;">
-                    <div class="row">
-                        <div class="col">
-                            <div class="list-group" id="list-tab" role="tablist">
-                                <a class="list-group-item list-group-item-action button-page active" id="posts" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Posts</a>
-                                <a class="list-group-item list-group-item-action button-page" id="new-post" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Nouveau post</a>
-                                <a class="list-group-item list-group-item-action button-page" id="settings" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Gérer compte</a>
+                <!-- SIDEBAR MENU (doit être affichée seulement si l'utilisateur est loggé et si la page de profil à afficher est la sienne)--> 
+                <?php if (Utilisateur::islogged() && $_SESSION['username'] == $user->username) { ?>
+                    <div class="container" style ="margin-top: 5%; margin-bottom:5%;">
+                        <div class="row">
+                            <div class="col">
+                                <div class="list-group" id="list-tab" role="tablist">
+                                    <a class="list-group-item list-group-item-action button-page active" id="posts" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Posts</a>
+                                    <a class="list-group-item list-group-item-action button-page" id="new-post" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Nouveau post</a>
+                                    <a class="list-group-item list-group-item-action button-page" id="settings" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Gérer compte</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                    <?php
+                }
+                ?>
+
                 <!-- END MENU -->
             </div>
         </div>
@@ -121,7 +126,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
                                     <div class='row justify-content-between' style ='max-height: 10%; margin: 1%;'>
                                         <div class='col-3'>
                                             <a href="index.php?page=profile&user=<?php echo $post->loginuser ?>" class="stretched-link" style="color: #c8cbcf;">
-                                                   <?php  echo $post->loginuser  ?>
+                                                <?php echo $post->loginuser ?>
                                             </a>  
                                         </div>
                                         <div class="col-3">
@@ -183,6 +188,81 @@ $totalpages = ceil($totalposts / $itemsperpage);
                             NOUVEAU POST
                         </h5>
                     </div>
+                    <div class="container" style="padding: 20px; background-color: white">
+                        <!--Formulaire-->
+                        <div class="row">
+                            <div class="col-md-10 offset-md-1">
+                                <form class="needs-validation" novalidate action="index.php?page=profile" method=post>              
+
+                                    <!--Titre-->
+                                    <div class="form-group row">
+                                        <label for="title" class="col-sm-4 offset-md-1 col-form-label">Titre</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="title" required name="title">
+                                            <div class="invalid-feedback">
+                                                Ce champ est obligatoire!
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Ville-->
+                                    <div class="form-group row">
+                                        <label for="place" class="col-sm-4 offset-md-1 col-form-label">Ville</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="place" required name="place">
+                                            <div class="invalid-feedback">
+                                                Ce champ est obligatoire!
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Durée-->
+                                    <div class="form-group row">
+                                        <label for="duration" class="col-sm-4 offset-md-1 col-form-label">Durée en jours</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="duration" required name="duration">
+                                            <div class="invalid-feedback">
+                                                Ce champ est obligatoire!
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Description-->
+                                    <div class="form-group row">
+                                        <label for="description" class="col-sm-4 offset-md-1 col-form-label">Description</label>
+                                        <div class="col-sm-6">
+                                            <textarea class="form-control" id="description" rows="4" required name="description"></textarea>
+                                            <div class="invalid-feedback">
+                                                Ce champ est obligatoire!
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Money-->
+                                    <div class="form-group row">
+                                        <label for="money" class="col-sm-4 offset-md-1 col-form-label">Argent dépensé</label>
+                                        <div class="col-sm-6">                                                
+                                                <select class="form-control" id="money" name="money">
+                                                    <option selected>Choisissez...</option>
+                                                    <option value="1">$</option>
+                                                    <option value="2">$-$$</option>
+                                                    <option value="3">$$</option>
+                                                    <option value="4">$$-$$$</option>
+                                                    <option value="5">$$$</option>
+                                                    <option value="6">$$$-$$$$</option>
+                                                    <option value="7">$$$$</option>
+                                                </select>                                                          
+                                        </div>
+                                    </div>
+
+                                    <!--Bouton de submission-->
+                                    <div class="form-group row" style="margin-top: 1.5rem">
+                                        <input type=submit class="col-md-4 offset-md-4 btn btn-primary" value="Créer publication">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!--Content settings-->
@@ -210,7 +290,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
     </div>
 </div>
 
-<script>
+<!--<script>
     $(function () {
 
         $('#content-new-post').hide();
@@ -234,7 +314,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
 
         });
     });
-</script>
+</script>-->
 
 
 

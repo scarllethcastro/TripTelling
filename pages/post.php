@@ -26,7 +26,7 @@ if (!isset($_GET['idpost'])) {
         </div>
 <div class ="container-fluid" style="height: auto; eidth:100%; margin:0; padding:0 ; text-align: center; color: #c8cbcf; font-style: italic ">
     <p> Posted by
-                <a class="streched-link" href="index.php?page=profile&user=<?php echo $post->loginuser?>" style="color: #c8cbcf ">marcelosancor</a>
+                <a class="streched-link" href="index.php?page=profile&user=<?php echo $post->loginuser?>" style="color: #c8cbcf "><?php echo $post->loginuser?></a>
     </p>
 </div>
 

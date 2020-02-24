@@ -36,7 +36,16 @@ if ($authorized) {
     // Traitement des contenus de formulaires
     if (isset($_GET['todo'])) { 
         if ($_GET['todo'] == 'login' && !Utilisateur::islogged()) {
-            logIn($dbh);
+            $logintry = logIn($dbh);
+            if($logintry == 0){
+                $askedPage = 'profile';
+            } else{
+                if($logintry == 1){
+                    echo 'Utilisateur non enregistré.';
+                } else{
+                    echo 'Mot de passe incorrect.';
+                }
+            }         
         } elseif ($_GET['todo'] == 'logout') {
             logOut();
         } elseif($_GET['todo'] == 'deleteaccount' && isset ($_POST['password']) && Utilisateur::islogged()){
@@ -129,4 +138,5 @@ if ($authorized) {
 // Déconnexion de la base de données MySQL
     $dbh = null;
     generateHTMLFooter();
+    require('js/jsperso.php');
 }

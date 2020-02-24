@@ -3,7 +3,7 @@
 // Formulaire de connexion
 function printLoginForm() {
     echo <<<CHAINE_DE_FIN
-    <form class = "form-inline my-2 my-lg-0" action= "index.php?todo=login&page=profile" method='post'>
+    <form class = "form-inline my-2 my-lg-0" action= "index.php?todo=login" method='post'>
         <input class="form-control mr-sm-2" type="text" name= "email" placeholder="email" aria-label="email">
         <input class="form-control mr-sm-2" type = "password" name = "password" placeholder = "mot de passe" required />
        <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value = 'Conecter'> 
