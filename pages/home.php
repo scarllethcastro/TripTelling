@@ -102,7 +102,9 @@ $totalpages = ceil($totalposts / $itemsperpage);
                                     </div>
                                     <div class='row justify-content-between' style ='max-height: 10%; margin: 1%;'>
                                         <div class='col-3'>
-                                            <a style="color: #c8cbcf;"><?php echo $post->loginuser ?></a>
+                                            <a href="index.php?page=profile&user=<?php echo $post->loginuser ?>" class="stretched-link" style="color: #c8cbcf;">
+                                                   <?php  echo $post->loginuser  ?>
+                                            </a>       
                                         </div>
                                         <div class="col-3">
                                             <a href="index.php?page=post&idpost=<?php echo $post->idpost ?>" class="btn" style = "border-radius: 4mm;">Voir post</a>
