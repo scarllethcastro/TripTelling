@@ -104,6 +104,11 @@ $totalpages = ceil($totalposts / $itemsperpage);
                             <a href='index.php?page=newpost' id="newpost" class="col-md-4 offset-md-4 btn btn-info" style="margin-bottom: 3rem">+ Nouvelle publication</a>
                             <?php
                         } ?>
+                            <div id="deletealert" class = "alert alert-danger" role = "alert" style="text-align: center">
+                            Vous êtes sûr(e) de vouloir supprimer cette publication?
+                            <a>Supprimer la publication</a>
+                            <button id="canceldelete">Annuler la suppression</button>
+                            </div>
                     <?php
                     if ($totalposts > 0) {
                         do {
@@ -142,7 +147,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
                                         <?php if(Utilisateur::islogged() && $_SESSION['username'] == $user->username){
                                         ?>
                                         <div class="col-1">
-                                            <a href="index.php?page=profile&idpost=<?php echo htmlspecialchars($post->idpost) ?>&todo=deletepost" class="btn" style = "border-radius: 4mm; color: red">Supprimer publication</a>
+                                            <a data-post='<?php echo $post->idpost ?>' class="btn deletepostbutton" style = "border-radius: 4mm; color: red">Supprimer publication</a>
                                         </div>
                                         <?php }
                                         ?>
@@ -223,3 +228,4 @@ $totalpages = ceil($totalposts / $itemsperpage);
         </div>
     </div>
 </div>
+

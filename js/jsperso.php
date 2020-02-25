@@ -182,3 +182,22 @@
 });
 </script>
 
+<!-- Pour la page de profil quand il y a une demande d'exclusion de post-->
+<script>
+    $(function () {
+
+        $('#deletealert').hide();
+
+        $('.deletepostbutton').on('click', function () {
+            //Discover which post was clicked
+            var $idpost = $(this).attr('data-post');
+            $('#deletealert').find('a').attr('href', 'index.php?page=profile&idpost='+$idpost+'&todo=deletepost');
+            $('#deletealert').show();
+        });
+        
+        $('#canceldelete').on('click', function(){
+            $('#deletealert').hide();
+        })
+    });
+</script>
+
