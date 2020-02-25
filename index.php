@@ -60,15 +60,31 @@ if ($authorized) {
                     //SE A FUNÇÃO RETORNA TRUE,  FAZER LOGOUT E EXIBIR MENSAGEM DE SUCESSO
                     logOut();
                     // Mensagem de sucesso
-                    echo 'Conta excluída';
+                     echo '<div class = "alert alert-success" role = "alert">';
+                    echo 'Compte supprimé';
+                    echo '</div>';
                 } else { //SINON, AFICHER MESSAGE D'ERREUR EXIBIR "NÃO FOI POSSÍVEL REALIZAR A EXCLUSÃO"
                     // Mensagem de erro
-                    echo 'Não foi possível realizar a exclusão';
+                   echo '<div class = "alert alert-danger" role = "alert">';
+                    echo 'Error: compte non supprimé';
+                    echo '</div>';
                 }
             } else { // Si le champ password n'est pas rempli ou le mot de passe ne correspond pas à celui contenu dans la base de données
                 // RETOURNER À LA PAGE DELETEACCOUNT
                 $askedPage = 'deleteaccount';
             }
+        } elseif ($_GET['todo'] == 'deletepost' && isset($_GET['idpost']) && Utilisateur::islogged() && Utilisateur::getUtilisateurfromPost($dbh, $_GET['idpost'])!= null && $_SESSION['username']==Utilisateur::getUtilisateurfromPost($dbh, $_GET['idpost'])->username){
+                if (Post::trydeletepost($dbh, $_GET['idpost'])){
+                    echo '<div class = "alert alert-success" role = "alert">';
+                    echo 'Publication supprimée';
+                    echo '</div>';
+                }else {
+                    echo '<div class = "alert alert-danger" role = "alert">';
+                    echo 'Error: publication non supprimée';
+                    echo '</div>';
+                }
+            
+           
         }
     }
 

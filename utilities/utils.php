@@ -124,6 +124,18 @@ class Utilisateur {
         else
             return $user;
     }
+    
+    public static function getUtilisateurfromPost($dbh, $idpost){
+        $query = "SELECT * FROM `posts` WHERE idpost = ?";
+        $sth = $dbh->prepare($query);
+        $sth->setFetchMode(PDO::FETCH_CLASS, 'Post');
+        $sth->execute(array($idpost));
+        $post = $sth->fetch();
+        if ($post == false)
+            return null;
+        else
+            return Utilisateur::getUtilisateur($dbh, $post->loginuser);
+    }
 
     public static function getUtilisateurMail($dbh, $email) {
         $query = "SELECT * FROM `utilisateurs` WHERE email = ?";
@@ -274,6 +286,39 @@ class Post {
         $sth->execute(array($loginuser, $title, $place, $duration, $description, $money));
         return $sth->insert_id;
 }
+    public static function deletePost ($dbh, $idpost){
+     $sth = $dbh->prepare("DELETE FROM `posts` WHERE `idpost` = ?");
+     $request_succeeded = $sth->execute(array($idpost));
+     return $request_succeeded;
+    }
+    
+    public static function trydeletepost($dbh, $idpost){
+        $namePhotoPosts = array($idpost);
+        $namePhotoStops = Stop::imagenames($dbh, $namePhotoPosts); // Nom des fichiers de photo de chaque stop
+
+        if (Post::deletePost($dbh, $idpost)) {
+            // Si on a réussi à supprimer le post de la base de données, alors on supprime aussi le média correspondant
+            // et on retourne true
+           
+            // Photos de post
+            foreach ($namePhotoPosts as $namePhoto) {
+                if (file_exists('images/posts/' . $namePhoto . '.jpg')) {
+                    unlink('images/posts/' . $namePhoto . '.jpg');
+                }
+            }
+            // Photos de stops
+            foreach ($namePhotoStops as $namePhoto) {
+                if (file_exists('images/stops/' . $namePhoto . '.jpg')) {
+                    unlink('images/stops/' . $namePhoto . '.jpg');
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+        
+        
+    }
             
 //    public static function getposts($dbh, $username, $start, $number) {
 //        
@@ -345,9 +390,9 @@ class Stop {
     public $title;
     public $day;
 
-    public static function insererstop($dbh, $idpost, $description, $money, $adress, $time, $time, $title, $day){
+    public static function insererstop($dbh, $idpost, $description, $money, $adress, $time, $title, $day){
         $sth = $dbh->prepare("INSERT INTO `stops` (`ispost`, `description`, `money`, `adress`, `time`, `title`, `day`) VALUES(?,?,?,?,?,?,?)");
-        $sth->execute(array($idpost, $description, $money, $adress, $time, $time, $title, $day));
+        $sth->execute(array($idpost, $description, $money, $adress, $time, $title, $day));
         return $sth->insert_id;
     }
 // conta o numero de paradas de um certo post

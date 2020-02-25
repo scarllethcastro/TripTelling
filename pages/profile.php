@@ -139,6 +139,13 @@ $totalpages = ceil($totalposts / $itemsperpage);
                                                 <?php echo htmlspecialchars($post->loginuser) ?>
                                             </a>  
                                         </div>
+                                        <?php if(Utilisateur::islogged() && $_SESSION['username'] == $user->username){
+                                        ?>
+                                        <div class="col-1">
+                                            <a href="index.php?page=profile&idpost=<?php echo htmlspecialchars($post->idpost) ?>&todo=deletepost" class="btn" style = "border-radius: 4mm; color: red">Supprimer publication</a>
+                                        </div>
+                                        <?php }
+                                        ?>
                                         <div class="col-3">
                                             <a href="index.php?page=post&idpost=<?php echo htmlspecialchars($post->idpost) ?>" class="btn" style = "border-radius: 4mm;">Voir publication</a>
                                         </div>
@@ -181,20 +188,12 @@ $totalpages = ceil($totalposts / $itemsperpage);
                         </nav>
                         <?php
                     } else {
-                        if (Utilisateur::islogged() && $_SESSION['username'] == $user->username) {
-                            ?>
-                            <a href='index.php?page=newpost' id="newpost" class="col-md-4 offset-md-4 btn btn-info">+ Nouvelle publication</a>
-                            <?php
-                        } else {
                             ?>
                             <h6 class="text-muted" style="font-style: italic; text-align: center">
                                 Aucune publication
                             </h6>
                             <?php
-                        }
                         ?>
-
-
                     <?php }
                     ?>
 
