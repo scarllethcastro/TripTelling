@@ -17,24 +17,34 @@ if (!isset($_GET['idpost'])) {
         <div class="jumbotron bg-cover text-white" style="background-image:url(images/posts/<?php echo$post->idpost ?>.jpg)">
             <div class='overlay'></div>
             <div class="container">
-                <h1 class="display-4"><?php echo $post->title ?></h1>
-                <p class="lead"><?php echo $post->description ?></p>
+                <h1 class="display-4"><?php echo htmlspecialchars($post->title) ?></h1>
+                <p class="lead"><?php echo htmlspecialchars( $post->description) ?></p>
                 <hr class="my-4">
-                <p><?php echo $post->place ?></p>
+                <p><?php echo htmlspecialchars($post->place) ?></p>
             </div>
             <!-- /.container   -->
         </div>
 <div class ="container-fluid" style="height: auto; eidth:100%; margin:0; padding:0 ; text-align: center; color: #c8cbcf; font-style: italic ">
     <p> Posted by
-                <a class="streched-link" href="index.php?page=profile&user=<?php echo $post->loginuser?>" style="color: #c8cbcf "><?php echo $post->loginuser?></a>
+                <a class="streched-link" href="index.php?page=profile&user=<?php echo htmlspecialchars($post->loginuser)?>" style="color: #c8cbcf "><?php echo htmlspecialchars($post->loginuser)?></a>
     </p>
 </div>
 
         <div class="container py-3">
             <?php
+            $jour=0;
             if ($numrows > 0) {
 
                 do {
+                    if($stop->day - $jour == 1){ //verification si le jour de l'arrêt a changé
+                        $jour = $stop->day;
+                         ?> 
+            <div class="shadow-none p-3 mb-5 bg-light rounded" style="margin-bottom: 1rem !important">
+                <h5 class="text-muted" style="text-align: center">
+                    JOUR <?php echo htmlspecialchars($stop->day) ?>
+                </h5>
+            </div> 
+                   <?php }
                     ?>
                     <!-- Card Start -->
                     <div class="card">
@@ -43,16 +53,16 @@ if (!isset($_GET['idpost'])) {
                             <div class="col-md-7 px-3">
                                 <div class="card-block px-6">
                                     <p class="card-title">
-                <?php echo $stop->title ?>
+                <?php echo htmlspecialchars($stop->title) ?>
                                     </p>
                                     <p class=" card-adress">
-                <?php echo $stop->adress ?>
+                <?php echo htmlspecialchars($stop->adress) ?>
                                     </p>
-                                    <p class="card-text"><?php echo $stop->description ?></p>
+                                    <p class="card-text"><?php echo htmlspecialchars($stop->description) ?></p>
                                     <br>
-                                    <span class="badge badge-pill badge-secondary"> <?php echo $stop->time ?></span>
+                                    <span class="badge badge-pill badge-secondary"> <?php echo htmlspecialchars($stop->time) ?></span>
                                     <?php if ($stop->money != null) { ?>
-                                        <span class="badge badge-pill badge-success"><?php echo $stop->money ?></span>
+                                        <span class="badge badge-pill badge-success"><?php echo htmlspecialchars($stop->money) ?></span>
                 <?php } ?>
                                 </div>
                             </div>
@@ -62,7 +72,7 @@ if (!isset($_GET['idpost'])) {
                                     <ol class="carousel-indicators">
                                         <li data-target="#CarouselTest" data-slide-to="0" class="active"></li>
                                         <?php for ($i = 1; file_exists("images/stops/$stop->idpost.$stop->idstop.$i.jpg"); $i++) { ?>
-                                            <li data-target="#CarouselTest" data-slide-to=<?php echo $i ?>></li>
+                                            <li data-target="#CarouselTest" data-slide-to="<?php echo $i ?>"></li>
                 <?php } ?>
 
                                     </ol> 

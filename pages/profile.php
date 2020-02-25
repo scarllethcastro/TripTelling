@@ -40,7 +40,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
                 <!-- SIDEBAR USERPIC -->
                 <div class="" style="text-align: center">
                     <?php if (file_exists('images/avatars/' . $user->username . '.jpg')) { ?>
-                        <img src="images/avatars/<?php echo $user->username ?>.jpg" class="img-responsive" alt=""> <?php } else {
+                    <img src="images/avatars/<?php echo htmlspecialchars($user->username) ?>.jpg" class="img-responsive" alt=""> <?php } else {
                         ?>
                         <img src ="https://www.casadasciencias.org/themes/casa-das-ciencias/assets/images/icons/icon-login-default.png" class="img-responsive" alt = ''> 
                     <?php } ?>
@@ -50,12 +50,12 @@ $totalpages = ceil($totalposts / $itemsperpage);
                 <div class="profile-usertitle">
                     <div class="profile-usertitle-name">
                         <?php
-                        echo $user->firstname;
-                        echo " " . $user->lastname;
+                        echo htmlspecialchars($user->firstname);
+                        echo " " . htmlspecialchars($user->lastname);
                         ?>
                     </div>
                     <div class="profile-usertitle-job">
-                        <?php echo $user->username; ?>
+                        <?php echo htmlspecialchars($user->username); ?>
                     </div>
                 </div>
                 <!-- END SIDEBAR USER TITLE -->
@@ -113,32 +113,32 @@ $totalpages = ceil($totalposts / $itemsperpage);
                                 </div> 
                                 <div class ="col-md-8 col-lg-8">
                                     <div class ="row" style= "max-height:40%; text-align: left;margin: 1%;">
-                                        <h1 class="postitle"><?php echo $post->title ?></h1>
+                                        <h1 class="postitle"><?php echo htmlspecialchars($post->title) ?></h1>
                                     </div>
                                     <div class='row' style='text-align: left; margin:1%'>
-                                        <h3 class="postsubtitle"> <?php echo $post->place ?> </h3>
+                                        <h3 class="postsubtitle"> <?php echo htmlspecialchars($post->place) ?> </h3>
                                     </div>
                                     <div class='row' style ='max-height: 10%;margin: 1%;'>
                                         <span class="badge badge-pill badge-success">
                                             <?php
                                             if ($post->money != null) {
-                                                echo $post->money;
+                                                echo htmlspecialchars($post->money);
                                             }
                                             ?>
                                         </span>
-                                        <span class="badge badge-pill badge-secondary"> <?php echo $post->duration ?> jours</span>
+                                        <span class="badge badge-pill badge-secondary"> <?php echo htmlspecialchars($post->duration) ?> jours</span>
                                     </div>
                                     <div class='row ' style='max-height: 40%; text-align: left; margin: 2% 1% 1% 1%;'>
-                                        <a class="posttext"> <?php echo $post->description ?> </a>
+                                        <a class="posttext"> <?php echo htmlspecialchars($post->description) ?> </a>
                                     </div>
                                     <div class='row justify-content-between' style ='max-height: 10%; margin: 1%;'>
                                         <div class='col-3'>
-                                            <a href="index.php?page=profile&user=<?php echo $post->loginuser ?>" class="stretched-link" style="color: #c8cbcf;">
-                                                <?php echo $post->loginuser ?>
+                                            <a href="index.php?page=profile&user=<?php echo htmlspecialchars($post->loginuser) ?>" class="stretched-link" style="color: #c8cbcf;">
+                                                <?php echo htmlspecialchars($post->loginuser) ?>
                                             </a>  
                                         </div>
                                         <div class="col-3">
-                                            <a href="index.php?page=post&idpost=<?php echo $post->idpost ?>" class="btn" style = "border-radius: 4mm;">Voir post</a>
+                                            <a href="index.php?page=post&idpost=<?php echo htmlspecialchars($post->idpost) ?>" class="btn" style = "border-radius: 4mm;">Voir post</a>
                                         </div>
                                     </div>
 
@@ -162,7 +162,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
                         ?>
                         <nav  aria-label="Page navigation example">
                             <ul class="pagination justify-content-center">
-                                <li class="page-item"><a class="page-link" href="index.php?page=profile&user=<?php echo $user->username ?>&pagenum=<?php echo $back ?>" >Previous</a></li>
+                                <li class="page-item"><a class="page-link" href="index.php?page=profile&user=<?php echo htmlspecialchars($user->username) ?>&pagenum=<?php echo $back ?>" >Previous</a></li>
                                 <?php
                                 $style = '';
                                 for ($i = 0; $i < $totalpages; $i++) {
@@ -171,10 +171,10 @@ $totalpages = ceil($totalposts / $itemsperpage);
                                     } else {
                                         $style = '';
                                     }
-                                    echo '<li class="page-item ' . $style . ' " ><a class="page-link" href="index.php?page=profile&user=' . $user->username . '&pagenum=' . $i . '">' . $i . '</a></li>';
+                                    echo '<li class="page-item ' . $style . ' " ><a class="page-link" href="index.php?page=profile&user=' . htmlspecialchars($user->username) . '&pagenum=' . $i . '">' . $i . '</a></li>';
                                 }
                                 ?>
-                                <li class="page-item"><a class="page-link" href="index.php?page=profile&user=<?php echo $user->username ?>&pagenum=<?php echo $next ?>" >Next</a></li>
+                                <li class="page-item"><a class="page-link" href="index.php?page=profile&user=<?php echo htmlspecialchars($user->username) ?>&pagenum=<?php echo $next ?>" >Next</a></li>
                             </ul>
                         </nav>
                         <?php

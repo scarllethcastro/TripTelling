@@ -58,7 +58,7 @@ if (!Utilisateur::islogged()) {
 
                     <!--Bouton de submission-->
                     <div class="form-group row" style="margin-top: 1.5rem">
-                        <input type=submit class="col-md-4 offset-md-4 btn btn-primary" value="Supprimer compte">
+                        <input type=submit class="col-md-4 offset-md-4 btn btn-danger" value="Supprimer compte">
                     </div>
 
                 </form>
