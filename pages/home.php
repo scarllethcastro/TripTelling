@@ -56,7 +56,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
                     <input class="form-control mr-sm-2" placeholder="Auteur du post" name="username">
                 </div>
                 <div class="col-md-12 col-lg-3 col-sm-12" style=" text-align: center; margin: 5px;">
-                    <input class="form-control mr-sm-2" placeholder="Duration de voyage" name="duration">
+                    <input class="form-control mr-sm-2" placeholder="Nr de jours de voyage" name="duration">
                 </div>
                 <div class="col-md-12 col-lg-3 col-sm-12" style=" text-align: center; margin: 5px;">
                     <input class="form-control mr-sm-2" placeholder="Lieu de voyage" name="place">
@@ -106,7 +106,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
                                     </a>       
                                 </div>
                                 <div class="col-3">
-                                    <a href="index.php?page=post&idpost=<?php echo $post->idpost ?>" class="btn" style = "border-radius: 4mm;">Voir post</a>
+                                    <a href="index.php?page=post&idpost=<?php echo $post->idpost ?>" class="btn" style = "border-radius: 4mm;">Voir publication</a>
                                 </div>
                             </div>
 
@@ -149,7 +149,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
                 ?>
                 <!--                        <div class="shadow-sm p-3 mb-5 bg-white rounded">-->
                 <h6 class="text-muted" style="font-style: italic; text-align: center">
-                    Aucun post
+                    Aucune publication
                 </h6>
                 <!--                        </div>-->
             <?php }

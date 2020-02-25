@@ -71,8 +71,8 @@ $totalpages = ceil($totalposts / $itemsperpage);
                         <div class="row">
                             <div class="col">
                                 <div class="list-group" id="list-tab" role="tablist">
-                                    <a class="list-group-item list-group-item-action button-page active" id="posts" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Posts</a>
-                                    <a class="list-group-item list-group-item-action button-page" id="new-post" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Nouveau post</a>
+                                    <a class="list-group-item list-group-item-action button-page active" id="posts" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Publications</a>
+                                    <a class="list-group-item list-group-item-action button-page" id="new-post" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Nouvelle publication</a>
                                     <a class="list-group-item list-group-item-action button-page" id="settings" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Gérer compte</a>
                                 </div>
                             </div>
@@ -91,7 +91,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
                 <div class ="justify-content-around active" id="content-posts">       
                     <div class="shadow-none p-3 mb-5 bg-light rounded">
                         <h5 class="text-muted" style="text-align: center">
-                            POSTS
+                            PUBLICATIONS
                         </h5>
                     </div>
                     <?php
@@ -130,7 +130,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
                                             </a>  
                                         </div>
                                         <div class="col-3">
-                                            <a href="index.php?page=post&idpost=<?php echo htmlspecialchars($post->idpost) ?>" class="btn" style = "border-radius: 4mm;">Voir post</a>
+                                            <a href="index.php?page=post&idpost=<?php echo htmlspecialchars($post->idpost) ?>" class="btn" style = "border-radius: 4mm;">Voir publication</a>
                                         </div>
                                     </div>
 
@@ -173,7 +173,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
                         ?>
                         <!--                        <div class="shadow-sm p-3 mb-5 bg-white rounded">-->
                         <h6 class="text-muted" style="font-style: italic; text-align: center">
-                            Aucun post
+                            Aucune publication
                         </h6>
                         <!--                        </div>-->
                     <?php }
@@ -185,7 +185,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
                 <div class ="justify-content-around" id="content-new-post">
                     <div class="shadow-none p-3 mb-5 bg-light rounded">
                         <h5 class="text-muted" style="text-align: center">
-                            NOUVEAU POST
+                            NOUVELLE PUBLICATION
                         </h5>
                     </div>
                     <div class="container" style="padding: 20px; background-color: white">
