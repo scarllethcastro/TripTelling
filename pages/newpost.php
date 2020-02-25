@@ -10,11 +10,10 @@ if (!Utilisateur::islogged()) {
     $number_days_fail = false;
     $photo_post_fail = false;
     $photo_post_error_message = 'Il y a eu un problème avec une ou plusieurs des images choisies. Veuillez choisir des fichiers JPG et au maximum 3 par arrêt.';
-    
     // Vérifier s'il y a des données à traiter
     if(isset($_POST['titlepost'])){
         //Vérification des champ requis
-        if($_POST['']!="" &&
+        if($_POST['titlepost']!="" &&
             isset($_POST['place']) && $_POST['place']!="" &&
             isset($_POST['duration']) && $_POST['duration']!="" &&
             isset($_POST['descriptionpost']) && $_POST['descriptionpost']!="" &&
@@ -24,14 +23,14 @@ if (!Utilisateur::islogged()) {
             isset($_POST['time1']) && $_POST['time1']!=""){
             
             //Traiter les données
-            if(!is_int($_POST['duration']) || $_POST['duration'] < 1){
-                //mensagem de erro da duração da viagem
+            if(!is_int((int)$_POST['duration']) || (int)$_POST['duration'] < 1){
+                echo "La durée entrée n'est pas un nombre entier";
             } else{
                 //Contagem das paradas
                 $continuer = true;
                 $num_stops = 1;
                 do{
-                    $indice = $i+1;
+                    $indice = $num_stops+1;
                     if(isset($_POST['titlestop'.$indice])){
                         $num_stops++;
                     } else{
@@ -51,13 +50,15 @@ if (!Utilisateur::islogged()) {
                     } 
                 }
                 
-                $duration = $_POST['duration'];
+                $duration = (int)$_POST['duration'];
                 if($mybool){
                     // Test dos dias das paradas
                     $mybool2 = true;
                     for($i = 1; $i <= $num_stops; $i++){
-                        if(!is_int($_POST['day'.$i]) || $_POST['day'.$i] > $duration){
+                        if(!is_int((int)$_POST['day'.$i]) || (int)$_POST['day'.$i] > $duration){
                             $mybool2 = false;
+                            echo 'Les jours des arrêts ne correspondent pas';
+                            break;
                         }
                     }
                     
@@ -65,12 +66,48 @@ if (!Utilisateur::islogged()) {
                         // teste das imagens
                         // imagem do post
                         if(empty($_FILES['photopost']['tmp_name']) || valide_photo_post($_FILES['photopost'])!=0){
-                            //mensagem de erro
+                           echo $photo_post_error_message;
                         } else{
                             //limitar imagens post a 3
+                            $mybool3 = true;
+                            for($i = 1; $i <= $num_stops; $i++){
+                                if(empty($_FILES['photostop'.$i]['tmp_name'][0]) || !empty($_FILES['photostop'.$i]['tmp_name'][3])){
+                                    $mybool3 = false;
+                                    echo $photo_post_error_message;
+                                    break;
+                                }   
+                            }
+                            if($mybool3){
+                                $mybool4 = true;
+                                for($i = 1; $i <= $num_stops; $i++){
+                                    for($j=0; $j<3; $j++){
+                                        if(!empty($_FILES['photostop'.$i]['tmp_name'][$j]) && valide_photo_post($_FILES['photopost'])!=0){
+                                          $mybool4 = false;
+                                        echo $photo_post_error_message;
+                                        break;
+                                        }
+                                    }
+                                }
                             
-                            
-                            
+                                if($mybool4){
+                                    $idpost = Post::insererpost($dbh, $user->username, $_POST['titlepost'], $_POST['place'], $duration, $_POST['descriptionpost'], $_POST['moneypost']);
+                                    if ($idpost != null){
+                                        $form_values_valid =true;
+                                        move_uploaded_file($_FILES['photopost']['tmp_name'], 'images/posts/' . $idpost . '.jpg');
+                                        for($i = 1; $i <= $num_stops; $i++){
+                                            $idstop = Stop::insererstop($dbh, $idpost, $_POST['descriptionstop'.$i], $_POST['moneystop'.$i], $_POST['adress'.$i], $_POST['time'.$i], $_POST['titlestop'.$i], $_POST['day'.$i]);  
+                                            if($idstop!=null){
+                                                for($j=0; $j<3; $j++){
+                                                                 if(!empty($_FILES['photostop'.$i]['tmp_name'][$j])){
+                                                                  move_uploaded_file($_FILES['photostop'.$i]['tmp_name'][$j], 'images/stops/' . $idpost .'.'. $idstop.'.'.$j. '.jpg');
+                                                                 }
+                                                                }
+                                                              }
+                                } 
+                                    } 
+                                   
+                                }
+                           }                      
                         }
                     }
                 }
@@ -82,8 +119,34 @@ if (!Utilisateur::islogged()) {
         }
     }
     
+    
+    if(!$form_values_valid){
+        if (isset($_POST['titlepost'])) {
+        $titlepost = $_POST['titlepost'];
+    } else {
+        $titlepost = "";
+    }
+    // Place
+    if (isset($_POST['place'])) {
+        $place = $_POST['place'];
+    } else {
+        $place = "";
+    }
+    // Duration
+    if (isset($_POST['duration'])) {
+        $duration = $_POST['duration'];
+    } else {
+        $duration = "";
+    }
+    // descriptionpost
+    if (isset($_POST['descriptionpost'])) {
+        $descriptionpost = $_POST['descriptionpost'];
+    } else {
+        $descriptionpost = "";
+    }
+    
 
-
+    
 ?>
 
 
@@ -104,7 +167,7 @@ if (!Utilisateur::islogged()) {
                 <div class="form-group row">
                     <label for="titlepost" class="col-sm-4 offset-md-1 col-form-label">Titre</label>
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" id="titlepost" required name="titlepost">
+                        <input type="text" class="form-control" id="titlepost" required name="titlepost" value="<?php echo $titlepost ?>">
                         <div class="invalid-feedback">
                             Ce champ est obligatoire!
                         </div>
@@ -115,7 +178,7 @@ if (!Utilisateur::islogged()) {
                 <div class="form-group row">
                     <label for="place" class="col-sm-4 offset-md-1 col-form-label">Ville</label>
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" id="place" required name="place">
+                        <input type="text" class="form-control" id="place" required name="place" value="<?php echo $place ?>">
                         <div class="invalid-feedback">
                             Ce champ est obligatoire!
                         </div>
@@ -126,7 +189,7 @@ if (!Utilisateur::islogged()) {
                 <div class="form-group row">
                     <label for="duration" class="col-sm-4 offset-md-1 col-form-label">Durée en jours</label>
                     <div class="col-sm-6">
-                        <input type="number" class="form-control" id="duration" required name="duration" min="1">
+                        <input type="number" class="form-control" id="duration" required name="duration" min="1" value="<?php echo $duration ?>">
                         <div class="invalid-feedback">
                             Ce champ est obligatoire!
                         </div>
@@ -137,7 +200,7 @@ if (!Utilisateur::islogged()) {
                 <div class="form-group row">
                     <label for="descriptionpost" class="col-sm-4 offset-md-1 col-form-label">Description</label>
                     <div class="col-sm-6">
-                        <textarea class="form-control" id="descriptionpost" rows="4" required name="descriptionpost"></textarea>
+                        <textarea class="form-control" id="descriptionpost" rows="4" required name="descriptionpost" value="<?php echo $descriptionpost ?>"></textarea>
                         <div class="invalid-feedback">
                             Ce champ est obligatoire!
                         </div>
@@ -313,4 +376,5 @@ if (!Utilisateur::islogged()) {
 
 
 <?php
+}
 }

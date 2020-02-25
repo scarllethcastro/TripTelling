@@ -271,8 +271,15 @@ class Post {
     
     public static function insererpost ($dbh, $loginuser, $title, $place, $duration, $description, $money){
        $sth = $dbh->prepare("INSERT INTO `posts` (`loginuser`, `title`, `place`, `duration`, `description`, `money`) VALUES(?,?,?,?,?,?)");
-        $sth->execute(array($loginuser, $title, $place, $duration, $description, $money));
-        return $sth->insert_id;
+       $success = $sth->execute(array($loginuser, $title, $place, $duration, $description, $money));
+        if($success){
+        return $dbh->lastInsertId();}
+        else { 
+            echo '<div class = "alert alert-danger" role = "alert">';
+            echo 'Insertion échouée.';
+            echo '</div>';
+            return null;
+        }
 }
             
 //    public static function getposts($dbh, $username, $start, $number) {
@@ -346,10 +353,18 @@ class Stop {
     public $day;
 
     public static function insererstop($dbh, $idpost, $description, $money, $adress, $time, $title, $day){
-        $sth = $dbh->prepare("INSERT INTO `stops` (`ispost`, `description`, `money`, `adress`, `time`, `title`, `day`) VALUES(?,?,?,?,?,?,?)");
-        $sth->execute(array($idpost, $description, $money, $adress,  $time, $title, $day));
-        return $sth->insert_id;
-    }
+        $sth = $dbh->prepare("INSERT INTO `stops` (`idpost`, `description`, `money`, `adress`, `time`, `title`, `day`) VALUES(?,?,?,?,?,?,?)");
+       $success = $sth->execute(array($idpost, $description, $money, $adress,  $time, $title, $day));
+       if ($success){ 
+       return $dbh->lastInsertId();
+       } else {
+           echo '<div class = "alert alert-danger" role = "alert">';
+            echo 'Insertion échouée.';
+            echo '</div>';
+           return null;
+            }
+       
+       }
 // conta o numero de paradas de um certo post
     public static function numstops($dbh, $idpost) {
         $sql_code = "SELECT * FROM `stops` WHERE idpost = ?";
@@ -396,7 +411,7 @@ function valide_photo($username, $photo) {
 // Vérification du type: JPEG => type=2
         if ($type == 2) {
 // Vérification de la taille
-            $taille_maxi = 1800000;
+            $taille_maxi = 10000000;
             $taille = filesize($photo['tmp_name']);
             if ($taille > $taille_maxi) {
 //echo "fichier trop volumineux!";
@@ -429,7 +444,7 @@ function valide_photo_post($photo) {
 // Vérification du type: JPEG => type=2
         if ($type == 2) {
 // Vérification de la taille
-            $taille_maxi = 1800000;
+            $taille_maxi = 10000000;
             $taille = filesize($photo['tmp_name']);
             if ($taille > $taille_maxi) {
 //echo "fichier trop volumineux!";
