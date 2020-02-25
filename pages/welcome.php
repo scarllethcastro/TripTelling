@@ -1,5 +1,3 @@
-<!-- <div class="view" style="background-image: url('https://www.cvc.com.br/dicas-de-viagem/wp-content/uploads/2019/08/destinos-europa-443859715.jpg');background-repeat: no-repeat; background-size: cover; background-position: center center;"> 
--->
 
 <!-- Content -->
 <div class="container-fluid back">

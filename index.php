@@ -92,7 +92,7 @@ if ($authorized) {
                     <ul class="navbar-nav">
                         <li class="nav-item">
                            <?php echo '<form class = "form-inline my-2 my-lg-0" action="index.php?page=profile&user=' . $_SESSION['username'] . '" method="post" >' ?>
-                                <button class="btn btn-outline-success" type ="submit" >Profil</button>
+                                <button class="btn btn-outline-info" type ="submit" >Profil</button>
                         </li>
                     </ul>
                                      
