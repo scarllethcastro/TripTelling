@@ -32,9 +32,19 @@ if (!isset($_GET['idpost'])) {
 
         <div class="container py-3">
             <?php
+            $jour=0;
             if ($numrows > 0) {
 
                 do {
+                    if($stop->day - $jour == 1){ //verification si le jour de l'arrêt a changé
+                        $jour = $stop->day;
+                         ?> 
+            <div class="shadow-none p-3 mb-5 bg-light rounded" style="margin-bottom: 1rem !important">
+                <h5 class="text-muted" style="text-align: center">
+                    JOUR <?php echo $stop->day ?>
+                </h5>
+            </div> 
+                   <?php }
                     ?>
                     <!-- Card Start -->
                     <div class="card">
