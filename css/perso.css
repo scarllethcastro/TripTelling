@@ -409,3 +409,77 @@ body {
   right: 0;
   z-index: -1;
 }
+
+
+.back{
+    background: linear-gradient(to bottom, rgba(166, 165, 140, 0.38) 0%, rgba(166, 165, 140, 0.38) 100%), url("https://www.cvc.com.br/dicas-de-viagem/wp-content/uploads/2019/08/destinos-europa-443859715.jpg");
+    background-repeat: no-repeat;
+    background-size: cover; 
+    background-position: center center;
+    height: 900px;
+}
+
+.back h1{
+    font-family: Coronetscript; 
+    color: white; 
+    font-style: italic; 
+    text-shadow: -1px 1px 0 #000, 
+                  1px 1px 0 #000, 
+                  1px -1px 0 #000,
+                 -1px -1px 0 #000; 
+    
+}
+.back h5{
+font-family: Comic Sans MS; 
+color: white ;
+font-size:  18pt;
+ text-shadow: -1px 1px 0 #000, 
+                  1px 1px 0 #000, 
+                  1px -1px 0 #000,
+                 -1px -1px 0 #000; 
+}
+
+.cardwelcome {
+            border-radius: 30%;
+        border: 0.5px solid #5a7391;
+        background-color : rgb(240,248,255,0.8);
+        
+}
+.cardwelcome .h3 {
+    font-family: Georgia;
+}
+@media (min-width: 576px) {
+    .col-sm-12 .card {
+        width: 50%;
+        float: contour;
+        left:25%;
+    }
+    .back h1{
+        font-size: 70pt
+    }
+}
+@media (min-width: 768px) {
+    .col-md-4 .card{
+        width: 100%;
+        left:0;
+    }
+    .back h1{
+        font-size: 80pt
+    }
+}
+@media (min-width: 992px) {
+    .back h1{
+        font-size: 90pt
+    }
+} 
+@media (min-width: 1200px) {
+    .back h1{
+        font-size: 100pt
+    }
+}
+
+
+
+
+
+

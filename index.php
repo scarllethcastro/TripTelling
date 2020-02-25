@@ -117,10 +117,7 @@ if ($authorized) {
         </div>
 
     </nav> 
-    <?php
-    if ($askedPage == 'welcome') {
-        ?>
-        <div class ="image"></div>; <?php } ?>
+
     <?php
     require ('pages/' . $askedPage . '.php'); // À la place d'un switch
     ?>
