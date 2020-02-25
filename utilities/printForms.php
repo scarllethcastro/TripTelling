@@ -12,9 +12,6 @@ CHAINE_DE_FIN;
 }
 
 function printLogoutForm() {
-//    echo '<form class = "form-inline my-2 my-lg-0" action="index.php?todo=logout&page=welcome" method="post" style="margin-left: 8px">';
-//    echo '<input class = "btn btn-outline-secondary my-2 my-sm-0" type = "submit" value = "Déconnexion" />';
-//    echo '</form>';
     echo <<<CHAINE_DE_FIN
     <form class = "form-inline my-2 my-lg-0" action="index.php?todo=logout&page=welcome" method="post" style="margin-left: 8px">
         <input class = "btn btn-outline-secondary my-2 my-sm-0" type = "submit" value = "Déconnexion" />

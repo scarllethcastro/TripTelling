@@ -71,8 +71,12 @@ $totalpages = ceil($totalposts / $itemsperpage);
                         <div class="row">
                             <div class="col">
                                 <div class="list-group" id="list-tab" role="tablist">
+<<<<<<< HEAD
                                     <a class="list-group-item list-group-item-action button-page active" id="posts" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Publications</a>
                                     <a class="list-group-item list-group-item-action button-page" id="new-post" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Nouvelle publication</a>
+=======
+                                    <a class="list-group-item list-group-item-action button-page active" id="posts" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Posts</a>
+>>>>>>> c1b766e483972fbd17b27e0f062f9c2ff35bc6a3
                                     <a class="list-group-item list-group-item-action button-page" id="settings" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Gérer compte</a>
                                 </div>
                             </div>
@@ -87,6 +91,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
         </div>
         <div class="col-md-9">
             <div class="profile-content">
+                
                 <!--Content posts-->
                 <div class ="justify-content-around active" id="content-posts">       
                     <div class="shadow-none p-3 mb-5 bg-light rounded">
@@ -94,6 +99,14 @@ $totalpages = ceil($totalposts / $itemsperpage);
                             PUBLICATIONS
                         </h5>
                     </div>
+                    
+                    <!--Link pour créer une nouvelle publication-->
+                    <?php
+                    if (Utilisateur::islogged() && $_SESSION['username'] == $user->username) {
+                            ?>
+                            <a href='index.php?page=newpost' id="newpost" class="col-md-4 offset-md-4 btn btn-info" style="margin-bottom: 3rem">+ Nouvelle publication</a>
+                            <?php
+                        } ?>
                     <?php
                     if ($totalposts > 0) {
                         do {
@@ -169,100 +182,25 @@ $totalpages = ceil($totalposts / $itemsperpage);
                                 <li class="page-item"><a class="page-link" href="index.php?page=profile&user=<?php echo htmlspecialchars($user->username) ?>&pagenum=<?php echo $next ?>" >Next</a></li>
                             </ul>
                         </nav>
-                    <?php } else {
+                        <?php
+                    } else {
+                        if (Utilisateur::islogged() && $_SESSION['username'] == $user->username) {
+                            ?>
+                            <a href='index.php?page=newpost' id="newpost" class="col-md-4 offset-md-4 btn btn-info">+ Nouvelle publication</a>
+                            <?php
+                        } else {
+                            ?>
+                            <h6 class="text-muted" style="font-style: italic; text-align: center">
+                                Aucune publication
+                            </h6>
+                            <?php
+                        }
                         ?>
-                        <!--                        <div class="shadow-sm p-3 mb-5 bg-white rounded">-->
-                        <h6 class="text-muted" style="font-style: italic; text-align: center">
-                            Aucune publication
-                        </h6>
-                        <!--                        </div>-->
+
+
                     <?php }
                     ?>
 
-                </div>
-
-                <!--Content new post-->
-                <div class ="justify-content-around" id="content-new-post">
-                    <div class="shadow-none p-3 mb-5 bg-light rounded">
-                        <h5 class="text-muted" style="text-align: center">
-                            NOUVELLE PUBLICATION
-                        </h5>
-                    </div>
-                    <div class="container" style="padding: 20px; background-color: white">
-                        <!--Formulaire-->
-                        <div class="row">
-                            <div class="col-md-10 offset-md-1">
-                                <form class="needs-validation" novalidate action="index.php?page=profile" method=post>              
-
-                                    <!--Titre-->
-                                    <div class="form-group row">
-                                        <label for="title" class="col-sm-4 offset-md-1 col-form-label">Titre</label>
-                                        <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="title" required name="title">
-                                            <div class="invalid-feedback">
-                                                Ce champ est obligatoire!
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!--Ville-->
-                                    <div class="form-group row">
-                                        <label for="place" class="col-sm-4 offset-md-1 col-form-label">Ville</label>
-                                        <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="place" required name="place">
-                                            <div class="invalid-feedback">
-                                                Ce champ est obligatoire!
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!--Durée-->
-                                    <div class="form-group row">
-                                        <label for="duration" class="col-sm-4 offset-md-1 col-form-label">Durée en jours</label>
-                                        <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="duration" required name="duration">
-                                            <div class="invalid-feedback">
-                                                Ce champ est obligatoire!
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!--Description-->
-                                    <div class="form-group row">
-                                        <label for="description" class="col-sm-4 offset-md-1 col-form-label">Description</label>
-                                        <div class="col-sm-6">
-                                            <textarea class="form-control" id="description" rows="4" required name="description"></textarea>
-                                            <div class="invalid-feedback">
-                                                Ce champ est obligatoire!
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!--Money-->
-                                    <div class="form-group row">
-                                        <label for="money" class="col-sm-4 offset-md-1 col-form-label">Argent dépensé</label>
-                                        <div class="col-sm-6">                                                
-                                                <select class="form-control" id="money" name="money">
-                                                    <option selected>Choisissez...</option>
-                                                    <option value="1">$</option>
-                                                    <option value="2">$-$$</option>
-                                                    <option value="3">$$</option>
-                                                    <option value="4">$$-$$$</option>
-                                                    <option value="5">$$$</option>
-                                                    <option value="6">$$$-$$$$</option>
-                                                    <option value="7">$$$$</option>
-                                                </select>                                                          
-                                        </div>
-                                    </div>
-
-                                    <!--Bouton de submission-->
-                                    <div class="form-group row" style="margin-top: 1.5rem">
-                                        <input type=submit class="col-md-4 offset-md-4 btn btn-primary" value="Créer publication">
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <!--Content settings-->
@@ -289,33 +227,3 @@ $totalpages = ceil($totalposts / $itemsperpage);
         </div>
     </div>
 </div>
-
-<!--<script>
-    $(function () {
-
-        $('#content-new-post').hide();
-        $('#content-settings').hide();
-
-        $('.button-page').on('click', function () {
-            //Discover which button was clicked
-            var $buttonId = $(this).attr('id');
-            //Discover which is the current content
-            var $activeId = $(this).closest('.list-group').find('.active').attr('id');
-            //Fade out current content
-            $('#content-' + $activeId).hide(function () {
-                //Make current content inactive
-                $(this).removeClass('active');
-                //Show the corresponding content
-                $('#content-' + $buttonId).show(function () {
-                    //Make corresponding content active
-                    $(this).addClass('active');
-                });
-            });
-
-        });
-    });
-</script>-->
-
-
-
-
