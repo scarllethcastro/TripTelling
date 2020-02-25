@@ -81,28 +81,28 @@ $totalpages = ceil($totalposts / $itemsperpage);
                         </div> 
                         <div class ="col-md-8 col-lg-8">
                             <div class ="row" style= "max-height:40%; text-align: left;margin: 1%;">
-                                <h1 class="postitle"><?php echo $post->title ?></h1>
+                                <h1 class="postitle"><?php echo htmlspecialchars($post->title) ?></h1>
                             </div>
                             <div class='row' style='text-align: left; margin:1%'>
-                                <h3 class="postsubtitle"> <?php echo $post->place ?> </h3>
+                                <h3 class="postsubtitle"> <?php echo htmlspecialchars($post->place) ?> </h3>
                             </div>
                             <div class='row' style ='max-height: 10%;margin: 1%;'>
                                 <span class="badge badge-pill badge-success">
                                     <?php
                                     if ($post->money != null) {
-                                        echo $post->money;
+                                        echo htmlspecialchars($post->money);
                                     }
                                     ?>
                                 </span>
-                                <span class="badge badge-pill badge-secondary"> <?php echo $post->duration ?> jours</span>
+                                <span class="badge badge-pill badge-secondary"> <?php echo htmlspecialchars($post->duration) ?> jours</span>
                             </div>
                             <div class='row ' style='max-height: 40%; text-align: left; margin: 2% 1% 1% 1%;'>
-                                <a class="posttext"> <?php echo $post->description ?> </a>
+                                <a class="posttext"> <?php echo htmlspecialchars($post->description) ?> </a>
                             </div>
                             <div class='row justify-content-between' style ='max-height: 10%; margin: 1%;'>
                                 <div class='col-3'>
-                                    <a href="index.php?page=profile&user=<?php echo $post->loginuser ?>" class="stretched-link" style="color: #c8cbcf;">
-                                        <?php echo $post->loginuser ?>
+                                    <a href="index.php?page=profile&user=<?php echo htmlspecialchars($post->loginuser) ?>" class="stretched-link" style="color: #c8cbcf;">
+                                        <?php echo htmlspecialchars($post->loginuser) ?>
                                     </a>       
                                 </div>
                                 <div class="col-3">
