@@ -40,23 +40,44 @@ if (!Utilisateur::islogged()) {
                 }while($continuer);
                 
                 //teste dos campos das outras paradas
+                $mybool = true;
                 for($i = 1; $i <= $num_stops; $i++){
-                    if(isset($_POST['titlestop'.$i]) && $_POST['titlestop'.$i]!="" &&
+                    if(!(isset($_POST['titlestop'.$i]) && $_POST['titlestop'.$i]!="" &&
                         isset($_POST['descriptionstop'.$i]) && $_POST['descriptionstop'.$i]!="" &&
                         isset($_POST['day'.$i]) && $_POST['day'.$i]!="" &&
-                        isset($_POST['time'.$i]) && $_POST['time'.$i]!=""){
-                        // teste do dia das paradas
-                        
+                        isset($_POST['time'.$i]) && $_POST['time'.$i]!="")){
+                            
+                        $mybool = false;   
+                    } 
+                }
+                
+                $duration = $_POST['duration'];
+                if($mybool){
+                    // Test dos dias das paradas
+                    $mybool2 = true;
+                    for($i = 1; $i <= $num_stops; $i++){
+                        if(!is_int($_POST['day'.$i]) || $_POST['day'.$i] > $duration){
+                            $mybool2 = false;
+                        }
+                    }
+                    
+                    if($mybool2){
+                        // teste das imagens
+                        // imagem do post
+                        if(empty($_FILES['photopost']['tmp_name']) || valide_photo_post($_FILES['photopost'])!=0){
+                            //mensagem de erro
+                        } else{
+                            //limitar imagens post a 3
+                            
+                            
+                            
+                        }
                     }
                 }
                 
                 
-                $duration = $_POST['duration'];
-                $continuer = true;
-                $i = 2;
-                do{
-                    if(isset($_POST['day'.$i]))
-                }while($continuer);
+                
+            
             }
         }
     }

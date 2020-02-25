@@ -345,9 +345,9 @@ class Stop {
     public $title;
     public $day;
 
-    public static function insererstop($dbh, $idpost, $description, $money, $adress, $time, $time, $title, $day){
+    public static function insererstop($dbh, $idpost, $description, $money, $adress, $time, $title, $day){
         $sth = $dbh->prepare("INSERT INTO `stops` (`ispost`, `description`, `money`, `adress`, `time`, `title`, `day`) VALUES(?,?,?,?,?,?,?)");
-        $sth->execute(array($idpost, $description, $money, $adress, $time, $time, $title, $day));
+        $sth->execute(array($idpost, $description, $money, $adress,  $time, $title, $day));
         return $sth->insert_id;
     }
 // conta o numero de paradas de um certo post
@@ -408,6 +408,36 @@ function valide_photo($username, $photo) {
 //echo "echec de la copie";
                 return 3;
             }
+        } else {
+//echo "mauvais type de fichier";
+            return 1;
+        }
+    } else {
+//echo 'echec du téléchargement';
+        return 3;
+    }
+}
+
+// Traitement de la photo du post
+function valide_photo_post($photo) {
+// ex pour une image jpg
+    if (!empty($photo['tmp_name']) && is_uploaded_file($photo['tmp_name'])) {
+// Le fichier a bien été téléchargé
+// Par sécurité on utilise getimagesize plutot que les variables $_FILES
+        list($larg, $haut, $type, $attr) = getimagesize($photo['tmp_name']);
+//echo $larg . " " . $haut . " " . $type . " " . $attr;
+// Vérification du type: JPEG => type=2
+        if ($type == 2) {
+// Vérification de la taille
+            $taille_maxi = 1800000;
+            $taille = filesize($photo['tmp_name']);
+            if ($taille > $taille_maxi) {
+//echo "fichier trop volumineux!";
+                return 2;
+            } else{
+//echo "Copie réussie";
+                return 0;
+            } 
         } else {
 //echo "mauvais type de fichier";
             return 1;
