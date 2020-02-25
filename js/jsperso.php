@@ -82,11 +82,6 @@
         $divstops.append(newstop);
     });
     
-    $('#divstops').delegate('.remove', 'click', function(){
-        var idstop = $(this).attr('data-stop');
-        $('#'+idstop).remove();
-    });
-    
     //Função que gera a string newstop
     function generateString(n){
         newstop = "<div id='stop" + n + "'class ='shadow-none p-3 mb-5 bg-light  rounded' style='margin-bottom: 2rem!important'" + ">" +
@@ -178,11 +173,6 @@
                 "</small>"+
             "</div>"+
         "</div>"+
-    "</div>"+
-
-    "<!--Bouton de suppression de l'arrêt-->"+
-    "<div class='form-group row' style='margin-top: 1.5rem'"+">"+
-        "<button type=submit class='col-md-4 offset-md-4 btn btn-secondary remove' data-stop='stop" + n + "'"+">Supprimer cet arrêt</button>"+
     "</div>"+
 "</div>"+
 "</div>"+
