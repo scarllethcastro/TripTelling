@@ -32,47 +32,50 @@ if (array_key_exists('page', $_GET)) {
 if ($authorized) {
     $pageTitle = getPageTitle($askedPage);
     generateHTMLHeader($pageTitle, "css/perso.css");
-    
+
     // Traitement des contenus de formulaires
-    if (isset($_GET['todo'])) { 
+    if (isset($_GET['todo'])) {
         if ($_GET['todo'] == 'login' && !Utilisateur::islogged()) {
             $logintry = logIn($dbh);
-            if($logintry == 0){
+            if ($logintry == 0) {
                 $askedPage = 'profile';
-            } else{
-                if($logintry == 1){
+            } else {
+                if ($logintry == 1) {
+                    echo '<div class = "alert alert-danger" role = "alert">';
                     echo 'Utilisateur non enregistré.';
-                } else{
+                    echo '</div>';
+                } elseif($logintry==2){
+                    echo '<div class = "alert alert-danger" role = "alert">';
                     echo 'Mot de passe incorrect.';
-                }
-            }         
+                    echo '</div>';
+                } else{ $askedPage = 'welcome';}
+            }
         } elseif ($_GET['todo'] == 'logout') {
             logOut();
-        } elseif($_GET['todo'] == 'deleteaccount' && isset ($_POST['password']) && Utilisateur::islogged()){
+        } elseif ($_GET['todo'] == 'deleteaccount' && isset($_POST['password']) && Utilisateur::islogged()) {
             $user = Utilisateur::getUtilisateur($dbh, $_SESSION['username']);
-            if($_POST['password'] != "" && Utilisateur::testerMdp($dbh, $user, $_POST['password'])){
+            if ($_POST['password'] != "" && Utilisateur::testerMdp($dbh, $user, $_POST['password'])) {
                 //CHAMAR FUNÇÃO QUE TRATA A EXCLUSÃO DO USUÁRIO, INCLUINDO TODA A MÍDIA RELACIONADA A ELE
-                if(Utilisateur::tryDeleteUser($dbh, $user)){
+                if (Utilisateur::tryDeleteUser($dbh, $user)) {
                     //SE A FUNÇÃO RETORNA TRUE,  FAZER LOGOUT E EXIBIR MENSAGEM DE SUCESSO
                     logOut();
                     // Mensagem de sucesso
                     echo 'Conta excluída';
-                } else{ //SINON, AFICHER MESSAGE D'ERREUR EXIBIR "NÃO FOI POSSÍVEL REALIZAR A EXCLUSÃO"
+                } else { //SINON, AFICHER MESSAGE D'ERREUR EXIBIR "NÃO FOI POSSÍVEL REALIZAR A EXCLUSÃO"
                     // Mensagem de erro
                     echo 'Não foi possível realizar a exclusão';
-                }    
-            } else{ // Si le champ password n'est pas rempli ou le mot de passe ne correspond pas à celui contenu dans la base de données
+                }
+            } else { // Si le champ password n'est pas rempli ou le mot de passe ne correspond pas à celui contenu dans la base de données
                 // RETOURNER À LA PAGE DELETEACCOUNT
                 $askedPage = 'deleteaccount';
             }
         }
     }
-    
+
     // Cas où l'utilisateur loggé demande la page register
-    if(Utilisateur::islogged() && $askedPage == 'register'){
+    if (Utilisateur::islogged() && $askedPage == 'register') {
         $askedPage = 'error';
     }
-    
     ?>
     <nav class="navbar navbar-expand-lg navbar-light" style = "background-color: #c0f2ec;"> 
         <a class="navbar-brand" href="index.php" style = "font-family: Segoe Print; font-size: 45 pt" >TripTelling</a>
@@ -83,32 +86,34 @@ if ($authorized) {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="index.php?page=home">Navigate<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="index.php?page=home">Explorer<span class="sr-only">(current)</span></a>
                 </li>
             </ul>
             <?php
-            if (Utilisateur::islogged()){
-                    ?>
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                           <?php echo '<form class = "form-inline my-2 my-lg-0" action="index.php?page=profile&user=' . $_SESSION['username'] . '" method="post" >' ?>
-                                <button class="btn btn-outline-info" type ="submit" >Profil</button>
-                        </li>
-                    </ul>
-                                     
-                    <?php
-                    if ($askedPage == 'welcome') {
+            if (Utilisateur::islogged()) {
+                ?>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <?php echo '<form class = "form-inline my-2 my-lg-0" action="index.php?page=profile&user=' . $_SESSION['username'] . '" method="post" >' ?>
+                        <button class="btn btn-outline-info" type ="submit" >Profil</button>
+                    </li>
+                </ul>
+
+                <?php
+                if ($askedPage == 'welcome') {
                     $askedPage = 'home';
-                    }?>
-            
-                    <form></form> <!-- Form pour que le prochain formm marche (??) -->
-                    <?php printLogoutForm($askedPage);
+                }
+                ?>
+
+                <form></form> <!-- Form pour que le prochain formm marche (??) -->
+                <?php
+                printLogoutForm($askedPage);
             } else {
-//                if ($askedPage == 'profile') {
-//                    $askedPage = 'welcome';
-//                }
+
+
+
                 printLoginForm();
-                if($askedPage != 'welcome' && $askedPage != 'register'){
+                if ($askedPage != 'welcome' && $askedPage != 'register') {
                     printAskRegisterForm();
                 }
             }

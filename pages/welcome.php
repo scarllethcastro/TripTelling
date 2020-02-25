@@ -18,13 +18,13 @@
                     <div class="container">
                         <div class="row justify-content-around align-items-center" style = "height: 7rem">
                             <div col-md-8>
-                                <a href="index.php?page=register" class="btn btn-info">Sign up</a>
+                                <a href="index.php?page=register" class="btn btn-info">Registrer</a>
                             </div>
                         </div>
 
                         <div class="row justify-content-around align-items-center" style = "height: 7rem">
                             <div col-md-8>
-                                <a href="index.php?page=welcome" class="btn btn-info">Navigate</a>
+                                <a href="index.php?page=welcome" class="btn btn-info">Explorer</a>
                             </div>
                         </div>
                     </div>

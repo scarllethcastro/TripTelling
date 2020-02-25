@@ -39,7 +39,7 @@ if (!isset($_GET['idpost'])) {
                     if($stop->day - $jour == 1){ //verification si le jour de l'arrêt a changé
                         $jour = $stop->day;
                          ?> 
-            <div class="shadow-none p-3 mb-5 bg-light rounded" style="margin-bottom: 1rem !important">
+            <div class="shadow-none p-3 mb-5 bg-light rounded" style="margin-bottom: 1rem !important; margin-top: 2rem !important">
                 <h5 class="text-muted" style="text-align: center">
                     JOUR <?php echo htmlspecialchars($stop->day) ?>
                 </h5>

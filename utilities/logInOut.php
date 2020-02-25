@@ -1,6 +1,7 @@
 <?php
 
 function  logIn($dbh){
+    if(isset($_POST['email'])){
     $user = Utilisateur::getUtilisateurMail($dbh, $_POST['email']);
     if($user != null && Utilisateur::testerMdp($dbh, $user, $_POST['password'])){
      $_SESSION['loggedIn'] = true;
@@ -11,6 +12,7 @@ function  logIn($dbh){
     } else{
         return 2; // Mot de passe incorrect
     }
+    } else{return 3;} // pas de login
 }
 
 function logOut(){
