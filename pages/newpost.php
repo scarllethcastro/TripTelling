@@ -47,7 +47,7 @@ $photo_stop_error_message = 'lalala';
                 <div class="form-group row">
                     <label for="duration" class="col-sm-4 offset-md-1 col-form-label">Durée en jours</label>
                     <div class="col-sm-6">
-                        <input type="number" class="form-control" id="tentacles" required name="tentacles" min="1">
+                        <input type="number" class="form-control" id="tentacles" required name="duration" min="1">
                         <div class="invalid-feedback">
                             Ce champ est obligatoire!
                         </div>

@@ -268,6 +268,13 @@ class Post {
     public $description;
     public $money;
 
+    
+    public static function insererpost ($dbh, $loginuser, $title, $place, $duration, $description, $money){
+       $sth = $dbh->prepare("INSERT INTO `posts` (`loginuser`, `title`, `place`, `duration`, `description`, `money`) VALUES(?,?,?,?,?,?)");
+        $sth->execute(array($loginuser, $title, $place, $duration, $description, $money));
+        return $sth->insert_id;
+}
+            
 //    public static function getposts($dbh, $username, $start, $number) {
 //        
 //        $sql_code = "SELECT * FROM `posts` WHERE loginuser = ? LIMIT $start OFFSET $number ";
@@ -338,6 +345,11 @@ class Stop {
     public $title;
     public $day;
 
+    public static function insererstop($dbh, $idpost, $description, $money, $adress, $time, $time, $title, $day){
+        $sth = $dbh->prepare("INSERT INTO `stops` (`ispost`, `description`, `money`, `adress`, `time`, `title`, `day`) VALUES(?,?,?,?,?,?,?)");
+        $sth->execute(array($idpost, $description, $money, $adress, $time, $time, $title, $day));
+        return $sth->insert_id;
+    }
 // conta o numero de paradas de um certo post
     public static function numstops($dbh, $idpost) {
         $sql_code = "SELECT * FROM `stops` WHERE idpost = ?";
