@@ -71,12 +71,9 @@ $totalpages = ceil($totalposts / $itemsperpage);
                         <div class="row">
                             <div class="col">
                                 <div class="list-group" id="list-tab" role="tablist">
-<<<<<<< HEAD
+
                                     <a class="list-group-item list-group-item-action button-page active" id="posts" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Publications</a>
-                                    <a class="list-group-item list-group-item-action button-page" id="new-post" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Nouvelle publication</a>
-=======
-                                    <a class="list-group-item list-group-item-action button-page active" id="posts" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Posts</a>
->>>>>>> c1b766e483972fbd17b27e0f062f9c2ff35bc6a3
+                      
                                     <a class="list-group-item list-group-item-action button-page" id="settings" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Gérer compte</a>
                                 </div>
                             </div>
