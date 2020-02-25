@@ -67,7 +67,11 @@ $page_list = array(
     array(
         "name" => "deleteaccount",
         "title" => "Suppression du compte",
-        "menutitle" => "Suppression du compte")
+        "menutitle" => "Suppression du compte"),
+    array(
+        "name" => "newpost",
+        "title" => "Nouvelle publication",
+        "menutitle" => "Nouvelle publication")
 );
 
 if (isset($_SESSION['username']))
