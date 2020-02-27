@@ -481,8 +481,17 @@ font-size:  18pt;
     }
 }
 
+div.editable .edit{
+    display: none;
+}
 
+div.editable.edit .edit{
+    display: initial;
+}
 
+div.editable.edit .noedit{
+    display: none;
+}
 
 
 

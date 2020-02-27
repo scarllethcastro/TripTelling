@@ -194,7 +194,7 @@ if (!Utilisateur::islogged()) {
                         <div class="form-group row">
                             <label for="duration" class="col-sm-4 offset-md-1 col-form-label">Durée en jours</label>
                             <div class="col-sm-6">
-                                <input type="number" class="form-control" id="duration" required name="duration" min="1" value="<?php echo $duration ?>">
+                                <input type="number" class="form-control" id="duration" required name="duration" min="1">
                                 <div class="invalid-feedback">
                                     Ce champ est obligatoire!
                                 </div>
@@ -205,7 +205,7 @@ if (!Utilisateur::islogged()) {
                         <div class="form-group row">
                             <label for="descriptionpost" class="col-sm-4 offset-md-1 col-form-label">Description</label>
                             <div class="col-sm-6">
-                                <textarea class="form-control" id="descriptionpost" rows="4" required name="descriptionpost" value="<?php echo $descriptionpost ?>"></textarea>
+                                <textarea class="form-control" id="descriptionpost" rows="4" required name="descriptionpost"></textarea>
                                 <div class="invalid-feedback">
                                     Ce champ est obligatoire!
                                 </div>
@@ -229,7 +229,7 @@ if (!Utilisateur::islogged()) {
                             </div>
                         </div>
 
-                        <!--Photo de profil-->
+                        <!--Photo du post-->
                         <div class="form-group row">
                             <label for="photopost" class="col-sm-4 offset-md-1 col-form-label">Photo de la publication</label>
                             <div class="col-sm-4 offset-md-1 custom-file">

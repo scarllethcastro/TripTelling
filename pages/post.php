@@ -14,56 +14,69 @@ if (!isset($_GET['idpost'])) {
         $stop = $sth->fetch();
         $numrows = $sth->rowCount();
         ?>
-        <div class="jumbotron bg-cover text-white" style="background-image:url(images/posts/<?php echo$post->idpost ?>.jpg)">
-            <div class='overlay'></div>
-            <div class="container">
-                <h1 class="display-4"><?php echo htmlspecialchars($post->title) ?></h1>
-                <p class="lead"><?php echo htmlspecialchars( $post->description) ?></p>
-                <hr class="my-4">
-                <p><?php echo htmlspecialchars($post->place) ?></p>
+        <div class="editable" id="divInfoPost">
+            <div class="jumbotron bg-cover text-white" style="background-image:url(images/posts/<?php echo$post->idpost ?>.jpg)">
+                <div class='overlay'></div>
+                <div class="container">
+                    <h1 class="display-4"><?php echo htmlspecialchars($post->title) ?></h1>
+                    <p class="lead"><?php echo htmlspecialchars($post->description) ?></p>
+                    <hr class="my-4">
+                    <p><?php echo htmlspecialchars($post->place) ?></p>
+                </div>
+                <!-- /.container   -->
             </div>
-            <!-- /.container   -->
+            <div class ="container-fluid" style="height: auto; eidth:100%; margin:0; padding:0 ; text-align: center; color: #c8cbcf; font-style: italic ">
+                <p> Posted by
+                    <a class="streched-link" href="index.php?page=profile&user=<?php echo htmlspecialchars($post->loginuser) ?>" style="color: #c8cbcf "><?php echo htmlspecialchars($post->loginuser) ?></a>
+                </p>
+                <button class="btn btn-outline-info noedit"> Éditer publication</button>
+                <button class="btn btn-secondary edit"> Annuler</button>
+                <button class="btn btn-info edit"> Sauvegarder</button>
+            </div>
         </div>
-<div class ="container-fluid" style="height: auto; eidth:100%; margin:0; padding:0 ; text-align: center; color: #c8cbcf; font-style: italic ">
-    <p> Posted by
-                <a class="streched-link" href="index.php?page=profile&user=<?php echo htmlspecialchars($post->loginuser)?>" style="color: #c8cbcf "><?php echo htmlspecialchars($post->loginuser)?></a>
-    </p>
-</div>
 
         <div class="container py-3">
             <?php
-            $jour=0;
+            $jour = 0;
             if ($numrows > 0) {
 
                 do {
-                    if($stop->day - $jour == 1){ //verification si le jour de l'arrêt a changé
+                    if ($stop->day - $jour == 1) { //verification si le jour de l'arrêt a changé
                         $jour = $stop->day;
-                         ?> 
-            <div class="shadow-none p-3 mb-5 bg-light rounded" style="margin-bottom: 1rem !important; margin-top: 2rem !important">
-                <h5 class="text-muted" style="text-align: center">
-                    JOUR <?php echo htmlspecialchars($stop->day) ?>
-                </h5>
-            </div> 
-                   <?php }
+                        ?> 
+                        <div class="shadow-none p-3 mb-5 bg-light rounded" style="margin-bottom: 1rem !important; margin-top: 2rem !important">
+                            <h5 class="text-muted" style="text-align: center">
+                                JOUR <?php echo htmlspecialchars($stop->day) ?>
+                            </h5>
+                        </div> 
+                    <?php }
                     ?>
                     <!-- Card Start -->
                     <div class="card">
                         <div class="row align-content-center">
 
-                            <div class="col-md-7 px-3">
+                            <div class="col-md-7 px-3 editable">
                                 <div class="card-block px-6">
                                     <p class="card-title">
-                <?php echo htmlspecialchars($stop->title) ?>
+                                        <?php echo htmlspecialchars($stop->title) ?>
                                     </p>
-                                    <p class=" card-adress">
-                <?php echo htmlspecialchars($stop->adress) ?>
+                                    <input class="form-control" type="text">
+                                    <p class="card-adress">
+                                        <?php echo htmlspecialchars($stop->adress) ?>
                                     </p>
+                                    <input class="form-control" type="text" placeholder="Adresse">
                                     <p class="card-text"><?php echo htmlspecialchars($stop->description) ?></p>
                                     <br>
+                                    <textarea class="form-control"></textarea>
                                     <span class="badge badge-pill badge-secondary"> <?php echo htmlspecialchars($stop->time) ?></span>
                                     <?php if ($stop->money != null) { ?>
                                         <span class="badge badge-pill badge-success"><?php echo htmlspecialchars($stop->money) ?></span>
-                <?php } ?>
+                                    <?php } ?>
+                                    <br>
+                                    <br>
+                                    <button class="btn btn-outline-info noedit"> Éditer arrêt </button>
+                                    <button class="btn btn-secondary edit"> Annuler</button>
+                                    <button class="btn btn-info edit"> Sauvegarder</button>
                                 </div>
                             </div>
                             <!-- Carousel start -->
@@ -73,14 +86,14 @@ if (!isset($_GET['idpost'])) {
                                         <li data-target="#CarouselTest" data-slide-to="0" class="active"></li>
                                         <?php for ($i = 1; file_exists("images/stops/$stop->idpost.$stop->idstop.$i.jpg"); $i++) { ?>
                                             <li data-target="#CarouselTest" data-slide-to="<?php echo $i ?>"></li>
-                <?php } ?>
+                                        <?php } ?>
 
                                     </ol> 
 
                                     <div class="carousel-inner">
 
                                         <div class="carousel-item active">
-                                        <?php echo ' <img class="d-block" src="images/stops/' . $stop->idpost . '.' . $stop->idstop . '.0.jpg"  alt="">'; ?>
+                                            <?php echo ' <img class="d-block" src="images/stops/' . $stop->idpost . '.' . $stop->idstop . '.0.jpg"  alt="">'; ?>
                                         </div>
                                         <?php
                                         for ($j = 1; file_exists("images/stops/$stop->idpost.$stop->idstop.$j.jpg"); $j++) {
@@ -105,10 +118,15 @@ if (!isset($_GET['idpost'])) {
                     </div>
                     <!-- End of card -->
 
-                <?php
+                    <?php
                 } while ($stop = $sth->fetch());
             }
             ?>
+                    <br>
+                    <div class="editable" id="divnewstop">
+                        <button type="button" id="createStop" class="col-md-2 offset-md-5 btn btn-success edit">+ Ajouter un arrêt</button>
+                    </div>
+                    <br>
         </div>
         <!-- End of container -->
         <?php

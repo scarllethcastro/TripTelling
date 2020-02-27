@@ -40,7 +40,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
                 <!-- SIDEBAR USERPIC -->
                 <div class="" style="text-align: center">
                     <?php if (file_exists('images/avatars/' . $user->username . '.jpg')) { ?>
-                    <img src="images/avatars/<?php echo htmlspecialchars($user->username) ?>.jpg" class="img-responsive" alt=""> <?php } else {
+                        <img src="images/avatars/<?php echo htmlspecialchars($user->username) ?>.jpg" class="img-responsive" alt=""> <?php } else {
                         ?>
                         <img src ="https://www.casadasciencias.org/themes/casa-das-ciencias/assets/images/icons/icon-login-default.png" class="img-responsive" alt = ''> 
                     <?php } ?>
@@ -73,7 +73,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
                                 <div class="list-group" id="list-tab" role="tablist">
 
                                     <a class="list-group-item list-group-item-action button-page active" id="posts" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Publications</a>
-                      
+
                                     <a class="list-group-item list-group-item-action button-page" id="settings" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Gérer compte</a>
                                 </div>
                             </div>
@@ -88,7 +88,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
         </div>
         <div class="col-md-9">
             <div class="profile-content">
-                
+
                 <!--Content posts-->
                 <div class ="justify-content-around active" id="content-posts">       
                     <div class="shadow-none p-3 mb-5 bg-light rounded">
@@ -96,19 +96,19 @@ $totalpages = ceil($totalposts / $itemsperpage);
                             PUBLICATIONS
                         </h5>
                     </div>
-                    
+
                     <!--Link pour créer une nouvelle publication-->
                     <?php
                     if (Utilisateur::islogged() && $_SESSION['username'] == $user->username) {
-                            ?>
-                            <a href='index.php?page=newpost' id="newpost" class="col-md-4 offset-md-4 btn btn-info" style="margin-bottom: 3rem">+ Nouvelle publication</a>
-                            <?php
-                        } ?>
-                            <div id="deletealert" class = "alert alert-danger" role = "alert" style="text-align: center">
-                            Vous êtes sûr(e) de vouloir supprimer cette publication?
-                            <a>Supprimer la publication</a>
-                            <button id="canceldelete">Annuler la suppression</button>
-                            </div>
+                        ?>
+                        <a href='index.php?page=newpost' id="newpost" class="col-md-4 offset-md-4 btn btn-info" style="margin-bottom: 3rem">+ Nouvelle publication</a>
+                        <?php }
+                    ?>
+                    <!--                            <div id="deletealert" class = "alert alert-danger" role = "alert" style="text-align: center">
+                                                Vous êtes sûr(e) de vouloir supprimer cette publication?
+                                                <button id="canceldelete">Annuler la suppression</button>
+                                                <a>Supprimer la publication</a>
+                                                </div>-->
                     <?php
                     if ($totalposts > 0) {
                         do {
@@ -117,8 +117,9 @@ $totalpages = ceil($totalposts / $itemsperpage);
                                 <div class ="col-md-4 col-lg-4">
                                     <img class="rounded" style = "display: block; margin-left: auto; margin-right: auto; width: 100%; height: auto;" alt=""<?php echo "src='images/posts/" . $post->idpost . ".jpg'" ?>  >
 
-                                </div> 
-                                <div class ="col-md-8 col-lg-8">
+                                </div>
+                                <!--Div d'un post-->
+                                <div class ="col-md-8 col-lg-8 divpost">
                                     <div class ="row" style= "max-height:40%; text-align: left;margin: 1%;">
                                         <h1 class="postitle"><?php echo htmlspecialchars($post->title) ?></h1>
                                     </div>
@@ -144,20 +145,25 @@ $totalpages = ceil($totalposts / $itemsperpage);
                                                 <?php echo htmlspecialchars($post->loginuser) ?>
                                             </a>  
                                         </div>
-                                        <?php if(Utilisateur::islogged() && $_SESSION['username'] == $user->username){
-                                        ?>
-                                        <div class="col-1">
-                                            <a data-post='<?php echo $post->idpost ?>' class="btn deletepostbutton" style = "border-radius: 4mm; color: red">Supprimer publication</a>
-                                        </div>
+                                        <?php if (Utilisateur::islogged() && $_SESSION['username'] == $user->username) {
+                                            ?>
+                                            <div class="col-1">
+                                                <a data-post='<?php echo $post->idpost ?>' class="btn deletepostbutton" style = "border-radius: 4mm; color: red">Supprimer publication</a>
+                                            </div>
                                         <?php }
                                         ?>
                                         <div class="col-3">
                                             <a href="index.php?page=post&idpost=<?php echo htmlspecialchars($post->idpost) ?>" class="btn" style = "border-radius: 4mm;">Voir publication</a>
                                         </div>
+                                        <!--Message de confirmation de suppression du post-->
+                                        <div class = "alert alert-danger deletealert" role = "alert" style="text-align: center">
+                                            Vous êtes sûr(e) de vouloir supprimer cette publication?
+                                            <button class="btn btn-light canceldelete">Annuler la suppression</button>
+                                            <a class="btn btn-danger" href="index.php?page=profile&idpost=<?php echo $post->idpost ?>&todo=deletepost">Supprimer la publication</a>
+                                        </div>
                                     </div>
-
-
                                 </div>
+                                <!--Fin du div d'un post-->
 
                             </div>
                         <?php } while ($post = $sth->fetch()) ?>
@@ -193,13 +199,13 @@ $totalpages = ceil($totalposts / $itemsperpage);
                         </nav>
                         <?php
                     } else {
-                            ?>
-                            <h6 class="text-muted" style="font-style: italic; text-align: center">
-                                Aucune publication
-                            </h6>
-                            <?php
                         ?>
-                    <?php }
+                        <h6 class="text-muted" style="font-style: italic; text-align: center">
+                            Aucune publication
+                        </h6>
+                        <?php
+                        ?>
+                    <?php } 
                     ?>
 
                 </div>

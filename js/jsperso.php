@@ -186,17 +186,14 @@
 <script>
     $(function () {
 
-        $('#deletealert').hide();
+        $('.deletealert').hide();
 
         $('.deletepostbutton').on('click', function () {
-            //Discover which post was clicked
-            var $idpost = $(this).attr('data-post');
-            $('#deletealert').find('a').attr('href', 'index.php?page=profile&idpost='+$idpost+'&todo=deletepost');
-            $('#deletealert').show();
+            $(this).closest('.divpost').find('.deletealert').show();
         });
         
-        $('#canceldelete').on('click', function(){
-            $('#deletealert').hide();
+        $('.canceldelete').on('click', function(){
+            $(this).closest('.deletealert').hide();
         })
     });
 </script>
