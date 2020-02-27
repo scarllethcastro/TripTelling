@@ -160,7 +160,7 @@ if (!Utilisateur::islogged()) {
             <!--Titre du formulaire-->
             <div class="shadow-none p-3 mb-5 bg-light rounded">
                 <h5 class="text-muted" style="text-align: center">
-                    NOUVEAU POST
+                    NOUVELLE PUBLICATION
                 </h5>
             </div>
             <!--Formulaire-->
@@ -260,7 +260,7 @@ if (!Utilisateur::islogged()) {
                         <div id="divstops" style="margin-top: 4rem">
                             <div class="shadow-none p-3 mb-5 bg-light rounded" style="margin-bottom: 1rem!important">
                                 <h5 class="text-muted" style="text-align: center">
-                                    STOPS
+                                    ARRETS
                                 </h5>
                             </div>
                             <!--Div d'une arrêt (TEMPLATE)-->
