@@ -24,7 +24,7 @@
 
                         <div class="row justify-content-around align-items-center" style = "height: 7rem">
                             <div col-md-8>
-                                <a href="index.php?page=welcome" class="btn btn-info">Explorer</a>
+                                <a href="index.php?page=home" class="btn btn-info">Explorer</a>
                             </div>
                         </div>
                     </div>

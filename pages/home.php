@@ -28,6 +28,13 @@ if (isset($_GET['pagenum'])) {
 }
 
 $itemsperpage = 8;
+$totalposts = Post::numpostsconstraint($dbh, $sql_code, array($array['username'], $array['place'], $array['duration']));
+$totalpages = ceil($totalposts / $itemsperpage);
+if($pagenum>$totalpages || $pagenum <0)
+    {
+    $pagenum = 0;
+}
+
 //$sth = Post::getposts($dbh, $user->username, $pagenum, $itemsperpage);
 $offsetpost = $pagenum * $itemsperpage;
 $sql = $sql_code . " LIMIT $itemsperpage OFFSET $offsetpost";
@@ -37,8 +44,7 @@ $sth->execute(array($array['username'], $array['place'], $array['duration']));
 $post = $sth->fetch();
 $numrows = $sth->rowCount();
 
-$totalposts = Post::numpostsconstraint($dbh, $sql_code, array($array['username'], $array['place'], $array['duration']));
-$totalpages = ceil($totalposts / $itemsperpage);
+
 ?>
 
 

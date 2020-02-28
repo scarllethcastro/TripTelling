@@ -19,8 +19,15 @@ if (isset($_GET['pagenum'])) {
 } else {
     $pagenum = 0;
 }
-
 $itemsperpage = 3;
+$totalposts = Post::numposts($dbh, $user->username);
+$totalpages = ceil($totalposts / $itemsperpage);
+if($pagenum>$totalpages || $pagenum <0)
+    {
+    $pagenum = 0;
+}
+
+
 //$sth = Post::getposts($dbh, $user->username, $pagenum, $itemsperpage);
 $offsetpost = $pagenum * $itemsperpage;
 $sql_code = "SELECT * FROM `posts` WHERE loginuser = ? LIMIT $itemsperpage OFFSET $offsetpost";
@@ -29,9 +36,6 @@ $sth->setFetchMode(PDO::FETCH_CLASS, 'Post');
 $sth->execute(array($user->username));
 $post = $sth->fetch();
 $numrows = $sth->rowCount();
-
-$totalposts = Post::numposts($dbh, $user->username);
-$totalpages = ceil($totalposts / $itemsperpage);
 ?>
 <div class="prof" >
     <div class="row profile">
@@ -127,13 +131,14 @@ $totalpages = ceil($totalposts / $itemsperpage);
                                         <h3 class="postsubtitle"> <?php echo htmlspecialchars($post->place) ?> </h3>
                                     </div>
                                     <div class='row' style ='max-height: 10%;margin: 1%;'>
+                                         <?php
+                                            if ($post->money != null) { ?>
                                         <span class="badge badge-pill badge-success">
-                                            <?php
-                                            if ($post->money != null) {
-                                                echo htmlspecialchars($post->money);
-                                            }
+                                           
+                                              <?php  echo htmlspecialchars($post->money); ?>
+                                            
+                                        </span> <?php }
                                             ?>
-                                        </span>
                                         <span class="badge badge-pill badge-secondary"> <?php echo htmlspecialchars($post->duration) ?> jours</span>
                                     </div>
                                     <div class='row ' style='height: auto; text-align: left; margin: 2% 1% 1% 1%;'>
