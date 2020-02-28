@@ -80,7 +80,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
 
                         </div> 
                         <div class ="col-md-8 col-lg-8">
-                            <div class ="row" style= "max-height:40%; text-align: left;margin: 1%;">
+                            <div class ="row" style= "height:auto; text-align: left;margin: 1%;">
                                 <h1 class="postitle"><?php echo htmlspecialchars($post->title) ?></h1>
                             </div>
                             <div class='row' style='text-align: left; margin:1%'>
@@ -96,7 +96,7 @@ $totalpages = ceil($totalposts / $itemsperpage);
                                 </span>
                                 <span class="badge badge-pill badge-secondary"> <?php echo htmlspecialchars($post->duration) ?> jours</span>
                             </div>
-                            <div class='row ' style='max-height: 40%; text-align: left; margin: 2% 1% 1% 1%;'>
+                            <div class='row ' style='height:auto; text-align: left; margin: 2% 1% 1% 1%;'>
                                 <a class="posttext"> <?php echo htmlspecialchars($post->description) ?> </a>
                             </div>
                             <div class='row justify-content-between' style ='max-height: 10%; margin: 1%;'>
