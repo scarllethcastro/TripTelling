@@ -198,3 +198,33 @@
     });
 </script>
 
+<!-- Pour la page du post alternant entre mode édition et mode non-édition-->
+<script>
+    $(function () {
+        //Post edition
+        $('#editpostbutton').on('click', function () {
+            $(this).closest('.editable').addClass('edit');
+            $('#divnewstop').addClass('edit');
+        });
+        $('#canceleditpost').on('click', function(){
+             $(this).closest('.editable').removeClass('edit');
+             $('#divnewstop').removeClass('edit');
+        })
+        
+        //Stop edition
+        $('.editstop').on('click', function(){
+            $(this).closest('.editable').addClass('edit');
+        })
+        $('.canceleditstop').on('click', function(){
+            $title= $(this).closest('.editable').find('.stoptitle').attr('value');
+            $address= $(this).closest('.editable').find('.stopaddress').attr('value');
+            $description= $(this).closest('.editable').find('.stopdescription').text();
+            $(this).closest('.editable').find('.stoptitleedit').attr('value', $title);
+            $(this).closest('.editable').find('.stopaddressedit').attr('value', $address);
+            $(this).closest('.editable').find('.stopdescriptionedit').text($description);
+            $(this).closest('.editable').removeClass('edit');
+            
+        })
+    });
+</script>
+

@@ -19,10 +19,10 @@ if (!isset($_GET['idpost'])) {
             <div class="jumbotron bg-cover text-white" style="background-image:url(images/posts/<?php echo$post->idpost ?>.jpg)">
                 <div class='overlay'></div>
                 <div class="container">
-                    <h1 class="display-4"><?php echo htmlspecialchars($post->title) ?></h1>
-                    <p class="lead"><?php echo htmlspecialchars($post->description) ?></p>
+                    <h1 class="display-4 noedit"><?php echo htmlspecialchars($post->title) ?></h1>
+                    <p class="lead noedit"><?php echo htmlspecialchars($post->description) ?></p>
                     <hr class="my-4">
-                    <p><?php echo htmlspecialchars($post->place) ?></p>
+                    <p class="noedit"><?php echo htmlspecialchars($post->place) ?></p>
                 </div>
                 <!-- /.container   -->
             </div>
@@ -30,9 +30,14 @@ if (!isset($_GET['idpost'])) {
                 <p> Posted by
                     <a class="streched-link" href="index.php?page=profile&user=<?php echo htmlspecialchars($post->loginuser) ?>" style="color: #c8cbcf "><?php echo htmlspecialchars($post->loginuser) ?></a>
                 </p>
-                <button class="btn btn-outline-info noedit"> Éditer publication</button>
-                <button class="btn btn-secondary edit"> Annuler</button>
-                <button class="btn btn-info edit"> Sauvegarder</button>
+                <?php if (Utilisateur::islogged() && $_SESSION['username'] == $post->loginuser) {?>
+                <button class="btn btn-outline-info noedit" id="editpostbutton"> Éditer publication</button>
+                <?php } ?>
+                <input class="form-control edit" type="text" placeholder="Titre" value="<?php echo htmlspecialchars($post->title) ?>"> 
+                <textarea class="form-control edit" style="margin-top: 1rem" placeholder="Description..."><?php echo htmlspecialchars($post->description) ?></textarea>
+                <input class="form-control edit" style="margin-top: 1rem; margin-bottom: 1rem" type="text" placeholder="Lieu de voyage" value="<?php echo htmlspecialchars($post->place) ?>">
+                <button class="btn btn-secondary edit" id="canceleditpost"> Annuler</button>
+                <button class="btn btn-success edit"> Sauvegarder</button>
             </div>
         </div>
 
@@ -59,26 +64,39 @@ if (!isset($_GET['idpost'])) {
 
                                 <div class="col-md-7 px-3 editable">
                                     <div class="card-block px-6">
-                                        <p class="card-title noedit">
+                                        <p class="card-title noedit stoptitle">
                                             <?php echo htmlspecialchars($stop->title) ?>
                                         </p>
-                                        <input class="form-control edit" type="text">
-                                        <p class="card-adress noedit">
+                                        <input class="form-control edit stoptitleedit" type="text" placeholder="Titre" value="<?php echo htmlspecialchars($stop->title) ?>">
+                                        <p class="card-adress noedit stopaddress">
                                             <?php echo htmlspecialchars($stop->adress) ?>
                                         </p>
-                                        <input class="form-control edit" type="text" placeholder="Adresse">
-                                        <p class="card-text noedit"><?php echo htmlspecialchars($stop->description) ?></p>
+                                        <input class="form-control edit stopaddressedit" style="margin-top: 1rem" type="text" placeholder="Adresse" value="<?php echo htmlspecialchars($stop->adress) ?>">
+                                        <p class="card-text noedit stopdescription"><?php echo htmlspecialchars($stop->description) ?></p>
                                         <br>
-                                        <textarea class="form-control edit"></textarea>
-                                        <span class="badge badge-pill badge-secondary"> <?php echo explode(":", $stop->time)[0] . "h" . explode(":", $stop->time)[1] ?> </span>
+                                        <textarea class="form-control edit stopdescriptionedit" style="margin-top: 1rem" placeholder="Description..."><?php echo htmlspecialchars($stop->description) ?></textarea>
+                                        <span class="badge badge-pill badge-secondary noedit"> <?php echo explode(":", $stop->time)[0] . "h" . explode(":", $stop->time)[1] ?> </span>
+                                        <input type="time" class="form-control edit" style="margin-top: 1rem">
                                         <?php if ($stop->money != null) { ?>
-                                            <span class="badge badge-pill badge-success"><?php echo htmlspecialchars($stop->money) ?></span>
+                                            <span class="badge badge-pill badge-success noedit"><?php echo htmlspecialchars($stop->money) ?></span>
                                         <?php } ?>
+                                        <select class="form-control edit" style="margin-top: 1rem">
+                                            <option selected>Choisissez...</option>
+                                            <option value="1">$</option>
+                                            <option value="2">$-$$</option>
+                                            <option value="3">$$</option>
+                                            <option value="4">$$-$$$</option>
+                                            <option value="5">$$$</option>
+                                            <option value="6">$$$-$$$$</option>
+                                            <option value="7">$$$$</option>
+                                        </select>
                                         <br>
                                         <br>
-                                        <button class="btn btn-outline-info noedit"> Éditer arrêt </button>
-                                        <button class="btn btn-secondary edit"> Annuler</button>
-                                        <button class="btn btn-info edit"> Sauvegarder</button>
+                                        <?php if (Utilisateur::islogged() && $_SESSION['username'] == $post->loginuser) {?>
+                                        <button class="btn btn-outline-info noedit editstop"> Éditer arrêt </button>
+                                        <?php } ?>
+                                        <button class="btn btn-secondary edit canceleditstop"> Annuler</button>
+                                        <button class="btn btn-success edit"> Sauvegarder</button>
                                     </div>
                                 </div>
                                 <!-- Carousel start -->

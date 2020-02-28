@@ -179,9 +179,9 @@ if (!Utilisateur::islogged()) {
                             </div>
                         </div>
 
-                        <!--Ville-->
+                        <!--Lieu de voyage-->
                         <div class="form-group row">
-                            <label for="place" class="col-sm-4 offset-md-1 col-form-label">Ville</label>
+                            <label for="place" class="col-sm-4 offset-md-1 col-form-label">Lieu de voyage</label>
                             <div class="col-sm-6">
                                 <input type="text" class="form-control" id="place" required name="place" value="<?php echo $place ?>">
                                 <div class="invalid-feedback">
@@ -205,7 +205,7 @@ if (!Utilisateur::islogged()) {
                         <div class="form-group row">
                             <label for="descriptionpost" class="col-sm-4 offset-md-1 col-form-label">Description</label>
                             <div class="col-sm-6">
-                                <textarea class="form-control" id="descriptionpost" rows="4" required name="descriptionpost"></textarea>
+                                <textarea class="form-control" id="descriptionpost" rows="4" required name="descriptionpost"><?php echo $descriptionpost ?></textarea>
                                 <div class="invalid-feedback">
                                     Ce champ est obligatoire!
                                 </div>
